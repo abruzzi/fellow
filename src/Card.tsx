@@ -26,7 +26,7 @@ const Card = ({ fragmentRef, position }) => {
   return (
     <article
       ref={drag}
-      className={`border-slate-700 bg-slate-50 rounded-sm p-4 hover:cursor-grab ${isDragging ? "opacity-50" : ""}`}
+      className={`border-slate-700 bg-slate-50 rounded-md p-4 hover:cursor-grab ${isDragging ? "opacity-50" : ""}`}
     >
       <h1 className={`font-bold`}>{data.title}</h1>
       <p className={`text-slate-700`}>{data.description}</p>

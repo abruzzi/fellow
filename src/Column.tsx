@@ -69,7 +69,7 @@ const Column = ({ fragmentRef, onMoveCard }) => {
   return (
     <section
       ref={drop}
-      className={`bg-slate-100 p-4 flex-1 rounded-sm min-h-52 ${isOver ? "bg-slate-200" : ""} ${isInFlight ? "opacity-50" : ""}`}
+      className={`bg-slate-100 p-4 flex-1 rounded-md min-h-[80vh] h-[80vh] ${isOver ? "bg-slate-200" : ""} ${isInFlight ? "opacity-50" : ""}`}
     >
       <h1 className={`font-bold text-lg uppercase text-slate-600`}>
         {data.name}

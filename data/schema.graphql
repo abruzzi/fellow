@@ -1,0 +1,33 @@
+type Card {
+  id: ID!
+  title: String!
+  description: String!
+  position: Int!
+  column: Column!
+}
+
+type Column {
+  id: ID!
+  name: String!
+  position: Int!
+  board: Board!
+  cards: [Card!]!
+}
+
+type Board {
+  id: ID!
+  name: String!
+  columns: [Column!]!
+}
+
+type Query {
+  boards: [Board!]!
+  board(id: ID!): Board!
+}
+
+type Mutation {
+  createBoard(name: String!): Board!
+  createColumn(boardId: ID!, name: String!, position: Int!): Column!
+  createCard(columnId: ID!, title: String!, description: String!, position: Int!): Card!
+  moveCard(cardId: ID!, targetColumnId: ID!, targetPosition: Int!): Card!
+}

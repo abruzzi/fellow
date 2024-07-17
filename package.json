@@ -15,6 +15,8 @@
     "@babel/preset-typescript": "^7.24.7",
     "graphql": "^16.9.0",
     "react": "^18.3.1",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^18.3.1",
     "react-relay": "^17.0.0",
     "relay-runtime": "^17.0.0",

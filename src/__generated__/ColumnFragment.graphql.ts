@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<0d9bac5a172727dcd89577ad9f2d02d2>>
+ * @generated SignedSource<<7e61641890f162777ec0d3c4ce995bc1>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -13,6 +13,7 @@ import { FragmentRefs } from "relay-runtime";
 export type ColumnFragment$data = {
   readonly cards: ReadonlyArray<{
     readonly id: string;
+    readonly position: number;
     readonly " $fragmentSpreads": FragmentRefs<"CardFragment">;
   }>;
   readonly id: string;
@@ -32,6 +33,13 @@ var v0 = {
   "kind": "ScalarField",
   "name": "id",
   "storageKey": null
+},
+v1 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "position",
+  "storageKey": null
 };
 return {
   "argumentDefinitions": [],
@@ -47,13 +55,7 @@ return {
       "name": "name",
       "storageKey": null
     },
-    {
-      "alias": null,
-      "args": null,
-      "kind": "ScalarField",
-      "name": "position",
-      "storageKey": null
-    },
+    (v1/*: any*/),
     {
       "alias": null,
       "args": null,
@@ -63,6 +65,7 @@ return {
       "plural": true,
       "selections": [
         (v0/*: any*/),
+        (v1/*: any*/),
         {
           "args": null,
           "kind": "FragmentSpread",
@@ -77,6 +80,6 @@ return {
 };
 })();
 
-(node as any).hash = "239759685d22bd8921ca9df039be441b";
+(node as any).hash = "1b7427f2d75e18a733fe421a6bbcea9a";
 
 export default node;

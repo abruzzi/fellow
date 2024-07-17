@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<8e995f926691714297b39d23f48daf36>>
+ * @generated SignedSource<<71a0301fd44adb4fe04429e1159c6976>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -17,6 +17,7 @@ export type BoardQuery$data = {
   readonly board: {
     readonly columns: ReadonlyArray<{
       readonly id: string;
+      readonly position: number;
       readonly " $fragmentSpreads": FragmentRefs<"ColumnFragment">;
     }>;
     readonly name: string;
@@ -88,6 +89,7 @@ return {
             "plural": true,
             "selections": [
               (v3/*: any*/),
+              (v4/*: any*/),
               {
                 "args": null,
                 "kind": "FragmentSpread",
@@ -127,8 +129,8 @@ return {
             "plural": true,
             "selections": [
               (v3/*: any*/),
-              (v2/*: any*/),
               (v4/*: any*/),
+              (v2/*: any*/),
               {
                 "alias": null,
                 "args": null,
@@ -138,6 +140,7 @@ return {
                 "plural": true,
                 "selections": [
                   (v3/*: any*/),
+                  (v4/*: any*/),
                   {
                     "alias": null,
                     "args": null,
@@ -151,8 +154,7 @@ return {
                     "kind": "ScalarField",
                     "name": "description",
                     "storageKey": null
-                  },
-                  (v4/*: any*/)
+                  }
                 ],
                 "storageKey": null
               }
@@ -166,16 +168,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "9813c779494166a191cd6a02f6bc75c4",
+    "cacheID": "e7fcbb2a72880e56838b33d3f972f5e1",
     "id": null,
     "metadata": {},
     "name": "BoardQuery",
     "operationKind": "query",
-    "text": "query BoardQuery(\n  $boardId: ID!\n) {\n  board(id: $boardId) {\n    name\n    columns {\n      id\n      ...ColumnFragment\n    }\n    id\n  }\n}\n\nfragment CardFragment on Card {\n  id\n  title\n  description\n  position\n}\n\nfragment ColumnFragment on Column {\n  id\n  name\n  position\n  cards {\n    id\n    ...CardFragment\n  }\n}\n"
+    "text": "query BoardQuery(\n  $boardId: ID!\n) {\n  board(id: $boardId) {\n    name\n    columns {\n      id\n      position\n      ...ColumnFragment\n    }\n    id\n  }\n}\n\nfragment CardFragment on Card {\n  id\n  title\n  description\n  position\n}\n\nfragment ColumnFragment on Column {\n  id\n  name\n  position\n  cards {\n    id\n    position\n    ...CardFragment\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "ce85df59bd18fa651fbbaadd6eff2bcf";
+(node as any).hash = "f67ace95c6c5adf32151c528387d31d5";
 
 export default node;

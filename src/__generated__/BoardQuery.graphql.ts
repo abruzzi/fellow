@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<422269201c5d8d3611d6c625913232a7>>
+ * @generated SignedSource<<8e995f926691714297b39d23f48daf36>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -16,6 +16,7 @@ export type BoardQuery$variables = {
 export type BoardQuery$data = {
   readonly board: {
     readonly columns: ReadonlyArray<{
+      readonly id: string;
       readonly " $fragmentSpreads": FragmentRefs<"ColumnFragment">;
     }>;
     readonly name: string;
@@ -86,6 +87,7 @@ return {
             "name": "columns",
             "plural": true,
             "selections": [
+              (v3/*: any*/),
               {
                 "args": null,
                 "kind": "FragmentSpread",
@@ -164,16 +166,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "841219b86712b06698e0b5130d75804e",
+    "cacheID": "9813c779494166a191cd6a02f6bc75c4",
     "id": null,
     "metadata": {},
     "name": "BoardQuery",
     "operationKind": "query",
-    "text": "query BoardQuery(\n  $boardId: ID!\n) {\n  board(id: $boardId) {\n    name\n    columns {\n      ...ColumnFragment\n      id\n    }\n    id\n  }\n}\n\nfragment CardFragment on Card {\n  id\n  title\n  description\n  position\n}\n\nfragment ColumnFragment on Column {\n  id\n  name\n  position\n  cards {\n    ...CardFragment\n    id\n  }\n}\n"
+    "text": "query BoardQuery(\n  $boardId: ID!\n) {\n  board(id: $boardId) {\n    name\n    columns {\n      id\n      ...ColumnFragment\n    }\n    id\n  }\n}\n\nfragment CardFragment on Card {\n  id\n  title\n  description\n  position\n}\n\nfragment ColumnFragment on Column {\n  id\n  name\n  position\n  cards {\n    id\n    ...CardFragment\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "49ac5e41e7a4f9c46a4c039e2314e7c2";
+(node as any).hash = "ce85df59bd18fa651fbbaadd6eff2bcf";
 
 export default node;

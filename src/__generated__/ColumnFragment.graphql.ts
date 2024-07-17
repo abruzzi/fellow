@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<e4ea780dd728a50803b20a2c7b7a20d9>>
+ * @generated SignedSource<<0d9bac5a172727dcd89577ad9f2d02d2>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -12,6 +12,7 @@ import { Fragment, ReaderFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type ColumnFragment$data = {
   readonly cards: ReadonlyArray<{
+    readonly id: string;
     readonly " $fragmentSpreads": FragmentRefs<"CardFragment">;
   }>;
   readonly id: string;
@@ -24,19 +25,21 @@ export type ColumnFragment$key = {
   readonly " $fragmentSpreads": FragmentRefs<"ColumnFragment">;
 };
 
-const node: ReaderFragment = {
+const node: ReaderFragment = (function(){
+var v0 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "id",
+  "storageKey": null
+};
+return {
   "argumentDefinitions": [],
   "kind": "Fragment",
   "metadata": null,
   "name": "ColumnFragment",
   "selections": [
-    {
-      "alias": null,
-      "args": null,
-      "kind": "ScalarField",
-      "name": "id",
-      "storageKey": null
-    },
+    (v0/*: any*/),
     {
       "alias": null,
       "args": null,
@@ -59,6 +62,7 @@ const node: ReaderFragment = {
       "name": "cards",
       "plural": true,
       "selections": [
+        (v0/*: any*/),
         {
           "args": null,
           "kind": "FragmentSpread",
@@ -71,7 +75,8 @@ const node: ReaderFragment = {
   "type": "Column",
   "abstractKey": null
 };
+})();
 
-(node as any).hash = "f6fa29b5a9c0b5b42968d5f3c639e73d";
+(node as any).hash = "239759685d22bd8921ca9df039be441b";
 
 export default node;

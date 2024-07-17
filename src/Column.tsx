@@ -5,14 +5,15 @@ import { ColumnFragment$key as ColumnFragment } from "./__generated__/ColumnFrag
 const Column = ({ fragmentRef }) => {
   const data = useFragment<ColumnFragment>(
     graphql`
-      fragment ColumnFragment on Column {
-        id
-        name
-        position
-        cards {
-          ...CardFragment
+        fragment ColumnFragment on Column {
+            id
+            name
+            position
+            cards {
+                id
+                ...CardFragment
+            }
         }
-      }
     `,
     fragmentRef
   );
@@ -22,7 +23,7 @@ const Column = ({ fragmentRef }) => {
       <h1 className={`font-bold text-lg uppercase text-slate-600`}>{data.name}</h1>
       <div className={`flex flex-col gap-4`}>
         {data.cards.map((card) => (
-          <Card fragmentRef={card} />
+          <Card key={card.id} fragmentRef={card} />
         ))}
       </div>
     </section>

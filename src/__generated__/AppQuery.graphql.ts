@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<4836b01331268d7668358545d9bf890d>>
+ * @generated SignedSource<<829c415f4a7c9a59423a45e1d1f72f9f>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -20,6 +20,7 @@ export type AppQuery$data = {
       readonly position: number;
       readonly " $fragmentSpreads": FragmentRefs<"ColumnFragment">;
     }>;
+    readonly id: string;
     readonly name: string;
   };
 };
@@ -47,14 +48,14 @@ v2 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "name",
+  "name": "id",
   "storageKey": null
 },
 v3 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "id",
+  "name": "name",
   "storageKey": null
 },
 v4 = {
@@ -80,6 +81,7 @@ return {
         "plural": false,
         "selections": [
           (v2/*: any*/),
+          (v3/*: any*/),
           {
             "alias": null,
             "args": null,
@@ -88,7 +90,7 @@ return {
             "name": "columns",
             "plural": true,
             "selections": [
-              (v3/*: any*/),
+              (v2/*: any*/),
               (v4/*: any*/),
               {
                 "args": null,
@@ -120,6 +122,7 @@ return {
         "plural": false,
         "selections": [
           (v2/*: any*/),
+          (v3/*: any*/),
           {
             "alias": null,
             "args": null,
@@ -128,9 +131,9 @@ return {
             "name": "columns",
             "plural": true,
             "selections": [
-              (v3/*: any*/),
-              (v4/*: any*/),
               (v2/*: any*/),
+              (v4/*: any*/),
+              (v3/*: any*/),
               {
                 "alias": null,
                 "args": null,
@@ -139,7 +142,7 @@ return {
                 "name": "cards",
                 "plural": true,
                 "selections": [
-                  (v3/*: any*/),
+                  (v2/*: any*/),
                   (v4/*: any*/),
                   {
                     "alias": null,
@@ -160,24 +163,23 @@ return {
               }
             ],
             "storageKey": null
-          },
-          (v3/*: any*/)
+          }
         ],
         "storageKey": null
       }
     ]
   },
   "params": {
-    "cacheID": "b0711ef519bfcb3f6cb5fd80d8964441",
+    "cacheID": "1ee43135bf087e765b6b9fdd46883560",
     "id": null,
     "metadata": {},
     "name": "AppQuery",
     "operationKind": "query",
-    "text": "query AppQuery(\n  $boardId: ID!\n) {\n  board(id: $boardId) {\n    name\n    columns {\n      id\n      position\n      ...ColumnFragment\n    }\n    id\n  }\n}\n\nfragment CardFragment on Card {\n  id\n  title\n  description\n  position\n}\n\nfragment ColumnFragment on Column {\n  id\n  name\n  position\n  cards {\n    id\n    position\n    ...CardFragment\n  }\n}\n"
+    "text": "query AppQuery(\n  $boardId: ID!\n) {\n  board(id: $boardId) {\n    id\n    name\n    columns {\n      id\n      position\n      ...ColumnFragment\n    }\n  }\n}\n\nfragment CardFragment on Card {\n  id\n  title\n  description\n  position\n}\n\nfragment ColumnFragment on Column {\n  id\n  name\n  position\n  cards {\n    id\n    position\n    ...CardFragment\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "29bc09d2cb8889d1e0f1b424ceeba926";
+(node as any).hash = "531965e28270778ce1854b69b85e0e40";
 
 export default node;

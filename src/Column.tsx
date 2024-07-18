@@ -1,29 +1,14 @@
-import { graphql, useFragment, useMutation } from "react-relay";
+import { graphql, useFragment } from "react-relay";
 import { Card } from "./Card.tsx";
 import { ColumnFragment$key as ColumnFragment } from "./__generated__/ColumnFragment.graphql.ts";
-import { useDrop } from "react-dnd";
 
-export const moveCardMutation = graphql`
-  mutation ColumnMutation(
-    $cardId: ID!
-    $targetColumnId: ID!
-    $targetPosition: Int!
-  ) {
-    moveCard(
-      cardId: $cardId
-      targetColumnId: $targetColumnId
-      targetPosition: $targetPosition
-    ) {
-      id
-      title
-      description
-      position
-    }
-  }
-`;
+import { dropTargetForElements } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
+import { useEffect, useRef, useState } from "react";
 
-const Column = ({ fragmentRef, onMoveCard }) => {
-  const [commit, isInFlight] = useMutation(moveCardMutation);
+const Column = ({ fragmentRef }) => {
+  const ref = useRef(null);
+  const [isDraggedOver, setIsDraggedOver] = useState(false);
+
   const data = useFragment<ColumnFragment>(
     graphql`
       fragment ColumnFragment on Column {
@@ -40,47 +25,33 @@ const Column = ({ fragmentRef, onMoveCard }) => {
     fragmentRef,
   );
 
-  const [{ isOver }, drop] = useDrop({
-    accept: "card",
-    drop: (item) => {
-      console.log(item, data.id);
-      commit({
-        variables: {
-          cardId: item.id,
-          targetColumnId: data.id,
-          targetPosition: 1,
-        },
-        onCompleted: (response) => {
-          console.log("Mutation completed:", response);
-          onMoveCard();
-          // Handle successful response
-        },
-        onError: (error) => {
-          console.error("Mutation error:", error);
-          // Handle error
-        },
-      });
-    },
-    collect: (monitor) => ({
-      isOver: !!monitor.isOver(),
-    }),
-  });
+  useEffect(() => {
+    const element = ref.current;
+
+    return dropTargetForElements({
+      element: element,
+      onDragEnter: () => setIsDraggedOver(true),
+      onDragLeave: () => setIsDraggedOver(false),
+      onDrop: () => setIsDraggedOver(false),
+      getData: () => {
+        const { id, position } = data;
+        return { id, position };
+      },
+    });
+  }, [data]);
 
   return (
     <section
-      ref={drop}
-      className={`bg-slate-100 p-4 flex-1 rounded-md min-h-[80vh] h-[80vh] ${isOver ? "bg-slate-200" : ""} ${isInFlight ? "opacity-50" : ""}`}
+      ref={ref}
+      className={`bg-slate-100 p-4 flex-1 rounded-md min-h-[70vh] h-[70vh] ${isDraggedOver ? "bg-slate-200" : ""} `}
     >
-      <h1 className={`font-bold text-lg uppercase text-slate-600`}>
+      <h1 className={`text-lg uppercase text-slate-500 py-2`}>
         {data.name}
       </h1>
       <div className={`flex flex-col gap-4`}>
-        {data.cards
-          .slice()
-          .sort((a, b) => a.position - b.position)
-          .map((card) => (
-            <Card key={card.id} fragmentRef={card} position={card.position} />
-          ))}
+        {data.cards.slice().map((card) => (
+          <Card key={card.id} fragmentRef={card} position={card.position} />
+        ))}
       </div>
     </section>
   );

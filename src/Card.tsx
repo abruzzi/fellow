@@ -1,8 +1,11 @@
 import { graphql, useFragment } from "react-relay";
 import { CardFragment$key as CardFragment } from "./__generated__/CardFragment.graphql.ts";
-import { useDrag } from "react-dnd";
+import { useEffect, useRef, useState } from "react";
+import { draggable } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
 
-const Card = ({ fragmentRef, position }) => {
+const Card = ({ fragmentRef }) => {
+  const ref = useRef(null);
+  const [dragging, setDragging] = useState<boolean>(false);
   const data = useFragment<CardFragment>(
     graphql`
       fragment CardFragment on Card {
@@ -15,18 +18,22 @@ const Card = ({ fragmentRef, position }) => {
     fragmentRef,
   );
 
-  const [{ isDragging }, drag] = useDrag({
-    type: "card",
-    item: { id: data.id, position },
-    collect: (monitor) => ({
-      isDragging: !!monitor.isDragging(),
-    }),
-  });
+  useEffect(() => {
+    return draggable({
+      element: ref.current,
+      getInitialData: () => {
+        const { id, position } = data;
+        return { id, position };
+      },
+      onDragStart: () => setDragging(true),
+      onDrop: () => setDragging(false),
+    });
+  }, [data]);
 
   return (
     <article
-      ref={drag}
-      className={`border-slate-700 bg-slate-50 rounded-md p-4 hover:cursor-grab ${isDragging ? "opacity-50" : ""}`}
+      ref={ref}
+      className={`border-slate-700 bg-slate-50 rounded-md p-4 hover:cursor-grab ${dragging ? "opacity-50" : ""}`}
     >
       <h1 className={`font-bold`}>{data.title}</h1>
       <p className={`text-slate-700`}>{data.description}</p>

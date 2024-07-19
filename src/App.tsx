@@ -1,6 +1,5 @@
 import { graphql, useQueryLoader } from "react-relay";
 import { Suspense, useEffect } from "react";
-import { Board } from "./Board.tsx";
 
 export const App = ({ id }: { id: string }) => {
   const [queryRef, loadQuery] = useQueryLoader(graphql`
@@ -21,15 +20,19 @@ export const App = ({ id }: { id: string }) => {
     if (!queryRef) {
       loadQuery({ boardId: id });
     }
-  }, [loadQuery, queryRef]);
+  }, [id, loadQuery, queryRef]);
 
   if (!queryRef) {
     return <div>Loading initial query...</div>;
   }
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <Board queryRef={queryRef} refresh={loadQuery} />
-    </Suspense>
+    <div className={`container flex flex-col max-w-4xl m-auto my-8`}>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Board queryRef={queryRef} refresh={loadQuery} />
+      </Suspense>
+    </div>
   );
 };
+
+import { Board } from "./Board.tsx";

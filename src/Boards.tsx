@@ -12,13 +12,20 @@ const Boards = () => {
   `);
 
   return (
-    <ol>
-      {data.boards.map((board) => (
-        <li>
-          <Link to={`boards/${board.id}`}>{board.name}</Link>
-        </li>
-      ))}
-    </ol>
+    <div className={`container flex flex-col max-w-4xl m-auto my-8`}>
+      <h1 className={`text-4xl text-slate-800 font-bold font-mono my-8`}>
+        My Boards
+      </h1>
+      <ol className="flex flex-wrap justify-start gap-4">
+        {data.boards.map((board) => (
+          <li key={board.id} className="bg-slate-50 shadow-sm rounded-lg p-4 w-60">
+            <Link to={`/boards/${board.id}`}>
+              <div className="text-lg font-semibold text-center text-slate-700">{board.name}</div>
+            </Link>
+          </li>
+        ))}
+      </ol>
+    </div>
   );
 };
 

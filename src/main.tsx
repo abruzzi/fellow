@@ -8,12 +8,17 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Root } from "./routes/Root.tsx";
 import { ErrorPage } from "./ErrorPage.tsx";
 import { BoardPage } from "./routes/BoardPage.tsx";
+import { Boards } from "./Boards.tsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
     errorElement: <ErrorPage />,
+  },
+  {
+    path: "/boards",
+    element: <Boards />,
   },
   {
     path: "/boards/:boardId",

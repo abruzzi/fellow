@@ -28,16 +28,24 @@ const Column = ({ fragmentRef }) => {
   useEffect(() => {
     const element = ref.current;
 
-    return dropTargetForElements({
+    const config = {
       element: element,
-      onDragEnter: () => setIsDraggedOver(true),
-      onDragLeave: () => setIsDraggedOver(false),
-      onDrop: () => setIsDraggedOver(false),
+      onDragEnter: () => {
+        setIsDraggedOver(true);
+      },
+      onDragLeave: () => {
+        setIsDraggedOver(false);
+      },
+      onDrop: () => {
+        setIsDraggedOver(false);
+      },
       getData: () => {
         const { id, position } = data;
         return { id, position };
       },
-    });
+    };
+
+    return dropTargetForElements(config);
   }, [data]);
 
   return (
@@ -45,12 +53,15 @@ const Column = ({ fragmentRef }) => {
       ref={ref}
       className={`bg-slate-100 p-4 flex-1 rounded-md min-h-[70vh] h-[70vh] ${isDraggedOver ? "bg-slate-200" : ""} `}
     >
-      <h1 className={`text-lg uppercase text-slate-500 py-2`}>
-        {data.name}
-      </h1>
-      <div className={`flex flex-col gap-4`}>
-        {data.cards.slice().map((card) => (
-          <Card key={card.id} fragmentRef={card} position={card.position} />
+      <h1 className={`text-lg uppercase text-slate-500 py-2`}>{data.name}</h1>
+      <div className={`flex flex-col gap-2`}>
+        {data.cards.slice().map((card, index) => (
+          <Card
+            key={card.id}
+            fragmentRef={card}
+            position={card.position}
+            index={index}
+          />
         ))}
       </div>
     </section>

@@ -23,22 +23,22 @@ export const Board = ({ queryRef, refresh }) => {
   );
 
   const [commit, isUpdating] = useMutation(graphql`
-      mutation BoardMutation(
-          $cardId: ID!
-          $targetColumnId: ID!
-          $targetPosition: Int!
+    mutation BoardMutation(
+      $cardId: ID!
+      $targetColumnId: ID!
+      $targetPosition: Int!
+    ) {
+      moveCard(
+        cardId: $cardId
+        targetColumnId: $targetColumnId
+        targetPosition: $targetPosition
       ) {
-          moveCard(
-              cardId: $cardId
-              targetColumnId: $targetColumnId
-              targetPosition: $targetPosition
-          ) {
-              id
-              title
-              description
-              position
-          }
+        id
+        title
+        description
+        position
       }
+    }
   `);
 
   useEffect(() => {
@@ -46,21 +46,26 @@ export const Board = ({ queryRef, refresh }) => {
       onDrop: ({ source, location }) => {
         const target = location.current.dropTargets[0];
 
-        commit({
-          variables: {
-            cardId: source.data.id,
-            targetColumnId: target.data.id,
-            targetPosition: 1,
-          },
-          onCompleted: (response) => {
-            console.log("Mutation completed:", response);
-            refresh({ boardId: rootBoardId }, { fetchPolicy: "network-only" });
-          },
-          onError: (error) => {
-            console.error("Mutation error:", error);
-          },
-          updater: () => {},
-        });
+        if(!target) {
+          return;
+        }
+
+        console.log(source, target);
+        // commit({
+        //   variables: {
+        //     cardId: source.data.id,
+        //     targetColumnId: target.data.id,
+        //     targetPosition: 1,
+        //   },
+        //   onCompleted: (response) => {
+        //     console.log("Mutation completed:", response);
+        //     refresh({ boardId: rootBoardId }, { fetchPolicy: "network-only" });
+        //   },
+        //   onError: (error) => {
+        //     console.error("Mutation error:", error);
+        //   },
+        //   updater: () => {},
+        // });
       },
     });
   }, [commit, refresh]);
@@ -70,18 +75,13 @@ export const Board = ({ queryRef, refresh }) => {
   }
 
   return (
-    <div
-      className={`container flex flex-col max-w-4xl m-auto my-8 ${isUpdating ? "opacity-50" : ""}`}
-    >
+    <div className={`${isUpdating ? "opacity-50" : ""}`}>
       <h1 className={`text-4xl text-slate-800 font-bold font-mono my-8`}>
         {data.board.name}
       </h1>
       <div className={`flex flex-row gap-4`}>
         {data.board.columns.slice().map((column) => (
-          <Column
-            key={column.id}
-            fragmentRef={column}
-          />
+          <Column key={column.id} fragmentRef={column} />
         ))}
       </div>
     </div>

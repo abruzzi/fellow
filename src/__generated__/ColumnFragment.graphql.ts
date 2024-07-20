@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<7e61641890f162777ec0d3c4ce995bc1>>
+ * @generated SignedSource<<f5fb084707c2f4ad76189b4b00664cd9>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,7 +8,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { Fragment, ReaderFragment } from 'relay-runtime';
+import { ReaderFragment, RefetchableFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type ColumnFragment$data = {
   readonly cards: ReadonlyArray<{
@@ -25,6 +25,8 @@ export type ColumnFragment$key = {
   readonly " $data"?: ColumnFragment$data;
   readonly " $fragmentSpreads": FragmentRefs<"ColumnFragment">;
 };
+
+import ColumnRefetchQuery_graphql from './ColumnRefetchQuery.graphql';
 
 const node: ReaderFragment = (function(){
 var v0 = {
@@ -44,7 +46,19 @@ v1 = {
 return {
   "argumentDefinitions": [],
   "kind": "Fragment",
-  "metadata": null,
+  "metadata": {
+    "refetch": {
+      "connection": null,
+      "fragmentPathInResult": [
+        "node"
+      ],
+      "operation": ColumnRefetchQuery_graphql,
+      "identifierInfo": {
+        "identifierField": "id",
+        "identifierQueryVariableName": "id"
+      }
+    }
+  },
   "name": "ColumnFragment",
   "selections": [
     (v0/*: any*/),
@@ -80,6 +94,6 @@ return {
 };
 })();
 
-(node as any).hash = "1b7427f2d75e18a733fe421a6bbcea9a";
+(node as any).hash = "9854235c22454049da0ea6cb7abe8133";
 
 export default node;

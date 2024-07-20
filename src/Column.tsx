@@ -1,9 +1,4 @@
-import {
-  graphql,
-  useFragment,
-  useMutation,
-  useRefetchableFragment,
-} from "react-relay";
+import { graphql, useMutation, useRefetchableFragment } from "react-relay";
 import { Card } from "./Card.tsx";
 import { ColumnFragment$key as ColumnFragment } from "./__generated__/ColumnFragment.graphql.ts";
 
@@ -29,13 +24,17 @@ const Column = ({ fragmentRef }) => {
       createSimpleCard(columnId: $columnId, title: $title) {
         id
         title
+        column {
+          id
+        }
       }
     }
   `);
 
-  const data = useFragment<ColumnFragment>(
+  const [data, refetch] = useRefetchableFragment(
     graphql`
-      fragment ColumnFragment on Column {
+      fragment ColumnFragment on Column
+      @refetchable(queryName: "ColumnRefetchQuery") {
         id
         name
         position
@@ -102,6 +101,11 @@ const Column = ({ fragmentRef }) => {
       },
       onCompleted: (response) => {
         console.log("Mutation completed:", response);
+
+        refetch(
+          { id: response.createSimpleCard.column.id },
+          { fetchPolicy: "network-only" },
+        );
       },
       onError: (error) => {
         console.error("Mutation error:", error);
@@ -110,6 +114,9 @@ const Column = ({ fragmentRef }) => {
         createSimpleCard: {
           id: "new-id",
           title,
+          column: {
+            id: data.id,
+          },
         },
       },
     });

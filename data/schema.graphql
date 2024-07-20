@@ -1,3 +1,7 @@
+interface Node {
+  id: ID!
+}
+
 type Card {
   id: ID!
   title: String!
@@ -6,7 +10,7 @@ type Card {
   column: Column!
 }
 
-type Column {
+type Column implements Node {
   id: ID!
   name: String!
   position: Int!
@@ -23,6 +27,8 @@ type Board {
 type Query {
   boards: [Board!]!
   board(id: ID!): Board!
+  column(id: ID!): Column!
+  node(id: ID!): Node
 }
 
 type Mutation {

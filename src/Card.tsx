@@ -85,13 +85,19 @@ const Card = ({ fragmentRef, index }) => {
 
   return (
     <div className="relative">
-      <NextCard shadow="none" className={`py-4 ${isDragging ? "opacity-50" : ""}`} ref={ref}>
+      <NextCard
+        shadow="none"
+        className={`py-4 ${isDragging ? "opacity-50" : ""}`}
+        ref={ref}
+      >
         <CardHeader className="py-0 px-4 flex-col items-start">
           <h4 className="font-bold text-large">{data.title}</h4>
         </CardHeader>
-        <CardBody className="overflow-visible py-2">
-          <p>{data.description}</p>
-        </CardBody>
+        {data.description && (
+          <CardBody className="overflow-visible py-2">
+            <p>{data.description}</p>
+          </CardBody>
+        )}
       </NextCard>
       {closestEdge && <DropIndicator edge={closestEdge} />}
     </div>

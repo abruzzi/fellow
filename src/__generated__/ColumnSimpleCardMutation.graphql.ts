@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<ac6e80be06bd22abd6301d6a6671d23b>>
+ * @generated SignedSource<<7bd7cdc2180fbc23cae2aee025479881>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -15,6 +15,9 @@ export type ColumnSimpleCardMutation$variables = {
 };
 export type ColumnSimpleCardMutation$data = {
   readonly createSimpleCard: {
+    readonly column: {
+      readonly id: string;
+    };
     readonly id: string;
     readonly title: string;
   };
@@ -37,7 +40,14 @@ var v0 = [
     "name": "title"
   }
 ],
-v1 = [
+v1 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "id",
+  "storageKey": null
+},
+v2 = [
   {
     "alias": null,
     "args": [
@@ -57,18 +67,24 @@ v1 = [
     "name": "createSimpleCard",
     "plural": false,
     "selections": [
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "id",
-        "storageKey": null
-      },
+      (v1/*: any*/),
       {
         "alias": null,
         "args": null,
         "kind": "ScalarField",
         "name": "title",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "concreteType": "Column",
+        "kind": "LinkedField",
+        "name": "column",
+        "plural": false,
+        "selections": [
+          (v1/*: any*/)
+        ],
         "storageKey": null
       }
     ],
@@ -81,7 +97,7 @@ return {
     "kind": "Fragment",
     "metadata": null,
     "name": "ColumnSimpleCardMutation",
-    "selections": (v1/*: any*/),
+    "selections": (v2/*: any*/),
     "type": "Mutation",
     "abstractKey": null
   },
@@ -90,19 +106,19 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
     "name": "ColumnSimpleCardMutation",
-    "selections": (v1/*: any*/)
+    "selections": (v2/*: any*/)
   },
   "params": {
-    "cacheID": "2b08888f88df7663c849db5cd27bfb85",
+    "cacheID": "3faa673efe1752fb3f60bb32730cda18",
     "id": null,
     "metadata": {},
     "name": "ColumnSimpleCardMutation",
     "operationKind": "mutation",
-    "text": "mutation ColumnSimpleCardMutation(\n  $columnId: ID!\n  $title: String!\n) {\n  createSimpleCard(columnId: $columnId, title: $title) {\n    id\n    title\n  }\n}\n"
+    "text": "mutation ColumnSimpleCardMutation(\n  $columnId: ID!\n  $title: String!\n) {\n  createSimpleCard(columnId: $columnId, title: $title) {\n    id\n    title\n    column {\n      id\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "92ca6e241d72f384bda6e8792230a5f8";
+(node as any).hash = "3c18d3744ba05b12cb3ebe4c31800f20";
 
 export default node;

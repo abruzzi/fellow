@@ -28,6 +28,6 @@ type Query {
 type Mutation {
   createBoard(name: String!): Board!
   createColumn(boardId: ID!, name: String!, position: Int!): Column!
-  createCard(columnId: ID!, title: String!, description: String!, position: Int!): Card!
+  createCard(columnId: ID!, title: String!, description: String!): Card!
   moveCard(cardId: ID!, targetColumnId: ID!, targetPosition: Int!): Card!
 }

@@ -2,8 +2,7 @@ import { graphql, useMutation, usePreloadedQuery } from "react-relay";
 import { Column } from "./Column.tsx";
 import { useEffect } from "react";
 import { monitorForElements } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
-
-const rootBoardId = "8b03c009-3f38-4e6b-a25e-93aff63d56f1";
+import { Header } from "./components/Header.tsx";
 
 export const Board = ({ queryRef, refresh }) => {
   const data = usePreloadedQuery(
@@ -44,13 +43,20 @@ export const Board = ({ queryRef, refresh }) => {
   useEffect(() => {
     return monitorForElements({
       onDrop: ({ source, location }) => {
-        const target = location.current.dropTargets[0];
-
-        if(!target) {
-          return;
-        }
-
-        console.log(source, target);
+        // const target = location.current.dropTargets[0];
+        // if (!target) {
+        //   return;
+        // }
+        //
+        // const sourceData = source.data;
+        // const targetData = target.data;
+        //
+        //
+        // const indexOfSource = tasks.findIndex((task) => task.id === sourceData.taskId);
+        // const indexOfTarget = tasks.findIndex((task) => task.id === targetData.taskId);
+        //
+        //
+        // console.log(source, target);
         // commit({
         //   variables: {
         //     cardId: source.data.id,
@@ -71,14 +77,12 @@ export const Board = ({ queryRef, refresh }) => {
   }, [commit, refresh]);
 
   if (!data.board) {
-    return <div className={`text-lg`}>something went wrong</div>;
+    return <div className={`text-lg`}>Something went wrong</div>;
   }
 
   return (
     <div className={`${isUpdating ? "opacity-50" : ""}`}>
-      <h1 className={`text-4xl text-slate-800 font-bold font-mono my-8`}>
-        {data.board.name}
-      </h1>
+      <Header title={data.board.name} />
       <div className={`flex flex-row gap-4`}>
         {data.board.columns.slice().map((column) => (
           <Column key={column.id} fragmentRef={column} />

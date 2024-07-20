@@ -23,7 +23,11 @@ export const App = ({ id }: { id: string }) => {
   }, [id, loadQuery, queryRef]);
 
   if (!queryRef) {
-    return <div>Loading initial query...</div>;
+    return (
+      <div className={`container flex flex-col max-w-4xl m-auto my-8`}>
+        <div>Loading initial query...</div>
+      </div>
+    );
   }
 
   return (

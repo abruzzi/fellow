@@ -2,12 +2,19 @@ import { graphql, useFragment } from "react-relay";
 import { Card } from "./Card.tsx";
 import { ColumnFragment$key as ColumnFragment } from "./__generated__/ColumnFragment.graphql.ts";
 
-import { dropTargetForElements } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
+import {
+  dropTargetForElements,
+  monitorForElements,
+} from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
 import { useEffect, useRef, useState } from "react";
+import { extractClosestEdge } from "@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge";
+import { reorderWithEdge } from "@atlaskit/pragmatic-drag-and-drop-hitbox/util/reorder-with-edge";
+import { combine } from "@atlaskit/pragmatic-drag-and-drop/combine";
 
 const Column = ({ fragmentRef }) => {
   const ref = useRef(null);
   const [isDraggedOver, setIsDraggedOver] = useState(false);
+  const [cards, setCards] = useState([]);
 
   const data = useFragment<ColumnFragment>(
     graphql`
@@ -26,27 +33,47 @@ const Column = ({ fragmentRef }) => {
   );
 
   useEffect(() => {
-    const element = ref.current;
+    setCards(() => data.cards);
+  }, [data.cards]);
 
-    const config = {
-      element: element,
-      onDragEnter: () => {
-        setIsDraggedOver(true);
-      },
-      onDragLeave: () => {
-        setIsDraggedOver(false);
-      },
-      onDrop: () => {
-        setIsDraggedOver(false);
-      },
-      getData: () => {
-        const { id, position } = data;
-        return { id, position };
-      },
-    };
+  useEffect(() => {
+    return combine(
+      monitorForElements({
+        onDrop: ({ source, location }) => {
+          const target = location.current.dropTargets[0];
+          if (!target) {
+            return;
+          }
 
-    return dropTargetForElements(config);
-  }, [data]);
+          const sourceData = source.data;
+          const targetData = target.data;
+
+          const indexOfSource = cards.findIndex(
+            (card) => card.id === sourceData.id,
+          );
+          const indexOfTarget = cards.findIndex(
+            (card) => card.id === targetData.id,
+          );
+
+          if (indexOfTarget < 0 || indexOfSource < 0) {
+            return;
+          }
+
+          const closestEdgeOfTarget = extractClosestEdge(targetData);
+
+          const reordered = reorderWithEdge({
+            list: cards,
+            startIndex: indexOfSource,
+            indexOfTarget,
+            closestEdgeOfTarget,
+            axis: "vertical",
+          });
+
+          setCards(reordered);
+        },
+      }),
+    );
+  }, [cards]);
 
   return (
     <section
@@ -55,7 +82,7 @@ const Column = ({ fragmentRef }) => {
     >
       <h1 className={`text-lg uppercase text-slate-500 py-2`}>{data.name}</h1>
       <div className={`flex flex-col gap-2`}>
-        {data.cards.slice().map((card, index) => (
+        {cards.map((card, index) => (
           <Card
             key={card.id}
             fragmentRef={card}

@@ -47,37 +47,27 @@ const Card = ({ fragmentRef, index }) => {
 
     const dropConfig = {
       element: element,
-      getData({ input, element }) {
-        return attachClosestEdge(data, {
-          element,
-          input,
-          allowedEdges: ["top", "bottom"],
-        });
+      canDrop({ source }) {
+        // not allowing dropping on yourself
+        return source.element !== element;
       },
-      onDrag: ({ self, source }) => {
-        const isSource = source.element === element;
-        if (isSource) {
-          setClosestEdge(null);
-          return;
-        }
-
+      getData({ input, element }) {
+        const { id, position } = data;
+        return attachClosestEdge(
+          { id, position },
+          {
+            element,
+            input,
+            allowedEdges: ["top", "bottom"],
+          },
+        );
+      },
+      onDrag: ({ self }) => {
         const closestEdge = extractClosestEdge(self.data);
-
-        const sourceIndex = source.data.index;
-
-        const isItemBeforeSource = index === sourceIndex - 1;
-        const isItemAfterSource = index === sourceIndex + 1;
-
-        const isDropIndicatorHidden =
-          (isItemBeforeSource && closestEdge === "bottom") ||
-          (isItemAfterSource && closestEdge === "top");
-
-        if (isDropIndicatorHidden) {
-          setClosestEdge(null);
-          return;
-        }
-
         setClosestEdge(closestEdge);
+      },
+      getIsSticky() {
+        return true;
       },
       onDragLeave() {
         setClosestEdge(null);
@@ -90,7 +80,6 @@ const Card = ({ fragmentRef, index }) => {
     return combine(draggable(dragConfig), dropTargetForElements(dropConfig));
   }, [data, index]);
 
-
   return (
     <div className={`relative`}>
       <article
@@ -100,7 +89,7 @@ const Card = ({ fragmentRef, index }) => {
         <h1 className={`font-bold`}>{data.title}</h1>
         <p className={`text-slate-700`}>{data.description}</p>
       </article>
-      {closestEdge && <DropIndicator edge={closestEdge} gap='4px' />}
+      {closestEdge && <DropIndicator edge={closestEdge} />}
     </div>
   );
 };

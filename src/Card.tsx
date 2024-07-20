@@ -22,7 +22,7 @@ import {
   Button,
 } from "@nextui-org/react";
 
-const Card = ({ fragmentRef, index, onRemoveCard }) => {
+const Card = ({ fragmentRef, index, onCardRemoved }) => {
   const ref = useRef(null);
   const [isDragging, setDragging] = useState<boolean>(false);
   const [closestEdge, setClosestEdge] = useState<Edge>(null);
@@ -103,7 +103,7 @@ const Card = ({ fragmentRef, index, onRemoveCard }) => {
     commit({
       variables: { id: data.id },
       onCompleted: () => {
-        onRemoveCard();
+        onCardRemoved();
       },
       onError: () => {
         // error

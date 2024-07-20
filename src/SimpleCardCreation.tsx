@@ -79,7 +79,7 @@ const SimpleCardCreation = ({
             onKeyDown={handleKeyDown}
           />
           <div className={`flex flex-row gap-2 align-middle`}>
-            <Button color="primary" onClick={handleCreateCard}>
+            <Button color="primary" onPress={handleCreateCard}>
               Add
             </Button>
             <Button
@@ -87,7 +87,7 @@ const SimpleCardCreation = ({
               color="default"
               variant="solid"
               aria-label="Cancel"
-              onClick={handleCancel}
+              onPress={handleCancel}
             >
               <HiOutlineX />
             </Button>
@@ -100,7 +100,7 @@ const SimpleCardCreation = ({
           variant="light"
           color="default"
           startContent={<HiOutlinePlus />}
-          onClick={toggleEditing}
+          onPress={toggleEditing}
           isLoading={isCreating}
         >
           Add a card

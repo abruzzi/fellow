@@ -13,6 +13,9 @@ import {
   extractClosestEdge,
 } from "@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge";
 
+import React from "react";
+import { Card as NextCard, CardHeader, CardBody } from "@nextui-org/react";
+
 const Card = ({ fragmentRef, index }) => {
   const ref = useRef(null);
   const [isDragging, setDragging] = useState<boolean>(false);
@@ -81,14 +84,15 @@ const Card = ({ fragmentRef, index }) => {
   }, [data, index]);
 
   return (
-    <div className={`relative`}>
-      <article
-        ref={ref}
-        className={`border-slate-700 bg-slate-50 rounded-md shadow-sm p-4 hover:cursor-grab ${isDragging ? "opacity-50" : ""}`}
-      >
-        <h1 className={`font-bold`}>{data.title}</h1>
-        <p className={`text-slate-700`}>{data.description}</p>
-      </article>
+    <div className="relative">
+      <NextCard shadow="none" className={`py-4 ${isDragging ? "opacity-50" : ""}`} ref={ref}>
+        <CardHeader className="py-0 px-4 flex-col items-start">
+          <h4 className="font-bold text-large">{data.title}</h4>
+        </CardHeader>
+        <CardBody className="overflow-visible py-2">
+          <p>{data.description}</p>
+        </CardBody>
+      </NextCard>
       {closestEdge && <DropIndicator edge={closestEdge} />}
     </div>
   );

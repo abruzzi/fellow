@@ -9,6 +9,7 @@ import { Root } from "./routes/Root.tsx";
 import { ErrorPage } from "./ErrorPage.tsx";
 import { BoardPage } from "./routes/BoardPage.tsx";
 import { Boards } from "./Boards.tsx";
+import { NextUIProvider } from "@nextui-org/react";
 
 const router = createBrowserRouter([
   {
@@ -28,8 +29,10 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <RelayEnvironmentProvider environment={environment}>
-      <RouterProvider router={router} />
-    </RelayEnvironmentProvider>
+    <NextUIProvider>
+      <RelayEnvironmentProvider environment={environment}>
+        <RouterProvider router={router} />
+      </RelayEnvironmentProvider>
+    </NextUIProvider>
   </React.StrictMode>,
 );

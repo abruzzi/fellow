@@ -1,20 +1,37 @@
-import { graphql, useFragment } from "react-relay";
+import {
+  graphql,
+  useFragment,
+  useMutation,
+  useRefetchableFragment,
+} from "react-relay";
 import { Card } from "./Card.tsx";
 import { ColumnFragment$key as ColumnFragment } from "./__generated__/ColumnFragment.graphql.ts";
 
-import {
-  dropTargetForElements,
-  monitorForElements,
-} from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
-import { useEffect, useRef, useState } from "react";
+import { monitorForElements } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { extractClosestEdge } from "@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge";
 import { reorderWithEdge } from "@atlaskit/pragmatic-drag-and-drop-hitbox/util/reorder-with-edge";
 import { combine } from "@atlaskit/pragmatic-drag-and-drop/combine";
+import { Button, Input } from "@nextui-org/react";
+import { HiOutlinePlus, HiOutlineX } from "react-icons/hi";
 
 const Column = ({ fragmentRef }) => {
   const ref = useRef(null);
-  const [isDraggedOver, setIsDraggedOver] = useState(false);
   const [cards, setCards] = useState([]);
+  const [isEditing, setEditing] = useState<boolean>(false);
+
+  const toggleEditing = () => {
+    setEditing((isEditing) => !isEditing);
+  };
+
+  const [commit, isCreatingCard] = useMutation(graphql`
+    mutation ColumnSimpleCardMutation($columnId: ID!, $title: String!) {
+      createSimpleCard(columnId: $columnId, title: $title) {
+        id
+        title
+      }
+    }
+  `);
 
   const data = useFragment<ColumnFragment>(
     graphql`
@@ -75,23 +92,98 @@ const Column = ({ fragmentRef }) => {
     );
   }, [cards]);
 
+  const handleCreateCard = () => {
+    toggleEditing();
+
+    commit({
+      variables: {
+        columnId: data.id,
+        title: title,
+      },
+      onCompleted: (response) => {
+        console.log("Mutation completed:", response);
+      },
+      onError: (error) => {
+        console.error("Mutation error:", error);
+      },
+      optimisticResponse: {
+        createSimpleCard: {
+          id: "new-id",
+          title,
+        },
+      },
+    });
+  };
+
+  const [title, setTitle] = useState<string>("");
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value);
+  };
+
+  const handleCancel = () => {
+    setTitle("");
+    toggleEditing();
+  };
+
   return (
-    <section
-      ref={ref}
-      className={`bg-slate-100 p-4 flex-1 rounded-md min-h-[70vh] h-[70vh] ${isDraggedOver ? "bg-slate-200" : ""} `}
-    >
-      <h1 className={`text-lg uppercase text-slate-500 py-2`}>{data.name}</h1>
-      <div className={`flex flex-col gap-2`}>
-        {cards.map((card, index) => (
-          <Card
-            key={card.id}
-            fragmentRef={card}
-            position={card.position}
-            index={index}
-          />
-        ))}
+    <div className="flex-1 overflow-auto" ref={ref}>
+      <div className="bg-gray-100 p-4 rounded-lg flex flex-col max-h-screen">
+        <h2 className="text-lg font-semibold mb-2 px-2">{data.name}</h2>
+        <div className="flex-1 p-2 mb-2 overflow-auto bg-gray-100">
+          <div className="flex flex-col gap-2">
+            {cards.map((card, index) => (
+              <Card
+                key={card.id}
+                fragmentRef={card}
+                position={card.position}
+                index={index}
+              />
+            ))}
+          </div>
+        </div>
+
+        {isEditing && (
+          <div className={`flex flex-col gap-2`}>
+            <Input
+              variant="bordered"
+              type="text"
+              label="Title"
+              placeholder="Type text for the title"
+              autoFocus
+              value={title}
+              onChange={handleInputChange}
+            />
+            <div className={`flex flex-row gap-2 align-middle`}>
+              <Button color="primary" onClick={handleCreateCard}>
+                Add
+              </Button>
+              <Button
+                isIconOnly
+                color="default"
+                variant="solid"
+                aria-label="Cancel"
+                onClick={handleCancel}
+              >
+                <HiOutlineX />
+              </Button>
+            </div>
+          </div>
+        )}
+
+        {!isEditing && (
+          <Button
+            variant="light"
+            color="default"
+            startContent={<HiOutlinePlus />}
+            onClick={toggleEditing}
+            isLoading={isCreatingCard}
+          >
+            Add a card
+          </Button>
+        )}
       </div>
-    </section>
+    </div>
   );
 };
 

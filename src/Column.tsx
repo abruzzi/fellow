@@ -19,14 +19,11 @@ const Column = ({ fragmentRef }) => {
     setEditing((isEditing) => !isEditing);
   };
 
-  const [commit, isCreatingCard] = useMutation(graphql`
+  const [commit, isCreating] = useMutation(graphql`
     mutation ColumnSimpleCardMutation($columnId: ID!, $title: String!) {
       createSimpleCard(columnId: $columnId, title: $title) {
         id
         title
-        column {
-          id
-        }
       }
     }
   `);
@@ -92,6 +89,7 @@ const Column = ({ fragmentRef }) => {
   }, [cards]);
 
   const handleCreateCard = () => {
+    setTitle("");
     toggleEditing();
 
     commit({
@@ -101,11 +99,7 @@ const Column = ({ fragmentRef }) => {
       },
       onCompleted: (response) => {
         console.log("Mutation completed:", response);
-
-        refetch(
-          { id: response.createSimpleCard.column.id },
-          { fetchPolicy: "network-only" },
-        );
+        refreshColumn();
       },
       onError: (error) => {
         console.error("Mutation error:", error);
@@ -114,9 +108,6 @@ const Column = ({ fragmentRef }) => {
         createSimpleCard: {
           id: "new-id",
           title,
-          column: {
-            id: data.id,
-          },
         },
       },
     });
@@ -133,6 +124,10 @@ const Column = ({ fragmentRef }) => {
     toggleEditing();
   };
 
+  const refreshColumn = () => {
+    refetch({ id: data.id }, { fetchPolicy: "network-only" });
+  };
+
   return (
     <div className="flex-1 overflow-auto" ref={ref}>
       <div className="bg-gray-100 p-4 rounded-lg flex flex-col max-h-screen">
@@ -145,6 +140,7 @@ const Column = ({ fragmentRef }) => {
                 fragmentRef={card}
                 position={card.position}
                 index={index}
+                onRemoveCard={refreshColumn}
               />
             ))}
           </div>
@@ -184,7 +180,7 @@ const Column = ({ fragmentRef }) => {
             color="default"
             startContent={<HiOutlinePlus />}
             onClick={toggleEditing}
-            isLoading={isCreatingCard}
+            isLoading={isCreating}
           >
             Add a card
           </Button>

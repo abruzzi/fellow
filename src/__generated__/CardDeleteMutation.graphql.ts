@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<ac6e80be06bd22abd6301d6a6671d23b>>
+ * @generated SignedSource<<d2ef41cb120d09e5597600015de78c16>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,19 +9,18 @@
 // @ts-nocheck
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
-export type ColumnSimpleCardMutation$variables = {
-  columnId: string;
-  title: string;
+export type CardDeleteMutation$variables = {
+  id: string;
 };
-export type ColumnSimpleCardMutation$data = {
-  readonly createSimpleCard: {
+export type CardDeleteMutation$data = {
+  readonly deleteCard: {
     readonly id: string;
-    readonly title: string;
+    readonly position: number;
   };
 };
-export type ColumnSimpleCardMutation = {
-  response: ColumnSimpleCardMutation$data;
-  variables: ColumnSimpleCardMutation$variables;
+export type CardDeleteMutation = {
+  response: CardDeleteMutation$data;
+  variables: CardDeleteMutation$variables;
 };
 
 const node: ConcreteRequest = (function(){
@@ -29,12 +28,7 @@ var v0 = [
   {
     "defaultValue": null,
     "kind": "LocalArgument",
-    "name": "columnId"
-  },
-  {
-    "defaultValue": null,
-    "kind": "LocalArgument",
-    "name": "title"
+    "name": "id"
   }
 ],
 v1 = [
@@ -43,18 +37,13 @@ v1 = [
     "args": [
       {
         "kind": "Variable",
-        "name": "columnId",
-        "variableName": "columnId"
-      },
-      {
-        "kind": "Variable",
-        "name": "title",
-        "variableName": "title"
+        "name": "cardId",
+        "variableName": "id"
       }
     ],
     "concreteType": "Card",
     "kind": "LinkedField",
-    "name": "createSimpleCard",
+    "name": "deleteCard",
     "plural": false,
     "selections": [
       {
@@ -68,7 +57,7 @@ v1 = [
         "alias": null,
         "args": null,
         "kind": "ScalarField",
-        "name": "title",
+        "name": "position",
         "storageKey": null
       }
     ],
@@ -80,7 +69,7 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "ColumnSimpleCardMutation",
+    "name": "CardDeleteMutation",
     "selections": (v1/*: any*/),
     "type": "Mutation",
     "abstractKey": null
@@ -89,20 +78,20 @@ return {
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "ColumnSimpleCardMutation",
+    "name": "CardDeleteMutation",
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "2b08888f88df7663c849db5cd27bfb85",
+    "cacheID": "2e24f7b00adf1a2ef76d49f11b648e97",
     "id": null,
     "metadata": {},
-    "name": "ColumnSimpleCardMutation",
+    "name": "CardDeleteMutation",
     "operationKind": "mutation",
-    "text": "mutation ColumnSimpleCardMutation(\n  $columnId: ID!\n  $title: String!\n) {\n  createSimpleCard(columnId: $columnId, title: $title) {\n    id\n    title\n  }\n}\n"
+    "text": "mutation CardDeleteMutation(\n  $id: ID!\n) {\n  deleteCard(cardId: $id) {\n    id\n    position\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "92ca6e241d72f384bda6e8792230a5f8";
+(node as any).hash = "03b1bf962b9e5f4ca995fa57386d3d5c";
 
 export default node;

@@ -1,4 +1,4 @@
-import { graphql, useFragment } from "react-relay";
+import { graphql, useFragment, useMutation } from "react-relay";
 import { CardFragment$key as CardFragment } from "./__generated__/CardFragment.graphql.ts";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -12,14 +12,21 @@ import {
   Edge,
   extractClosestEdge,
 } from "@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge";
+import { HiOutlineTrash } from "react-icons/hi";
 
 import React from "react";
-import { Card as NextCard, CardHeader, CardBody } from "@nextui-org/react";
+import {
+  Card as NextCard,
+  CardHeader,
+  CardBody,
+  Button,
+} from "@nextui-org/react";
 
-const Card = ({ fragmentRef, index }) => {
+const Card = ({ fragmentRef, index, onRemoveCard }) => {
   const ref = useRef(null);
   const [isDragging, setDragging] = useState<boolean>(false);
   const [closestEdge, setClosestEdge] = useState<Edge>(null);
+  const [hovered, setHovered] = useState<boolean>(false);
 
   const data = useFragment<CardFragment>(
     graphql`
@@ -83,19 +90,55 @@ const Card = ({ fragmentRef, index }) => {
     return combine(draggable(dragConfig), dropTargetForElements(dropConfig));
   }, [data, index]);
 
+  const [commit, isDeleting] = useMutation(graphql`
+    mutation CardDeleteMutation($id: ID!) {
+      deleteCard(cardId: $id) {
+        id
+        position
+      }
+    }
+  `);
+
+  const handleDelete = () => {
+    commit({
+      variables: { id: data.id },
+      onCompleted: () => {
+        onRemoveCard();
+      },
+      onError: () => {
+        // error
+      },
+    });
+  };
   return (
     <div className="relative">
       <NextCard
         shadow="none"
         className={`py-4 ${isDragging ? "opacity-50" : ""}`}
         ref={ref}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
       >
         <CardHeader className="py-0 px-4 flex-col items-start">
-          <h4 className="font-bold text-large">{data.title}</h4>
+          <h4 className="font-bold text-large text-slate-800">{data.title}</h4>
+          {hovered && (
+            <div className="absolute right-2 top-2 delay-100">
+              <Button
+                isIconOnly
+                color="danger"
+                variant="solid"
+                aria-label="Delete"
+                onClick={handleDelete}
+                disabled={isDeleting}
+              >
+                <HiOutlineTrash />
+              </Button>
+            </div>
+          )}
         </CardHeader>
         {data.description && (
-          <CardBody className="overflow-visible py-2">
-            <p>{data.description}</p>
+          <CardBody className="overflow-visible py-2 ">
+            <p className="text-slate-700">{data.description}</p>
           </CardBody>
         )}
       </NextCard>

@@ -1,10 +1,8 @@
-import { graphql, useRefetchableFragment } from "react-relay";
+import { graphql, useMutation, useRefetchableFragment } from "react-relay";
 import { Card } from "./Card.tsx";
 
 import { monitorForElements } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
-import { useEffect, useRef, useState } from "react";
-import { extractClosestEdge } from "@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge";
-import { reorderWithEdge } from "@atlaskit/pragmatic-drag-and-drop-hitbox/util/reorder-with-edge";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { combine } from "@atlaskit/pragmatic-drag-and-drop/combine";
 import { SimpleCardCreation } from "./SimpleCardCreation.tsx";
 
@@ -30,8 +28,32 @@ const Column = ({ fragmentRef }) => {
   );
 
   useEffect(() => {
-    setCards(() => data.cards);
+    // const cards = data.cards.slice().sort((a, b) => a.position - b.position);
+    setCards(data.cards);
   }, [data.cards]);
+
+  const [commit, isMoving] = useMutation(graphql`
+    mutation ColumnMoveCardMutation(
+      $cardId: ID!
+      $targetColumnId: ID!
+      $targetPosition: Int!
+    ) {
+      moveCard(
+        cardId: $cardId
+        targetColumnId: $targetColumnId
+        targetPosition: $targetPosition
+      ) {
+        id
+        title
+        description
+        position
+      }
+    }
+  `);
+
+  const refreshColumn = useCallback(() => {
+    refetch({ id: data.id }, { fetchPolicy: "network-only" });
+  }, [data.id, refetch]);
 
   useEffect(() => {
     return combine(
@@ -48,6 +70,7 @@ const Column = ({ fragmentRef }) => {
           const indexOfSource = cards.findIndex(
             (card) => card.id === sourceData.id,
           );
+
           const indexOfTarget = cards.findIndex(
             (card) => card.id === targetData.id,
           );
@@ -56,30 +79,43 @@ const Column = ({ fragmentRef }) => {
             return;
           }
 
-          const closestEdgeOfTarget = extractClosestEdge(targetData);
+          let targetPosition = -1;
+          if (indexOfTarget === 0) {
+            targetPosition = 0;
+          } else if (indexOfTarget === cards.length - 1) {
+            targetPosition = -1;
+          } else {
+            targetPosition = targetData.position;
+          }
 
-          const reordered = reorderWithEdge({
-            list: cards,
-            startIndex: indexOfSource,
-            indexOfTarget,
-            closestEdgeOfTarget,
-            axis: "vertical",
+          commit({
+            variables: {
+              cardId: sourceData.id,
+              targetColumnId: data.id,
+              targetPosition: targetPosition,
+            },
+            onCompleted: () => {
+              refreshColumn();
+            },
+            onError: (error) => {
+              // error
+              console.log(error);
+            },
           });
-
-          setCards(reordered);
         },
       }),
     );
-  }, [cards]);
-
-  const refreshColumn = () => {
-    refetch({ id: data.id }, { fetchPolicy: "network-only" });
-  };
+  }, [cards, commit, data.id, refreshColumn]);
 
   return (
-    <div className="flex-1 overflow-auto" ref={ref}>
+    <div
+      className={`flex-1 overflow-auto ${isMoving ? "opacity-50" : ""}`}
+      ref={ref}
+    >
       <div className="bg-gray-100 p-4 rounded-lg flex flex-col max-h-screen">
-        <h2 className="text-lg font-semibold mb-2 px-2 text-slate-600">{data.name}</h2>
+        <h2 className="text-lg font-semibold mb-2 px-2 text-slate-600">
+          {data.name}
+        </h2>
         <div className="flex-1 p-2 mb-2 overflow-auto bg-gray-100">
           <div className="flex flex-col gap-4">
             {cards.map((card, index) => (

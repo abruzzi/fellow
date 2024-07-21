@@ -70,8 +70,8 @@ const Card = ({ fragmentRef, index, onRemoveCard }) => {
     const dragConfig = {
       element: element,
       getInitialData: () => {
-        const { id, position } = data;
-        return { id, position };
+        const { id, position, title } = data;
+        return { id, position, title};
       },
       onDragStart: () => {
         setDragging(true);
@@ -82,13 +82,12 @@ const Card = ({ fragmentRef, index, onRemoveCard }) => {
     const dropConfig = {
       element: element,
       canDrop({ source }) {
-        // not allowing dropping on yourself
         return source.element !== element;
       },
       getData({ input, element }) {
-        const { id, position } = data;
+        const { id, position, title } = data;
         return attachClosestEdge(
-          { id, position },
+          { id, position, title },
           {
             element,
             input,
@@ -130,6 +129,7 @@ const Card = ({ fragmentRef, index, onRemoveCard }) => {
           {hovered && (
             <div className="absolute right-2 top-2 delay-100">
               <Button
+                size="sm"
                 isIconOnly
                 color="danger"
                 variant="light"
@@ -142,9 +142,12 @@ const Card = ({ fragmentRef, index, onRemoveCard }) => {
             </div>
           )}
         </CardHeader>
-        <CardBody>
-          {data.description && <HiOutlineMenuAlt2 title="This card has a description." />}
-        </CardBody>
+        {
+          data.description && <CardBody>
+            {<HiOutlineMenuAlt2 title="This card has a description." />}
+          </CardBody>
+        }
+
       </NextCard>
 
       {closestEdge && <DropIndicator edge={closestEdge} />}

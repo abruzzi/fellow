@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import {
   Modal,
   ModalContent,
@@ -18,33 +18,37 @@ export const CardEditor = ({
   cardTitle,
   cardDescription,
   isOpen,
-  onCardRemoved,
+  onRemoveCard,
   onOpenChange,
 }: {
   cardId: string;
   cardTitle: string;
   cardDescription: string;
   isOpen: boolean;
-  onCardRemoved: () => void;
+  onRemoveCard: () => void;
   onOpenChange: () => void;
 }) => {
   const [title, setTitle] = useState(cardTitle);
   const [description, setDescription] = useState(cardDescription);
 
-  const [commit, isDeleting] = useMutation(graphql`
-    mutation CardDeleteMutation($id: ID!) {
-      deleteCard(cardId: $id) {
+  const [commitUpdate, isUpdating] = useMutation(graphql`
+    mutation CardEditorUpdateMutation(
+      $id: ID!
+      $title: String!
+      $description: String!
+    ) {
+      updateCard(cardId: $id, title: $title, description: $description) {
         id
         position
       }
     }
   `);
 
-  const handleDelete = () => {
-    commit({
-      variables: { id: cardId },
+  const handleUpdate = () => {
+    commitUpdate({
+      variables: { id: cardId, title, description },
       onCompleted: () => {
-        onCardRemoved();
+        onRemoveCard();
       },
       onError: () => {
         // error
@@ -52,8 +56,12 @@ export const CardEditor = ({
     });
   };
 
-  const handleUpdate = () => {
-    // update database through graphql
+  const onTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value);
+  };
+
+  const onDescriptionChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setDescription(e.target.value);
   };
 
   return (
@@ -69,20 +77,27 @@ export const CardEditor = ({
                 label="Title"
                 placeholder="Enter card title"
                 value={title}
+                onChange={onTitleChange}
+                radius="sm"
               />
-
               <Textarea
                 label="Description"
                 endContent={<HiOutlineMenuAlt2 />}
                 placeholder="Enter your description"
                 value={description}
+                onChange={onDescriptionChange}
+                radius="sm"
               />
             </ModalBody>
             <ModalFooter>
               <Button color="default" variant="flat" onPress={onClose}>
                 Cancel
               </Button>
-              <Button color="primary" onPress={handleUpdate}>
+              <Button
+                color="primary"
+                onPress={handleUpdate}
+                disabled={isUpdating}
+              >
                 Update
               </Button>
             </ModalFooter>

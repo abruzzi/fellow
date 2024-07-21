@@ -1,4 +1,4 @@
-import { graphql, useFragment } from "react-relay";
+import { graphql, useFragment, useMutation } from "react-relay";
 import { CardFragment$key as CardFragment } from "./__generated__/CardFragment.graphql.ts";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -12,19 +12,18 @@ import {
   Edge,
   extractClosestEdge,
 } from "@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge";
-import { HiOutlinePencil } from "react-icons/hi";
+import { HiOutlineTrash } from "react-icons/hi";
 
 import React from "react";
 import {
   Card as NextCard,
   CardHeader,
-  CardBody,
   Button,
   useDisclosure,
 } from "@nextui-org/react";
 import { CardEditor } from "./CardEditor.tsx";
 
-const Card = ({ fragmentRef, index, onCardRemoved }) => {
+const Card = ({ fragmentRef, index, onRemoveCard }) => {
   const ref = useRef(null);
   const [isDragging, setDragging] = useState<boolean>(false);
   const [closestEdge, setClosestEdge] = useState<Edge>(null);
@@ -41,6 +40,27 @@ const Card = ({ fragmentRef, index, onCardRemoved }) => {
     `,
     fragmentRef,
   );
+
+  const [commitDelete, isDeleting] = useMutation(graphql`
+    mutation CardDeleteMutation($id: ID!) {
+      deleteCard(cardId: $id) {
+        id
+        position
+      }
+    }
+  `);
+
+  const handleDelete = () => {
+    commitDelete({
+      variables: { id: data.id },
+      onCompleted: () => {
+        onRemoveCard();
+      },
+      onError: () => {
+        // error
+      },
+    });
+  };
 
   useEffect(() => {
     const element = ref.current;
@@ -95,7 +115,7 @@ const Card = ({ fragmentRef, index, onCardRemoved }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
-    <div className="relative">
+    <div className="relative" onClick={onOpen}>
       <NextCard
         shadow="none"
         className={`py-4 ${isDragging ? "opacity-50" : ""}`}
@@ -109,22 +129,17 @@ const Card = ({ fragmentRef, index, onCardRemoved }) => {
             <div className="absolute right-2 top-2 delay-100">
               <Button
                 isIconOnly
-                color="default"
-                variant="flat"
-                aria-label="Edit"
-                onClick={onOpen}
+                color="danger"
+                variant="light"
+                aria-label="Delete"
+                onPress={handleDelete}
+                disabled={isDeleting}
               >
-                <HiOutlinePencil />
+                <HiOutlineTrash />
               </Button>
             </div>
           )}
         </CardHeader>
-
-        {data.description && (
-          <CardBody className="overflow-visible py-2 ">
-            <p className="text-slate-700">{data.description}</p>
-          </CardBody>
-        )}
       </NextCard>
 
       {closestEdge && <DropIndicator edge={closestEdge} />}
@@ -135,7 +150,7 @@ const Card = ({ fragmentRef, index, onCardRemoved }) => {
         cardDescription={data.description}
         isOpen={isOpen}
         onOpenChange={onOpenChange}
-        onCardRemoved={onCardRemoved}
+        onRemoveCard={onRemoveCard}
       />
     </div>
   );

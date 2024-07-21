@@ -13,6 +13,7 @@ import {
   extractClosestEdge,
 } from "@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge";
 import { HiOutlineTrash } from "react-icons/hi";
+import { HiOutlineMenuAlt2 } from "react-icons/hi";
 
 import React from "react";
 import {
@@ -20,6 +21,7 @@ import {
   CardHeader,
   Button,
   useDisclosure,
+  CardBody,
 } from "@nextui-org/react";
 import { CardEditor } from "./CardEditor.tsx";
 
@@ -118,7 +120,7 @@ const Card = ({ fragmentRef, index, onRemoveCard }) => {
     <div className="relative" onClick={onOpen}>
       <NextCard
         shadow="none"
-        className={`py-4 ${isDragging ? "opacity-50" : ""}`}
+        className={`py-2 ${isDragging ? "opacity-50" : ""}`}
         ref={ref}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
@@ -140,6 +142,9 @@ const Card = ({ fragmentRef, index, onRemoveCard }) => {
             </div>
           )}
         </CardHeader>
+        <CardBody>
+          {data.description && <HiOutlineMenuAlt2 title="This card has a description." />}
+        </CardBody>
       </NextCard>
 
       {closestEdge && <DropIndicator edge={closestEdge} />}

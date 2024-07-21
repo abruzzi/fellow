@@ -12,6 +12,8 @@ import {
 import { graphql, useMutation } from "react-relay";
 import { HiOutlineMenu } from "react-icons/hi";
 import { HiOutlineMenuAlt2 } from "react-icons/hi";
+import { HiOutlineTicket } from "react-icons/hi";
+
 
 export const CardEditor = ({
   cardId,
@@ -30,6 +32,7 @@ export const CardEditor = ({
 }) => {
   const [title, setTitle] = useState(cardTitle);
   const [description, setDescription] = useState(cardDescription);
+  const [error, setError] = useState();
 
   const [commitUpdate, isUpdating] = useMutation(graphql`
     mutation CardEditorUpdateMutation(
@@ -44,14 +47,16 @@ export const CardEditor = ({
     }
   `);
 
-  const handleUpdate = () => {
+  const handleUpdate = (afterUpdate: () => void) => {
     commitUpdate({
       variables: { id: cardId, title, description },
       onCompleted: () => {
         onRemoveCard();
+        afterUpdate();
       },
-      onError: () => {
+      onError: (error) => {
         // error
+        setError(error.message);
       },
     });
   };
@@ -69,7 +74,14 @@ export const CardEditor = ({
       <ModalContent>
         {(onClose) => (
           <>
-            <ModalHeader className="flex flex-col gap-1">Edit card</ModalHeader>
+            <ModalHeader className="flex flex-col gap-1">
+              <div className={`flex flex-row items-center gap-2`}>
+                <HiOutlineTicket />
+                <h4 className="text-slate-600">Edit card</h4>
+              </div>
+
+            </ModalHeader>
+            {error && <p className="text-red-500">{error}</p>}
             <ModalBody>
               <Input
                 autoFocus
@@ -95,7 +107,7 @@ export const CardEditor = ({
               </Button>
               <Button
                 color="primary"
-                onPress={handleUpdate}
+                onPress={() => handleUpdate(onClose)}
                 disabled={isUpdating}
               >
                 Update

@@ -79,7 +79,7 @@ const Column = ({ fragmentRef }) => {
   return (
     <div className="flex-1 overflow-auto" ref={ref}>
       <div className="bg-gray-100 p-4 rounded-lg flex flex-col max-h-screen">
-        <h2 className="text-lg font-semibold mb-2 px-2">{data.name}</h2>
+        <h2 className="text-lg font-semibold mb-2 px-2 text-slate-600">{data.name}</h2>
         <div className="flex-1 p-2 mb-2 overflow-auto bg-gray-100">
           <div className="flex flex-col gap-4">
             {cards.map((card, index) => (

@@ -13,13 +13,13 @@ const SimpleCardCreation = ({
   const [title, setTitle] = useState<string>("");
   const [isEditing, setEditing] = useState<boolean>(false);
 
-  const [commit, isCreating] = useMutation(graphql`
-      mutation SimpleCardCreationMutation($columnId: ID!, $title: String!) {
-          createSimpleCard(columnId: $columnId, title: $title) {
-              id
-              title
-          }
+  const [createSimpleCard, isCreating] = useMutation(graphql`
+    mutation SimpleCardCreationMutation($columnId: ID!, $title: String!) {
+      createSimpleCard(columnId: $columnId, title: $title) {
+        id
+        title
       }
+    }
   `);
 
   const toggleEditing = () => {
@@ -30,7 +30,7 @@ const SimpleCardCreation = ({
     setTitle("");
     toggleEditing();
 
-    commit({
+    createSimpleCard({
       variables: {
         columnId: columnId,
         title: title,

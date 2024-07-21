@@ -32,7 +32,7 @@ const Column = ({ fragmentRef, refreshBoard }) => {
     setCards(data.cards);
   }, [data.cards]);
 
-  const [commit, isMoving] = useMutation(graphql`
+  const [moveCard, isMoving] = useMutation(graphql`
     mutation ColumnMoveCardMutation(
       $cardId: ID!
       $targetColumnId: ID!
@@ -67,8 +67,6 @@ const Column = ({ fragmentRef, refreshBoard }) => {
           const sourceData = source.data;
           const targetData = target.data;
 
-          console.log(sourceData, targetData);
-
           const indexOfTarget = cards.findIndex(
             (card) => card.id === targetData.id,
           );
@@ -86,7 +84,7 @@ const Column = ({ fragmentRef, refreshBoard }) => {
             targetPosition = targetData.position;
           }
 
-          commit({
+          moveCard({
             variables: {
               cardId: sourceData.id,
               targetColumnId: data.id,
@@ -107,7 +105,7 @@ const Column = ({ fragmentRef, refreshBoard }) => {
         },
       }),
     );
-  }, [cards, commit, data.id, refreshColumn]);
+  }, [cards, moveCard, data.id, refreshBoard, refreshColumn]);
 
   return (
     <li

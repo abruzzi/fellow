@@ -33,7 +33,7 @@ export const Board = ({ queryRef, refresh: refreshBoard }) => {
     <div>
       <Header title={data.board.name} />
       <ol className={`flex flex-row gap-4`}>
-        {data.board.columns.slice().map((column) => (
+        {data.board.columns.map((column) => (
           <Column
             key={column.id}
             fragmentRef={column}

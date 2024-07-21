@@ -46,7 +46,7 @@ const Card = ({ fragmentRef, index, onRemoveCard }) => {
     fragmentRef,
   );
 
-  const [commitDelete, isDeleting] = useMutation(graphql`
+  const [deleteCard, isDeleting] = useMutation(graphql`
     mutation CardDeleteMutation($id: ID!) {
       deleteCard(cardId: $id) {
         id
@@ -56,7 +56,7 @@ const Card = ({ fragmentRef, index, onRemoveCard }) => {
   `);
 
   const handleDelete = () => {
-    commitDelete({
+    deleteCard({
       variables: { id: data.id },
       onCompleted: () => {
         onRemoveCard();

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<972782cf53daca46f8c8124b70e78cbf>>
+ * @generated SignedSource<<df657ca7949c66f951abbb2b728c8be9>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -135,6 +135,18 @@ return {
                     "kind": "ScalarField",
                     "name": "description",
                     "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "concreteType": "Column",
+                    "kind": "LinkedField",
+                    "name": "column",
+                    "plural": false,
+                    "selections": [
+                      (v2/*: any*/)
+                    ],
+                    "storageKey": null
                   }
                 ],
                 "storageKey": null
@@ -149,12 +161,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "163fbf4c6b326a7e91fa3253534b1327",
+    "cacheID": "f098980e7a5ff1b745d8fc94e64dc386",
     "id": null,
     "metadata": {},
     "name": "ColumnRefetchQuery",
     "operationKind": "query",
-    "text": "query ColumnRefetchQuery(\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...ColumnFragment\n    id\n  }\n}\n\nfragment CardFragment on Card {\n  id\n  title\n  description\n  position\n}\n\nfragment ColumnFragment on Column {\n  id\n  name\n  position\n  cards {\n    id\n    position\n    ...CardFragment\n  }\n}\n"
+    "text": "query ColumnRefetchQuery(\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...ColumnFragment\n    id\n  }\n}\n\nfragment CardFragment on Card {\n  id\n  title\n  description\n  position\n  column {\n    id\n  }\n}\n\nfragment ColumnFragment on Column {\n  id\n  name\n  position\n  cards {\n    id\n    position\n    ...CardFragment\n  }\n}\n"
   }
 };
 })();

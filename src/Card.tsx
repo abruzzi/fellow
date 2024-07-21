@@ -38,6 +38,9 @@ const Card = ({ fragmentRef, index, onRemoveCard }) => {
         title
         description
         position
+        column {
+          id
+        }
       }
     `,
     fragmentRef,
@@ -70,8 +73,8 @@ const Card = ({ fragmentRef, index, onRemoveCard }) => {
     const dragConfig = {
       element: element,
       getInitialData: () => {
-        const { id, position, title } = data;
-        return { id, position, title};
+        const { id, position, column } = data;
+        return { id, position, columnId: column.id };
       },
       onDragStart: () => {
         setDragging(true);
@@ -85,9 +88,9 @@ const Card = ({ fragmentRef, index, onRemoveCard }) => {
         return source.element !== element;
       },
       getData({ input, element }) {
-        const { id, position, title } = data;
+        const { id, position, column } = data;
         return attachClosestEdge(
-          { id, position, title },
+          { id, position, columnId: column.id },
           {
             element,
             input,
@@ -116,7 +119,7 @@ const Card = ({ fragmentRef, index, onRemoveCard }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
-    <div className="relative" onClick={onOpen}>
+    <li className="relative" onClick={onOpen}>
       <NextCard
         shadow="none"
         className={`py-2 ${isDragging ? "opacity-50" : ""}`}
@@ -142,12 +145,11 @@ const Card = ({ fragmentRef, index, onRemoveCard }) => {
             </div>
           )}
         </CardHeader>
-        {
-          data.description && <CardBody>
+        {data.description && (
+          <CardBody>
             {<HiOutlineMenuAlt2 title="This card has a description." />}
           </CardBody>
-        }
-
+        )}
       </NextCard>
 
       {closestEdge && <DropIndicator edge={closestEdge} />}
@@ -160,7 +162,7 @@ const Card = ({ fragmentRef, index, onRemoveCard }) => {
         onOpenChange={onOpenChange}
         onRemoveCard={onRemoveCard}
       />
-    </div>
+    </li>
   );
 };
 

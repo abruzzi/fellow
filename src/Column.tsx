@@ -6,7 +6,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { combine } from "@atlaskit/pragmatic-drag-and-drop/combine";
 import { SimpleCardCreation } from "./SimpleCardCreation.tsx";
 
-const Column = ({ fragmentRef }) => {
+const Column = ({ fragmentRef, refreshBoard }) => {
   const ref = useRef(null);
   const [cards, setCards] = useState([]);
 
@@ -67,15 +67,13 @@ const Column = ({ fragmentRef }) => {
           const sourceData = source.data;
           const targetData = target.data;
 
-          const indexOfSource = cards.findIndex(
-            (card) => card.id === sourceData.id,
-          );
+          console.log(sourceData, targetData);
 
           const indexOfTarget = cards.findIndex(
             (card) => card.id === targetData.id,
           );
 
-          if (indexOfTarget < 0 || indexOfSource < 0) {
+          if (indexOfTarget < 0) {
             return;
           }
 
@@ -95,7 +93,11 @@ const Column = ({ fragmentRef }) => {
               targetPosition: targetPosition,
             },
             onCompleted: () => {
-              refreshColumn();
+              if(sourceData.columnId === targetData.columnId) {
+                refreshColumn();
+              } else {
+                refreshBoard();
+              }
             },
             onError: (error) => {
               // error
@@ -108,7 +110,7 @@ const Column = ({ fragmentRef }) => {
   }, [cards, commit, data.id, refreshColumn]);
 
   return (
-    <div
+    <li
       className={`flex-1 overflow-auto ${isMoving ? "opacity-50" : ""}`}
       ref={ref}
     >
@@ -117,7 +119,7 @@ const Column = ({ fragmentRef }) => {
           {data.name}
         </h2>
         <div className="flex-1 p-2 mb-2 overflow-auto bg-gray-100">
-          <div className="flex flex-col gap-4">
+          <ol className="flex flex-col gap-4">
             {cards.map((card, index) => (
               <Card
                 key={card.id}
@@ -127,12 +129,12 @@ const Column = ({ fragmentRef }) => {
                 onRemoveCard={refreshColumn}
               />
             ))}
-          </div>
+          </ol>
         </div>
 
         <SimpleCardCreation columnId={data.id} onCardCreated={refreshColumn} />
       </div>
-    </div>
+    </li>
   );
 };
 

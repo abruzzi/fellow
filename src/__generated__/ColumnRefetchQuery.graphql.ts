@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<df657ca7949c66f951abbb2b728c8be9>>
+ * @generated SignedSource<<59fa52deeb42da9eaa438d5c067db162>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -139,6 +139,13 @@ return {
                   {
                     "alias": null,
                     "args": null,
+                    "kind": "ScalarField",
+                    "name": "imageUrl",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
                     "concreteType": "Column",
                     "kind": "LinkedField",
                     "name": "column",
@@ -161,12 +168,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "f098980e7a5ff1b745d8fc94e64dc386",
+    "cacheID": "291d98e626a3b2d54a43f71998ef9f92",
     "id": null,
     "metadata": {},
     "name": "ColumnRefetchQuery",
     "operationKind": "query",
-    "text": "query ColumnRefetchQuery(\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...ColumnFragment\n    id\n  }\n}\n\nfragment CardFragment on Card {\n  id\n  title\n  description\n  position\n  column {\n    id\n  }\n}\n\nfragment ColumnFragment on Column {\n  id\n  name\n  position\n  cards {\n    id\n    position\n    ...CardFragment\n  }\n}\n"
+    "text": "query ColumnRefetchQuery(\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...ColumnFragment\n    id\n  }\n}\n\nfragment CardFragment on Card {\n  id\n  title\n  description\n  position\n  imageUrl\n  column {\n    id\n  }\n}\n\nfragment ColumnFragment on Column {\n  id\n  name\n  position\n  cards {\n    id\n    position\n    ...CardFragment\n  }\n}\n"
   }
 };
 })();

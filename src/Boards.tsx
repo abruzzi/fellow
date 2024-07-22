@@ -2,6 +2,8 @@ import { graphql, useLazyLoadQuery } from "react-relay";
 import { Link } from "react-router-dom";
 import { Header } from "./components/Header.tsx";
 
+import React from "react";
+
 const Boards = () => {
   const data = useLazyLoadQuery(
     graphql`

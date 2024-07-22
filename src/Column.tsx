@@ -5,6 +5,7 @@ import { monitorForElements } from "@atlaskit/pragmatic-drag-and-drop/element/ad
 import { useCallback, useEffect, useRef, useState } from "react";
 import { combine } from "@atlaskit/pragmatic-drag-and-drop/combine";
 import { SimpleCardCreation } from "./SimpleCardCreation.tsx";
+import { CardHolder } from "./CardHolder.tsx";
 
 const Column = ({ fragmentRef, refreshBoard }) => {
   const ref = useRef(null);
@@ -28,7 +29,6 @@ const Column = ({ fragmentRef, refreshBoard }) => {
   );
 
   useEffect(() => {
-    // const cards = data.cards.slice().sort((a, b) => a.position - b.position);
     setCards(data.cards);
   }, [data.cards]);
 
@@ -91,7 +91,7 @@ const Column = ({ fragmentRef, refreshBoard }) => {
               targetPosition: targetPosition,
             },
             onCompleted: () => {
-              if(sourceData.columnId === targetData.columnId) {
+              if (sourceData.columnId === targetData.columnId) {
                 refreshColumn();
               } else {
                 refreshBoard();
@@ -117,17 +117,19 @@ const Column = ({ fragmentRef, refreshBoard }) => {
           {data.name}
         </h2>
         <div className="flex-1 p-2 mb-2 overflow-auto bg-gray-100">
-          <ol className="flex flex-col gap-4">
-            {cards.map((card, index) => (
-              <Card
-                key={card.id}
-                fragmentRef={card}
-                position={card.position}
-                index={index}
-                onRemoveCard={refreshColumn}
-              />
-            ))}
-          </ol>
+          {cards.length > 0 && (
+            <ol className="flex flex-col gap-4">
+              {cards.map((card) => (
+                <Card
+                  key={card.id}
+                  fragmentRef={card}
+                  position={card.position}
+                  onRemoveCard={refreshColumn}
+                />
+              ))}
+            </ol>
+          )}
+          {cards.length === 0 && <CardHolder columnId={data.id} />}
         </div>
 
         <SimpleCardCreation columnId={data.id} onCardCreated={refreshColumn} />

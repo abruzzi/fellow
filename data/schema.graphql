@@ -7,6 +7,7 @@ type Card {
   title: String!
   description: String!
   position: Int!
+  imageUrl: String
   column: Column!
 }
 
@@ -37,6 +38,6 @@ type Mutation {
 
   createSimpleCard(columnId: ID!, title: String!): Card!
   deleteCard(cardId: ID!): Card!
-  updateCard(cardId: ID!, title: String!, description: String!): Card!
+  updateCard(cardId: ID!, title: String!, description: String!, imageUrl: String): Card!
   moveCard(cardId: ID!, targetColumnId: ID!, targetPosition: Int!): Card!
 }

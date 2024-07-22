@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<9135b150904c4a868f2d15f3bd04c48f>>
+ * @generated SignedSource<<cd9036d3d0e5bb2535fdd3619fad2b4a>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -158,6 +158,13 @@ return {
                   {
                     "alias": null,
                     "args": null,
+                    "kind": "ScalarField",
+                    "name": "imageUrl",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
                     "concreteType": "Column",
                     "kind": "LinkedField",
                     "name": "column",
@@ -180,12 +187,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "a5222ebb5aaa4e137b3747445ef38f23",
+    "cacheID": "e3db1fe39159e6825e48556808f1dbdb",
     "id": null,
     "metadata": {},
     "name": "BoardQuery",
     "operationKind": "query",
-    "text": "query BoardQuery(\n  $boardId: ID!\n) {\n  board(id: $boardId) {\n    name\n    columns {\n      id\n      position\n      ...ColumnFragment\n    }\n    id\n  }\n}\n\nfragment CardFragment on Card {\n  id\n  title\n  description\n  position\n  column {\n    id\n  }\n}\n\nfragment ColumnFragment on Column {\n  id\n  name\n  position\n  cards {\n    id\n    position\n    ...CardFragment\n  }\n}\n"
+    "text": "query BoardQuery(\n  $boardId: ID!\n) {\n  board(id: $boardId) {\n    name\n    columns {\n      id\n      position\n      ...ColumnFragment\n    }\n    id\n  }\n}\n\nfragment CardFragment on Card {\n  id\n  title\n  description\n  position\n  imageUrl\n  column {\n    id\n  }\n}\n\nfragment ColumnFragment on Column {\n  id\n  name\n  position\n  cards {\n    id\n    position\n    ...CardFragment\n  }\n}\n"
   }
 };
 })();

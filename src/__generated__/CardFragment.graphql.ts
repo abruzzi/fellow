@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<4f386a0f0442ecd1d8a4f4aa10515cc8>>
+ * @generated SignedSource<<d82314432d4c49915a47b3c9c625f7f6>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -16,6 +16,7 @@ export type CardFragment$data = {
   };
   readonly description: string;
   readonly id: string;
+  readonly imageUrl: string | null | undefined;
   readonly position: number;
   readonly title: string;
   readonly " $fragmentType": "CardFragment";
@@ -64,6 +65,13 @@ return {
     {
       "alias": null,
       "args": null,
+      "kind": "ScalarField",
+      "name": "imageUrl",
+      "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
       "concreteType": "Column",
       "kind": "LinkedField",
       "name": "column",
@@ -79,6 +87,6 @@ return {
 };
 })();
 
-(node as any).hash = "4e403e896c1faf57237a2e45b99e017c";
+(node as any).hash = "d04115288dfc06f9661daaefc3381400";
 
 export default node;

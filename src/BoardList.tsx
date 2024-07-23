@@ -1,0 +1,35 @@
+import { usePreloadedQuery } from "react-relay";
+import { Header } from "./components/Header.tsx";
+import { CreateNewBoard } from "./CreateNewBoard.tsx";
+import React from "react";
+import { Link } from "react-router-dom";
+import { Card } from "@nextui-org/react";
+import { BoardsQuery } from "./BoardsQuery.tsx";
+
+export const BoardList = ({ queryRef, refreshBoards }) => {
+  const data = usePreloadedQuery(BoardsQuery, queryRef);
+
+  return (
+    <div className={`container flex flex-col max-w-4xl m-auto my-8`}>
+      <Header title="My Boards" />
+      <ol className="flex flex-wrap justify-start gap-4">
+        <CreateNewBoard refreshBoards={refreshBoards} />
+        {data.boards.map((board) => (
+          <BoardCard key={board.id} board={board} />
+        ))}
+      </ol>
+    </div>
+  );
+};
+
+const BoardCard = ({ board }) => {
+  return (
+    <li key={board.id} className="bg-slate-50 rounded-sm">
+      <Link to={`/boards/${board.id}`}>
+        <Card radius="sm" className="border-none h-20 w-60 p-4 bg-slate-100">
+          <p className="font-bold">{board.name}</p>
+        </Card>
+      </Link>
+    </li>
+  );
+};

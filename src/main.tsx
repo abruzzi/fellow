@@ -4,7 +4,7 @@ import "./index.css";
 import { RelayEnvironmentProvider } from "react-relay";
 import environment from "./relay/environment.ts";
 
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import { Root } from "./routes/Root.tsx";
 import { ErrorPage } from "./ErrorPage.tsx";
 import { BoardPage } from "./routes/BoardPage.tsx";
@@ -16,14 +16,16 @@ const router = createBrowserRouter([
     path: "/",
     element: <Root />,
     errorElement: <ErrorPage />,
-  },
-  {
-    path: "/boards",
-    element: <Boards />,
-  },
-  {
-    path: "/boards/:boardId",
-    element: <BoardPage />,
+    children: [
+      {
+        path: "boards",
+        element: <Boards />,
+      },
+      {
+        path: "boards/:boardId",
+        element: <BoardPage />,
+      },
+    ],
   },
 ]);
 

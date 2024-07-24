@@ -1,11 +1,8 @@
 import { graphql, useQueryLoader } from "react-relay";
 import React, { Suspense, useCallback, useEffect } from "react";
-import Split from "react-split";
 
 import { Board } from "./Board.tsx";
 import { Sidebar } from "./Sidebar.tsx";
-
-import './split.css';
 
 export const App = ({ id }: { id: string }) => {
   const [queryRef, loadQuery] = useQueryLoader(graphql`
@@ -22,15 +19,22 @@ export const App = ({ id }: { id: string }) => {
     }
   `);
 
-  const refreshBoard = useCallback(() => {
-    loadQuery({ boardId: id }, { fetchPolicy: "store-and-network" });
-  }, [id, loadQuery]);
+  const refreshBoard = useCallback(
+    (id: string) => {
+      loadQuery({ boardId: id }, { fetchPolicy: "store-and-network" });
+    },
+    [loadQuery],
+  );
 
   useEffect(() => {
     if (!queryRef) {
-      refreshBoard();
+      refreshBoard(id);
     }
-  }, [queryRef, refreshBoard]);
+  }, [queryRef, refreshBoard, id]);
+
+  useEffect(() => {
+    refreshBoard(id);
+  }, [id, refreshBoard]);
 
   if (!queryRef) {
     return (

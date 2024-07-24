@@ -1,5 +1,4 @@
 import { usePreloadedQuery } from "react-relay";
-import { Header } from "./components/Header.tsx";
 import { CreateNewBoard } from "./CreateNewBoard.tsx";
 import React from "react";
 import { Link } from "react-router-dom";
@@ -11,7 +10,9 @@ export const BoardList = ({ queryRef, refreshBoards }) => {
 
   return (
     <div className={`container flex flex-col max-w-4xl m-auto my-8`}>
-      <Header title="My Boards" />
+      <h1 className={`text-xl text-slate-800 font-bold font-mono py-2`}>
+        My Boards
+      </h1>
       <ol className="flex flex-wrap justify-start gap-4">
         <CreateNewBoard refreshBoards={refreshBoards} />
         {data.boards.map((board) => (

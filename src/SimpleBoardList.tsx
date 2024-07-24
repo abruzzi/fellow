@@ -10,8 +10,8 @@ export const SimpleBoardList = ({ queryRef }) => {
   const data = usePreloadedQuery(BoardsQuery, queryRef);
 
   return (
-    <div className={`px-4 bg-slate-100 border-r-1`}>
-      <div className="flex flex-row items-center mt-12">
+    <div className={`bg-slate-100 border-r-1 border-gray-300 bg-opacity-50 backdrop-blur-lg`}>
+      <div className="flex flex-row items-center mt-12 px-4">
         <h2 className="text-medium text-slate-800 font-bold font-mono py-2">
           My Boards
         </h2>
@@ -19,13 +19,13 @@ export const SimpleBoardList = ({ queryRef }) => {
           <HiOutlinePlus />
         </span>
       </div>
-      <ol className="flex flex-wrap justify-start gap-2 flex-col w-64">
+      <ol className="flex flex-wrap justify-start flex-col w-64">
         {data.boards.map((board) => (
           <li key={board.id}>
             <Link to={`/boards/${board.id}`}>
-              <div className="flex flex-row items-center gap-1 hover:bg-slate-100">
+              <div className="flex flex-row items-center gap-1 hover:bg-slate-100 px-4 py-1">
                 <span className="text-slate-700">
-                  <HiViewBoards color="gray" />
+                  <HiViewBoards />
                 </span>
                 <p>{board.name}</p>
                 <span className="ml-auto">

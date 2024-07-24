@@ -42,10 +42,10 @@ function Navigation() {
               isBordered
               as="button"
               className="transition-transform"
-              color="secondary"
-              name="Jason Hughes"
+              color="default"
+              name="Juntao Qiu"
               size="sm"
-              src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+              src="https://www.icodeit.com.au/_next/image?url=%2Fjuntao.qiu.avatar.png&w=256&q=75"
             />
           </DropdownTrigger>
           <DropdownMenu aria-label="Profile Actions" variant="flat">

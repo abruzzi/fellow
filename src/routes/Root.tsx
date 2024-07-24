@@ -66,7 +66,7 @@ function Navigation() {
 
 const Root = () => {
   return (
-    <div>
+    <div className="h-screen flex flex-col max-h-screen">
       <Navigation />
       <Outlet />
     </div>

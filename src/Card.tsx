@@ -1,19 +1,19 @@
-import {graphql, useFragment, useMutation} from "react-relay";
-import {CardFragment$key as CardFragment} from "./__generated__/CardFragment.graphql.ts";
-import {useEffect, useRef, useState} from "react";
+import { graphql, useFragment, useMutation } from "react-relay";
+import { CardFragment$key as CardFragment } from "./__generated__/CardFragment.graphql.ts";
+import { useEffect, useRef, useState } from "react";
 import {
   draggable,
   dropTargetForElements,
 } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
 import DropIndicator from "@atlaskit/pragmatic-drag-and-drop-react-drop-indicator/box";
-import {combine} from "@atlaskit/pragmatic-drag-and-drop/combine";
+import { combine } from "@atlaskit/pragmatic-drag-and-drop/combine";
 import {
   attachClosestEdge,
   Edge,
   extractClosestEdge,
 } from "@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge";
-import {HiOutlineTrash} from "react-icons/hi";
-import {HiOutlineMenuAlt2} from "react-icons/hi";
+import { HiOutlineTrash } from "react-icons/hi";
+import { HiOutlineMenuAlt2 } from "react-icons/hi";
 
 import React from "react";
 import {
@@ -24,9 +24,9 @@ import {
   CardBody,
   Image,
 } from "@nextui-org/react";
-import {CardEditor} from "./CardEditor.tsx";
+import { CardEditor } from "./CardEditor.tsx";
 
-const Card = ({fragmentRef, onRemoveCard}) => {
+const Card = ({ fragmentRef, onRemoveCard }) => {
   const ref = useRef(null);
   const [isDragging, setDragging] = useState<boolean>(false);
   const [closestEdge, setClosestEdge] = useState<Edge>(null);
@@ -34,32 +34,32 @@ const Card = ({fragmentRef, onRemoveCard}) => {
 
   const data = useFragment<CardFragment>(
     graphql`
-        fragment CardFragment on Card {
-            id
-            title
-            description
-            position
-            imageUrl
-            column {
-                id
-            }
+      fragment CardFragment on Card {
+        id
+        title
+        description
+        position
+        imageUrl
+        column {
+          id
         }
+      }
     `,
     fragmentRef,
   );
 
   const [deleteCard, isDeleting] = useMutation(graphql`
-      mutation CardDeleteMutation($id: ID!) {
-          deleteCard(cardId: $id) {
-              id
-              position
-          }
+    mutation CardDeleteMutation($id: ID!) {
+      deleteCard(cardId: $id) {
+        id
+        position
       }
+    }
   `);
 
   const handleDelete = () => {
     deleteCard({
-      variables: {id: data.id},
+      variables: { id: data.id },
       onCompleted: () => {
         onRemoveCard();
       },
@@ -75,8 +75,8 @@ const Card = ({fragmentRef, onRemoveCard}) => {
     const dragConfig = {
       element: element,
       getInitialData: () => {
-        const {id, position, column} = data;
-        return {id, position, columnId: column.id};
+        const { id, position, column } = data;
+        return { id, position, columnId: column.id };
       },
       onDragStart: () => {
         setDragging(true);
@@ -86,13 +86,13 @@ const Card = ({fragmentRef, onRemoveCard}) => {
 
     const dropConfig = {
       element: element,
-      canDrop({source}) {
+      canDrop({ source }) {
         return source.element !== element;
       },
-      getData({input, element}) {
-        const {id, position, column} = data;
+      getData({ input, element }) {
+        const { id, position, column } = data;
         return attachClosestEdge(
-          {id, position, columnId: column.id},
+          { id, position, columnId: column.id },
           {
             element,
             input,
@@ -100,7 +100,7 @@ const Card = ({fragmentRef, onRemoveCard}) => {
           },
         );
       },
-      onDrag: ({self}) => {
+      onDrag: ({ self }) => {
         const closestEdge = extractClosestEdge(self.data);
         setClosestEdge(closestEdge);
       },
@@ -118,7 +118,7 @@ const Card = ({fragmentRef, onRemoveCard}) => {
     return combine(draggable(dragConfig), dropTargetForElements(dropConfig));
   }, [data]);
 
-  const {isOpen, onOpen, onOpenChange} = useDisclosure();
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
     <li className="relative" onClick={onOpen}>
@@ -142,22 +142,22 @@ const Card = ({fragmentRef, onRemoveCard}) => {
                 onPress={handleDelete}
                 disabled={isDeleting}
               >
-                <HiOutlineTrash/>
+                <HiOutlineTrash />
               </Button>
             </div>
           )}
         </CardHeader>
         <CardBody>
-          {data.imageUrl && <Image radius="sm" src={data.imageUrl}/>}
+          {data.imageUrl && <Image radius="sm" src={data.imageUrl} />}
           {data.description && (
             <div className={`pt-2`}>
-              <HiOutlineMenuAlt2 title="This card has a description."/>
+              <HiOutlineMenuAlt2 title="This card has a description." />
             </div>
           )}
         </CardBody>
       </NextCard>
 
-      {closestEdge && <DropIndicator edge={closestEdge}/>}
+      {closestEdge && <DropIndicator edge={closestEdge} gap="1rem" />}
 
       <CardEditor
         cardId={data.id}
@@ -172,4 +172,4 @@ const Card = ({fragmentRef, onRemoveCard}) => {
   );
 };
 
-export {Card};
+export { Card };

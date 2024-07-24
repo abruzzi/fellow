@@ -1,5 +1,11 @@
 import { graphql, useQueryLoader } from "react-relay";
-import { Suspense, useCallback, useEffect } from "react";
+import React, { Suspense, useCallback, useEffect } from "react";
+import Split from "react-split";
+
+import { Board } from "./Board.tsx";
+import { Sidebar } from "./Sidebar.tsx";
+
+import './split.css';
 
 export const App = ({ id }: { id: string }) => {
   const [queryRef, loadQuery] = useQueryLoader(graphql`
@@ -35,12 +41,13 @@ export const App = ({ id }: { id: string }) => {
   }
 
   return (
-    <div className={`container flex flex-col max-w-4xl m-auto my-8`}>
-      <Suspense fallback={<div>Loading...</div>}>
-        <Board queryRef={queryRef} refresh={refreshBoard} />
-      </Suspense>
+    <div className="h-full flex">
+      <Sidebar />
+      <div className={`flex-grow`}>
+        <Suspense fallback={<div>Loading...</div>}>
+          <Board queryRef={queryRef} refresh={refreshBoard} />
+        </Suspense>
+      </div>
     </div>
   );
 };
-
-import { Board } from "./Board.tsx";

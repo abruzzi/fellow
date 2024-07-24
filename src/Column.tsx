@@ -109,7 +109,7 @@ const Column = ({ fragmentRef, refreshBoard }) => {
 
   return (
     <li
-      className={`flex-1 overflow-auto ${isMoving ? "opacity-50" : ""}`}
+      className={`overflow-auto ${isMoving ? "opacity-50" : ""} w-72 shrink-0`}
       ref={ref}
     >
       <div className="bg-gray-100 p-4 rounded-lg flex flex-col max-h-screen">
@@ -118,7 +118,7 @@ const Column = ({ fragmentRef, refreshBoard }) => {
         </h2>
         <div className="flex-1 p-2 mb-2 overflow-auto bg-gray-100">
           {cards.length > 0 && (
-            <ol className="flex flex-col gap-4">
+            <ol className="flex flex-col gap-4 shrink-0">
               {cards.map((card) => (
                 <Card
                   key={card.id}

@@ -15,8 +15,6 @@ const Boards = () => {
     loadQuery({}, { fetchPolicy: "network-only" });
   };
 
-  console.log(queryRef);
-
   return (
     <Suspense fallback={<div>Loading...</div>}>
       {queryRef ? (

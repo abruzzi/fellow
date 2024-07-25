@@ -1,4 +1,8 @@
-import { graphql, useMutation, useRefetchableFragment } from "react-relay";
+import React, {
+  graphql,
+  useMutation,
+  useRefetchableFragment,
+} from "react-relay";
 import { Card } from "./Card.tsx";
 
 import { monitorForElements } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
@@ -6,12 +10,28 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { combine } from "@atlaskit/pragmatic-drag-and-drop/combine";
 import { SimpleCardCreation } from "./SimpleCardCreation.tsx";
 import { CardHolder } from "./CardHolder.tsx";
+import { ColumnRefetchQuery } from "./__generated__/ColumnRefetchQuery.graphql.ts";
+import {
+  ColumnFragment$data,
+  ColumnFragment$key,
+} from "./__generated__/ColumnFragment.graphql.ts";
 
-const Column = ({ fragmentRef, refreshBoard }) => {
+type CardType = ColumnFragment$data["cards"][number];
+
+const Column = ({
+  fragmentRef,
+  refreshBoard,
+}: {
+  fragmentRef: ColumnFragment$key;
+  refreshBoard: () => void;
+}) => {
   const ref = useRef(null);
-  const [cards, setCards] = useState([]);
+  const [cards, setCards] = useState<CardType[]>([]);
 
-  const [data, refetch] = useRefetchableFragment(
+  const [data, refetch] = useRefetchableFragment<
+    ColumnRefetchQuery,
+    ColumnFragment$key
+  >(
     graphql`
       fragment ColumnFragment on Column
       @refetchable(queryName: "ColumnRefetchQuery") {
@@ -29,6 +49,7 @@ const Column = ({ fragmentRef, refreshBoard }) => {
   );
 
   useEffect(() => {
+    // @ts-expect-error who knows
     setCards(data.cards);
   }, [data.cards]);
 
@@ -75,7 +96,7 @@ const Column = ({ fragmentRef, refreshBoard }) => {
             return;
           }
 
-          let targetPosition = -1;
+          let targetPosition: unknown = -1;
           if (indexOfTarget === 0) {
             targetPosition = 0;
           } else if (indexOfTarget === cards.length - 1) {
@@ -97,7 +118,7 @@ const Column = ({ fragmentRef, refreshBoard }) => {
                 refreshBoard();
               }
             },
-            onError: (error) => {
+            onError: (error: unknown) => {
               // error
               console.log(error);
             },
@@ -123,7 +144,6 @@ const Column = ({ fragmentRef, refreshBoard }) => {
                 <Card
                   key={card.id}
                   fragmentRef={card}
-                  position={card.position}
                   onRemoveCard={refreshColumn}
                 />
               ))}

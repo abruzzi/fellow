@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import {
   Modal,
   ModalContent,
@@ -41,8 +41,10 @@ export const CardEditor = ({
   const [uploading, setUploading] = useState(false);
   const [imageUrl, setImageUrl] = useState(cardImageUrl);
 
-  const handleFileChange = (event) => {
-    setSelectedFile(event.target.files[0]);
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files.length > 0) {
+      setSelectedFile(event.target.files[0]);
+    }
   };
 
   const handleUpload = async () => {
@@ -65,8 +67,9 @@ export const CardEditor = ({
       );
       const data = await response.json();
       setImageUrl(data.secure_url);
-    } catch (e) {
-      console.log(e);
+    } catch (e: unknown) {
+      console.log(error);
+      // @ts-expect-error
       setError(e.message);
     } finally {
       setUploading(false);
@@ -99,8 +102,9 @@ export const CardEditor = ({
         onRemoveCard();
         afterUpdate();
       },
-      onError: (error) => {
+      onError: (error: unknown) => {
         console.log(error);
+        // @ts-expect-error
         setError(error.message);
       },
     });

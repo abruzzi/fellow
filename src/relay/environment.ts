@@ -13,6 +13,7 @@ function fetchQuery(operation: unknown, variables: unknown) {
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
     },
     body: JSON.stringify({
+      // @ts-expect-error
       query: operation.text,
       variables,
     }),

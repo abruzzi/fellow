@@ -5,8 +5,11 @@ import { Link } from "react-router-dom";
 import { Card } from "@nextui-org/react";
 import { BoardsQuery } from "./BoardsQuery.tsx";
 
+import type { BoardsQuery as BoardsQueryType } from "./__generated__/BoardsQuery.graphql";
+
+// eslint-disable-next-line react/prop-types
 export const BoardList = ({ queryRef, refreshBoards }) => {
-  const data = usePreloadedQuery(BoardsQuery, queryRef);
+  const data = usePreloadedQuery<BoardsQueryType>(BoardsQuery, queryRef);
 
   return (
     <div className={`container flex flex-col max-w-4xl m-auto my-8`}>
@@ -16,21 +19,18 @@ export const BoardList = ({ queryRef, refreshBoards }) => {
       <ol className="flex flex-wrap justify-start gap-4">
         <CreateNewBoard refreshBoards={refreshBoards} />
         {data.boards.map((board) => (
-          <BoardCard key={board.id} board={board} />
+          <li key={board.id} className="bg-slate-50 rounded-sm">
+            <Link to={`/boards/${board.id}`}>
+              <Card
+                radius="sm"
+                className="border-none h-20 w-60 p-4 bg-slate-100"
+              >
+                <p className="font-bold">{board.name}</p>
+              </Card>
+            </Link>
+          </li>
         ))}
       </ol>
     </div>
-  );
-};
-
-const BoardCard = ({ board }) => {
-  return (
-    <li key={board.id} className="bg-slate-50 rounded-sm">
-      <Link to={`/boards/${board.id}`}>
-        <Card radius="sm" className="border-none h-20 w-60 p-4 bg-slate-100">
-          <p className="font-bold">{board.name}</p>
-        </Card>
-      </Link>
-    </li>
   );
 };

@@ -2,14 +2,18 @@ import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "../AuthenticationContext.tsx";
 
-const ProtectedRoute = () => {
+type ProtectedRouteProps = {
+  children?: React.ReactNode;
+};
+
+const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const { token } = useAuth();
 
   if (!token) {
     return <Navigate to="/login" replace />;
   }
 
-  return <Outlet />;
+  return children ? <>{children}</> : <Outlet />;
 };
 
 export default ProtectedRoute;

@@ -26,6 +26,7 @@ import {
 } from "@nextui-org/react";
 import { CardEditor } from "./CardEditor.tsx";
 
+// eslint-disable-next-line react/prop-types
 const Card = ({ fragmentRef, onRemoveCard }) => {
   const ref = useRef(null);
   const [isDragging, setDragging] = useState<boolean>(false);

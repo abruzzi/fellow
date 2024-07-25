@@ -3,9 +3,13 @@ import { Column } from "./Column.tsx";
 import { Link } from "react-router-dom";
 import { HiOutlineStar } from "react-icons/hi";
 import React from "react";
+import {
+  BoardQuery,
+} from "./__generated__/BoardQuery.graphql.ts";
 
+// eslint-disable-next-line react/prop-types
 export const Board = ({ queryRef, refresh: refreshBoard }) => {
-  const data = usePreloadedQuery(
+  const data = usePreloadedQuery<BoardQuery>(
     graphql`
       query BoardQuery($boardId: ID!) {
         board(id: $boardId) {

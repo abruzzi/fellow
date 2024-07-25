@@ -19,7 +19,7 @@ function Navigation() {
     <Navbar isBordered>
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
         <NavbarItem>
-          <Link color="foreground" href="/boards" isActive>
+          <Link color="foreground" href="/boards">
             Boards
           </Link>
         </NavbarItem>

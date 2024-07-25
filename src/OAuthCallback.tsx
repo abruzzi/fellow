@@ -18,9 +18,9 @@ const OAuthCallback = () => {
             },
             body: new URLSearchParams({
               code,
-              client_id: process.env.GOOGLE_CLIENT_ID,
-              client_secret: process.env.GOOGLE_CLIENT_SECRET,
-              redirect_uri: process.env.OAUTH_REDIRECT_URI,
+              client_id: process.env.VITE_GOOGLE_CLIENT_ID,
+              client_secret: process.env.VITE_GOOGLE_CLIENT_SECRET,
+              redirect_uri: process.env.VITE_OAUTH_REDIRECT_URI,
               grant_type: "authorization_code",
             }),
           });

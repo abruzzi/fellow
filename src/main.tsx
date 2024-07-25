@@ -4,12 +4,16 @@ import "./index.css";
 import { RelayEnvironmentProvider } from "react-relay";
 import environment from "./relay/environment.ts";
 
-import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Root } from "./routes/Root.tsx";
 import { ErrorPage } from "./ErrorPage.tsx";
 import { BoardPage } from "./routes/BoardPage.tsx";
 import { Boards } from "./Boards.tsx";
 import { NextUIProvider } from "@nextui-org/react";
+import Login from "./routes/Login.tsx";
+import OAuthCallback from "./OAuthCallback.tsx";
+import ProtectedRoute from "./routes/ProtectedRoute.tsx";
+import { AuthProvider } from "./AuthenticationContext.tsx";
 
 const router = createBrowserRouter([
   {
@@ -19,22 +23,40 @@ const router = createBrowserRouter([
     children: [
       {
         path: "boards",
-        element: <Boards />,
+        element: (
+          <ProtectedRoute>
+            <Boards />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "boards/:boardId",
-        element: <BoardPage />,
+        element: (
+          <ProtectedRoute>
+            <BoardPage />
+          </ProtectedRoute>
+        ),
       },
     ],
+  },
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/oauth/callback",
+    element: <OAuthCallback />,
   },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <NextUIProvider>
-      <RelayEnvironmentProvider environment={environment}>
-        <RouterProvider router={router} />
-      </RelayEnvironmentProvider>
-    </NextUIProvider>
+    <AuthProvider>
+      <NextUIProvider>
+        <RelayEnvironmentProvider environment={environment}>
+          <RouterProvider router={router} />
+        </RelayEnvironmentProvider>
+      </NextUIProvider>
+    </AuthProvider>
   </React.StrictMode>,
 );

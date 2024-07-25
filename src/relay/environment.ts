@@ -6,10 +6,11 @@ import {
 } from 'relay-runtime';
 
 function fetchQuery(operation: unknown, variables: unknown) {
-  return fetch('http://localhost:4000/graphql', {
+  return fetch('https://board-server-graphql-gflhayhl6q-ts.a.run.app/', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
     },
     body: JSON.stringify({
       query: operation.text,

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { Suspense, useEffect } from "react";
 
 import { Outlet } from "react-router-dom";
 import { Navigation } from "../Navigation.tsx";
@@ -16,7 +16,9 @@ const Root = () => {
 
   return (
     <div className="h-screen flex flex-col max-h-screen">
-      <Navigation queryRef={queryRef} />
+      <Suspense fallback={<div>Loading...</div>}>
+        {queryRef ? <Navigation queryRef={queryRef} /> : null}
+      </Suspense>
       <Outlet />
     </div>
   );

@@ -12,7 +12,7 @@ const OAuthCallback = () => {
 
       if (code) {
         try {
-          const response = await fetch("/auth/google-callback", {
+          const response = await fetch(`${import.meta.env.VITE_BOARDS_BASE_URL}/auth/google-callback`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -25,7 +25,7 @@ const OAuthCallback = () => {
           }
 
           const data = await response.json();
-          login(data); // or access_token, depending on your setup
+          login(data);
           navigate("/boards");
         } catch (error) {
           console.error("Error exchanging code for token", error);

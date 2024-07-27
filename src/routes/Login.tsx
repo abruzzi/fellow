@@ -14,7 +14,7 @@ const Login = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen">
-      <div className="w-full container m-auto max-w-72 p-4 bg-white rounded-sm shadow-md">
+      <div className="w-full max-w-72 p-4 bg-white rounded-md shadow-md">
         <h2 className="text-2xl text-center mb-2">Login to Your Account</h2>
         <div className="flex flex-col gap-2">
           <Button

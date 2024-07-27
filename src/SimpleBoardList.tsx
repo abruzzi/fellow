@@ -1,7 +1,7 @@
 import React from "react";
 
 import { usePreloadedQuery } from "react-relay";
-import { BoardsQuery } from "./BoardsQuery.tsx";
+import { BoardsQuery } from "./queries/BoardsQuery.tsx";
 import { Link } from "react-router-dom";
 import { HiOutlinePlus, HiOutlineStar } from "react-icons/hi";
 import { HiViewBoards } from "react-icons/hi";

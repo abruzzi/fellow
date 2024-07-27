@@ -1,6 +1,6 @@
 import React, { Suspense, useCallback, useEffect } from "react";
 import { useQueryLoader } from "react-relay";
-import { BoardsQuery } from "./BoardsQuery.tsx";
+import { BoardsQuery } from "./queries/BoardsQuery.tsx";
 import { SimpleBoardList } from "./SimpleBoardList.tsx";
 
 const Sidebar = () => {

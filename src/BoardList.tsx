@@ -3,7 +3,7 @@ import { CreateNewBoard } from "./CreateNewBoard.tsx";
 import React from "react";
 import { Link } from "react-router-dom";
 import { Card } from "@nextui-org/react";
-import { BoardsQuery } from "./BoardsQuery.tsx";
+import { BoardsQuery } from "./queries/BoardsQuery.tsx";
 
 import type { BoardsQuery as BoardsQueryType } from "./__generated__/BoardsQuery.graphql";
 

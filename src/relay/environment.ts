@@ -17,7 +17,6 @@ function fetchQuery(operation: unknown, variables: unknown) {
       query: operation.text,
       variables,
     }),
-    credentials: 'include',
   }).then(response => response.json());
 }
 

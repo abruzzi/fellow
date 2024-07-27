@@ -18,6 +18,7 @@ const OAuthCallback = () => {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({ code }),
+            credentials: 'include',
           });
 
           if (!response.ok) {

@@ -9,24 +9,23 @@ const OAuthCallback = () => {
   useEffect(() => {
     const exchangeCodeForToken = async () => {
       const code = new URLSearchParams(window.location.search).get("code");
+
       if (code) {
         try {
-          const response = await fetch("https://oauth2.googleapis.com/token", {
+          const response = await fetch("/auth/google-callback", {
             method: "POST",
             headers: {
-              "Content-Type": "application/x-www-form-urlencoded",
+              "Content-Type": "application/json",
             },
-            body: new URLSearchParams({
-              code,
-              client_id: process.env.VITE_GOOGLE_CLIENT_ID,
-              client_secret: process.env.VITE_GOOGLE_CLIENT_SECRET,
-              redirect_uri: process.env.VITE_OAUTH_REDIRECT_URI,
-              grant_type: "authorization_code",
-            }),
+            body: JSON.stringify({ code }),
           });
 
+          if (!response.ok) {
+            throw new Error("Failed to exchange code for token");
+          }
+
           const data = await response.json();
-          login(data.id_token); // or access_token, depending on your setup
+          login(data); // or access_token, depending on your setup
           navigate("/boards");
         } catch (error) {
           console.error("Error exchanging code for token", error);

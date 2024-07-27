@@ -14,6 +14,8 @@ import Login from "./routes/Login.tsx";
 import OAuthCallback from "./OAuthCallback.tsx";
 import ProtectedRoute from "./routes/ProtectedRoute.tsx";
 import { AuthProvider } from "./AuthenticationContext.tsx";
+import { Recent } from "./routes/Recent.tsx";
+import { Starred } from "./routes/Starred.tsx";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +28,22 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <Boards />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "recent",
+        element: (
+          <ProtectedRoute>
+            <Recent />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "starred",
+        element: (
+          <ProtectedRoute>
+            <Starred />
           </ProtectedRoute>
         ),
       },

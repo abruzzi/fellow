@@ -2,6 +2,10 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthenticationContext";
 
+type AuthResponse = {
+  token: string;
+};
+
 const OAuthCallback = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
@@ -12,20 +16,23 @@ const OAuthCallback = () => {
 
       if (code) {
         try {
-          const response = await fetch(`${import.meta.env.VITE_BOARDS_BASE_URL}/auth/google-callback`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
+          const response = await fetch(
+            `${import.meta.env.VITE_BOARDS_BASE_URL}/auth/google-callback`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ code }),
             },
-            body: JSON.stringify({ code }),
-          });
+          );
 
           if (!response.ok) {
             throw new Error("Failed to exchange code for token");
           }
 
-          const data = await response.json();
-          login(data);
+          const data: AuthResponse = await response.json();
+          login(data.token);
           navigate("/boards");
         } catch (error) {
           console.error("Error exchanging code for token", error);

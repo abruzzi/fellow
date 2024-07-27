@@ -7,7 +7,7 @@ import environment from "./relay/environment.ts";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Root } from "./routes/Root.tsx";
 import { ErrorPage } from "./ErrorPage.tsx";
-import { BoardPage } from "./routes/BoardPage.tsx";
+import { Board } from "./routes/Board.tsx";
 import { Boards } from "./Boards.tsx";
 import { NextUIProvider } from "@nextui-org/react";
 import Login from "./routes/Login.tsx";
@@ -33,7 +33,7 @@ const router = createBrowserRouter([
         path: "boards/:boardId",
         element: (
           <ProtectedRoute>
-            <BoardPage />
+            <Board />
           </ProtectedRoute>
         ),
       },

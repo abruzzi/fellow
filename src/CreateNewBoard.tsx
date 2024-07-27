@@ -26,8 +26,7 @@ export const CreateNewBoard = ({ refreshBoards }) => {
       variables: {
         name: name,
       },
-      onCompleted: (response) => {
-        console.log(response);
+      onCompleted: () => {
         setIsOpen(false);
         refreshBoards();
       },

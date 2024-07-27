@@ -4,19 +4,19 @@ import React, { Suspense, useCallback, useEffect } from "react";
 import { Board } from "./Board.tsx";
 import { Sidebar } from "./Sidebar.tsx";
 
-export const App = ({ id }: { id: string }) => {
+export const BoardScreen = ({ id }: { id: string }) => {
   const [queryRef, loadQuery] = useQueryLoader(graphql`
-    query AppQuery($boardId: ID!) {
-      board(id: $boardId) {
-        id
-        name
-        columns {
-          id
-          position
-          ...ColumnFragment
-        }
+      query BoardScreenQuery($boardId: ID!) {
+          board(id: $boardId) {
+              id
+              name
+              columns {
+                  id
+                  position
+                  ...ColumnFragment
+              }
+          }
       }
-    }
   `);
 
   const refreshBoard = useCallback(

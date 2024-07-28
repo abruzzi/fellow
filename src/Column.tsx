@@ -16,6 +16,7 @@ import {
   ColumnFragment$key,
 } from "./__generated__/ColumnFragment.graphql.ts";
 import { ColumnSkeleton } from "./skeletons/ColumnSkeleton.tsx";
+import { useParams } from "react-router-dom";
 
 type CardType = ColumnFragment$data["cards"][number];
 
@@ -24,10 +25,13 @@ const Column = ({
   refreshBoard,
 }: {
   fragmentRef: ColumnFragment$key;
-  refreshBoard: () => void;
+  refreshBoard: (id: string) => void;
 }) => {
   const ref = useRef(null);
   const [cards, setCards] = useState<CardType[]>([]);
+
+  const params = useParams();
+  const boardId = params.boardId;
 
   const [data, refetch] = useRefetchableFragment<
     ColumnRefetchQuery,
@@ -98,7 +102,7 @@ const Column = ({
                 targetPosition: 0,
               },
               onCompleted: () => {
-                refreshBoard();
+                refreshBoard(boardId);
               },
               onError: (error: unknown) => {
                 // error
@@ -134,7 +138,7 @@ const Column = ({
                 if (sourceData.columnId === targetData.columnId) {
                   refreshColumn();
                 } else {
-                  refreshBoard();
+                  refreshBoard(boardId);
                 }
               },
               onError: (error: unknown) => {

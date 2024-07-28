@@ -19,7 +19,7 @@ export const BoardList = ({ queryRef, refreshBoards }) => {
       <ol className="flex flex-wrap justify-start gap-4">
         <CreateNewBoard refreshBoards={refreshBoards} />
         {data.boards.map((board) => (
-          <li key={board.id} className="bg-slate-50 rounded-sm">
+          <li key={board.id} className="bg-slate-50 rounded-lg">
             <Link to={`/boards/${board.id}`}>
               <Card
                 radius="sm"

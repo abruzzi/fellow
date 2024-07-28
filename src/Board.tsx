@@ -1,11 +1,10 @@
-import { graphql, usePreloadedQuery } from "react-relay";
-import { Column } from "./Column.tsx";
-import { Link } from "react-router-dom";
-import { HiOutlineStar } from "react-icons/hi";
+import {graphql, usePreloadedQuery} from "react-relay";
+import {Column} from "./Column.tsx";
+import {HiOutlineStar} from "react-icons/hi";
 import React from "react";
-import {
-  BoardQuery,
-} from "./__generated__/BoardQuery.graphql.ts";
+import {BoardQuery} from "./__generated__/BoardQuery.graphql.ts";
+
+import {BoardSkeleton} from "./skeletons/BoardSkeleton.tsx";
 
 // eslint-disable-next-line react/prop-types
 export const Board = ({ queryRef, refresh: refreshBoard }) => {
@@ -26,12 +25,7 @@ export const Board = ({ queryRef, refresh: refreshBoard }) => {
   );
 
   if (!data.board) {
-    return (
-      <div className={`text-lg`}>
-        Something went wrong on the board
-        <Link to="/boards">Back to all boards</Link>
-      </div>
-    );
+    return <BoardSkeleton />;
   }
 
   return (

@@ -5,6 +5,7 @@ import { BoardList } from "./BoardList.tsx";
 import { BoardsQuery } from "./queries/BoardsQuery.tsx";
 
 import { BoardsQuery as BoardsQueryType } from "./queries/__generated__/BoardsQuery.graphql.ts";
+import { BoardListSkeleton } from "./skeletons/BoardListSkeleton.tsx";
 
 const Boards = () => {
   const [queryRef, loadQuery] = useQueryLoader<BoardsQueryType>(BoardsQuery);
@@ -18,7 +19,7 @@ const Boards = () => {
   };
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<BoardListSkeleton />}>
       {queryRef ? (
         <BoardList queryRef={queryRef} refreshBoards={refreshBoards} />
       ) : null}

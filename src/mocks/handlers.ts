@@ -1,23 +1,27 @@
-import { graphql, HttpResponse } from "msw";
+import {delay, graphql, HttpResponse} from "msw";
 
 import boards from "./boards.json";
 import board from "./board.json";
 import user from "./user.json";
 
 export const handlers = [
-  graphql.query("BoardsQuery", ({}) => {
+  graphql.query("BoardsQuery", async ({}) => {
+    await delay();
     return HttpResponse.json(boards);
   }),
 
-  graphql.query("BoardScreenQuery", ({}) => {
+  graphql.query("BoardScreenQuery", async ({}) => {
+    await delay();
     return HttpResponse.json(board);
   }),
 
-  graphql.query("CurrentUserQuery", ({}) => {
+  graphql.query("CurrentUserQuery", async ({}) => {
+    await delay();
     return HttpResponse.json(user);
   }),
 
-  graphql.query("NavigationQuery", ({}) => {
+  graphql.query("NavigationQuery", async({}) => {
+    await delay();
     return HttpResponse.json(user);
   }),
 

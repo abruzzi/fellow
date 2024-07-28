@@ -48,7 +48,7 @@ export const CreateNewBoard = ({ refreshBoards }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <li className="bg-slate-50 shadow-sm rounded-sm">
+    <li className="bg-slate-50 shadow-sm rounded-lg hover:cursor-pointer">
       <Popover
         placement="bottom"
         showArrow

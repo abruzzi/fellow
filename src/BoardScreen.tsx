@@ -3,20 +3,22 @@ import React, { Suspense, useCallback, useEffect } from "react";
 
 import { Board } from "./Board.tsx";
 import { Sidebar } from "./Sidebar.tsx";
+import { BoardScreenSkeleton } from "./skeletons/BoardScreenSkeleton.tsx";
+import { BoardSkeleton } from "./skeletons/BoardSkeleton.tsx";
 
 export const BoardScreen = ({ id }: { id: string }) => {
   const [queryRef, loadQuery] = useQueryLoader(graphql`
-      query BoardScreenQuery($boardId: ID!) {
-          board(id: $boardId) {
-              id
-              name
-              columns {
-                  id
-                  position
-                  ...ColumnFragment
-              }
-          }
+    query BoardScreenQuery($boardId: ID!) {
+      board(id: $boardId) {
+        id
+        name
+        columns {
+          id
+          position
+          ...ColumnFragment
+        }
       }
+    }
   `);
 
   const refreshBoard = useCallback(
@@ -37,18 +39,14 @@ export const BoardScreen = ({ id }: { id: string }) => {
   }, [id, refreshBoard]);
 
   if (!queryRef) {
-    return (
-      <div className={`container flex flex-col max-w-4xl m-auto my-8`}>
-        <div>Loading initial query...</div>
-      </div>
-    );
+    return <BoardScreenSkeleton />;
   }
 
   return (
     <div className="h-full flex">
       <Sidebar />
       <div className={`flex-grow`}>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<BoardSkeleton />}>
           <Board queryRef={queryRef} refresh={refreshBoard} />
         </Suspense>
       </div>

@@ -5,6 +5,7 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
+  Skeleton,
 } from "@nextui-org/react";
 import React from "react";
 import { UserMenuFragment$key } from "./__generated__/UserMenuFragment.graphql.ts";
@@ -21,8 +22,8 @@ const UserMenu = ({ fragmentRef }) => {
     fragmentRef,
   );
 
-  if(!data) {
-    return <div>Loading...</div>
+  if (!data) {
+    return <Skeleton className="flex rounded-full w-8 h-8" />;
   }
 
   return (

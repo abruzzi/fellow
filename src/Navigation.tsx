@@ -1,4 +1,9 @@
-import { Link, Navbar, NavbarContent, NavbarItem } from "@nextui-org/react";
+import {
+  Link,
+  Navbar,
+  NavbarContent,
+  NavbarItem,
+} from "@nextui-org/react";
 import React from "react";
 import { graphql, usePreloadedQuery } from "react-relay";
 import { CurrentUserQuery as CurrentUserQueryType } from "./queries/__generated__/CurrentUserQuery.graphql.ts";
@@ -8,11 +13,11 @@ import { UserMenu } from "./UserMenu.tsx";
 export function Navigation({ queryRef }) {
   const data = usePreloadedQuery<CurrentUserQueryType>(
     graphql`
-        query NavigationQuery {
-            currentUser {
-                ...UserMenuFragment
-            }
+      query NavigationQuery {
+        currentUser {
+          ...UserMenuFragment
         }
+      }
     `,
     queryRef,
   );

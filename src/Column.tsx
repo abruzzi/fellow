@@ -15,6 +15,7 @@ import {
   ColumnFragment$data,
   ColumnFragment$key,
 } from "./__generated__/ColumnFragment.graphql.ts";
+import { ColumnSkeleton } from "./skeletons/ColumnSkeleton.tsx";
 
 type CardType = ColumnFragment$data["cards"][number];
 
@@ -146,6 +147,10 @@ const Column = ({
       }),
     );
   }, [cards, moveCard, data.id, refreshBoard, refreshColumn]);
+
+  if (!data) {
+    return <ColumnSkeleton />;
+  }
 
   return (
     <li

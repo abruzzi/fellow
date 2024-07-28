@@ -20,8 +20,9 @@ import { HiOutlineMenu, HiOutlinePlus, HiOutlineTrash } from "react-icons/hi";
 import { HiOutlineMenuAlt2 } from "react-icons/hi";
 import { HiOutlineTicket } from "react-icons/hi";
 import { FaRegEdit } from "react-icons/fa";
-import { CardEditorFragment$key as CardEditorFragmentType } from "./__generated__/CardEditorFragment.graphql.ts";
-import { CardEditorFragment } from "./queries/CardEditorFragment.tsx";
+import { CardFragment$key as CardFragmentType } from "./queries/__generated__/CardFragment.graphql.ts";
+import { CardEditorAddCommentMutation } from "./__generated__/CardEditorAddCommentMutation.graphql.ts";
+import { CardFragment } from "./queries/CardFragment.tsx";
 
 export const CardEditor = ({
   fragmentRef,
@@ -29,24 +30,22 @@ export const CardEditor = ({
   onRemoveCard,
   onOpenChange,
 }: {
-  fragmentRef: CardEditorFragmentType;
+  fragmentRef: CardFragmentType;
   isOpen: boolean;
   onRemoveCard: () => void;
   onOpenChange: () => void;
 }) => {
-  const data = useFragment<CardEditorFragmentType>(
-    CardEditorFragment,
-    fragmentRef,
-  );
+  const data = useFragment<CardFragmentType>(CardFragment, fragmentRef);
 
-  const [addComment, isAddingComment] = useMutation(graphql`
-    mutation CardEditorAddCommentMutation($cardId: ID!, $content: String!) {
-      addCommentToCard(cardId: $cardId, content: $content) {
-        id
-        content
+  const [addComment, isAddingComment] =
+    useMutation<CardEditorAddCommentMutation>(graphql`
+      mutation CardEditorAddCommentMutation($cardId: ID!, $content: String!) {
+        addCommentToCard(cardId: $cardId, content: $content) {
+          id
+          content
+        }
       }
-    }
-  `);
+    `);
 
   const [commitUpdate, isUpdating] = useMutation(graphql`
     mutation CardEditorUpdateMutation(
@@ -70,7 +69,7 @@ export const CardEditor = ({
   const [title, setTitle] = useState(data.title);
   const [description, setDescription] = useState(data.description);
   const [imageUrl, setImageUrl] = useState(data.imageUrl);
-  const [comments, setComments] = useState(data.comments);
+  const [comments, setComments] = useState([]);
 
   const [comment, setComment] = useState("");
 
@@ -137,11 +136,11 @@ export const CardEditor = ({
 
     addComment({
       variables: {
-        id: data.id,
+        cardId: data.id,
         content: comment,
       },
       onCompleted: (response) => {
-        const { id, content } = response;
+        const { id, content } = response.addCommentToCard;
         setComments([{ id, content }, ...comments]);
       },
     });
@@ -332,7 +331,7 @@ export const CardEditor = ({
                   </div>
                 </div>
 
-                {(comments || []).map((comment) => {
+                {comments.map((comment) => {
                   return (
                     <div
                       className="flex flex-row items-start gap-2"

@@ -10,6 +10,5 @@ export const CardFragment = graphql`
         column {
             id
         }
-        ...CardEditorFragment
     }
 `;

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<60f7f81cc9064a40f6eee7a6ab9c62db>>
+ * @generated SignedSource<<d82314432d4c49915a47b3c9c625f7f6>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -19,7 +19,6 @@ export type CardFragment$data = {
   readonly imageUrl: string | null | undefined;
   readonly position: number;
   readonly title: string;
-  readonly " $fragmentSpreads": FragmentRefs<"CardEditorFragment">;
   readonly " $fragmentType": "CardFragment";
 };
 export type CardFragment$key = {
@@ -81,11 +80,6 @@ return {
         (v0/*: any*/)
       ],
       "storageKey": null
-    },
-    {
-      "args": null,
-      "kind": "FragmentSpread",
-      "name": "CardEditorFragment"
     }
   ],
   "type": "Card",
@@ -93,6 +87,6 @@ return {
 };
 })();
 
-(node as any).hash = "622ef1c2d28c348c0a78d14054a83039";
+(node as any).hash = "d04115288dfc06f9661daaefc3381400";
 
 export default node;

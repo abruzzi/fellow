@@ -154,7 +154,7 @@ const Card = ({
       {closestEdge && <DropIndicator edge={closestEdge} gap="1rem" />}
 
       <CardEditor
-        fragmentRef={data}
+        fragmentRef={fragmentRef}
         isOpen={isOpen}
         onOpenChange={onOpenChange}
         onRemoveCard={onRemoveCard}

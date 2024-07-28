@@ -18,10 +18,11 @@ export const handlers = [
   }),
 
   graphql.mutation("ColumnMoveCardMutation", ({ variables }) => {
+    const { cardId } = variables;
     return HttpResponse.json({
       data: {
         moveCard: {
-          id: "new-id",
+          id: cardId,
           title: "",
           description: "",
           position: 100,

@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { HiOutlinePlus, HiOutlineStar } from "react-icons/hi";
 import { HiViewBoards } from "react-icons/hi";
 
-import type { BoardsQuery as BoardsQueryType } from "./__generated__/BoardsQuery.graphql.ts";
+import type { BoardsQuery as BoardsQueryType } from "./queries/__generated__/BoardsQuery.graphql.ts";
 
 // eslint-disable-next-line react/prop-types
 export const SimpleBoardList = ({ queryRef }) => {

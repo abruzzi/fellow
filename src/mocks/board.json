@@ -1,0 +1,60 @@
+{
+  "data": {
+    "board": {
+      "id": "7a9a4ed2-ef04-47b7-9877-fe3eb0da5a2e",
+      "name": "Macaw",
+      "columns": [
+        {
+          "id": "7da600a5-a110-4bc8-b896-40c397cabfbe",
+          "position": 0,
+          "name": "To do",
+          "cards": [
+            {
+              "id": "6089b48b-fb32-4433-b2c8-77f8bc98284d",
+              "position": 90,
+              "title": "臭豆腐米线",
+              "description": "昆明特产",
+              "imageUrl": null,
+              "column": {
+                "id": "7da600a5-a110-4bc8-b896-40c397cabfbe"
+              }
+            },
+            {
+              "id": "0390ed09-ce80-4f46-82de-2cdfcb67bffe",
+              "position": 100,
+              "title": "This is my first card",
+              "description": "Let's add a bit description",
+              "imageUrl": "https://res.cloudinary.com/dwbszr4tz/image/upload/v1722079383/vdwqtmost6hdesuavmyo.jpg",
+              "column": {
+                "id": "7da600a5-a110-4bc8-b896-40c397cabfbe"
+              }
+            }
+          ]
+        },
+        {
+          "id": "2f654319-03a0-4574-9cd2-c91f64db2fe3",
+          "position": 2,
+          "name": "Done",
+          "cards": [
+            {
+              "id": "f55a36d9-2976-4abb-ab45-f31ba8cb8220",
+              "position": 100,
+              "title": "This is a ticket that hosted in Google",
+              "description": "",
+              "imageUrl": null,
+              "column": {
+                "id": "2f654319-03a0-4574-9cd2-c91f64db2fe3"
+              }
+            }
+          ]
+        },
+        {
+          "id": "03a49161-b4bf-4b17-be6f-1b56c339a4db",
+          "position": 1,
+          "name": "In progress",
+          "cards": []
+        }
+      ]
+    }
+  }
+}

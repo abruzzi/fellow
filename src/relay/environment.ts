@@ -6,7 +6,7 @@ import {
 } from 'relay-runtime';
 
 function fetchQuery(operation: unknown, variables: unknown) {
-  return fetch('https://board-server-graphql-gflhayhl6q-ts.a.run.app/graphql', {
+  return fetch(`${import.meta.env.VITE_BOARDS_BASE_URL}/graphql`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

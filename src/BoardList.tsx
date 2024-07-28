@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { Card } from "@nextui-org/react";
 import { BoardsQuery } from "./queries/BoardsQuery.tsx";
 
-import type { BoardsQuery as BoardsQueryType } from "./__generated__/BoardsQuery.graphql";
+import type { BoardsQuery as BoardsQueryType } from "./queries/__generated__/BoardsQuery.graphql";
 
 // eslint-disable-next-line react/prop-types
 export const BoardList = ({ queryRef, refreshBoards }) => {

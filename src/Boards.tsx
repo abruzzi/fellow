@@ -4,7 +4,7 @@ import { useQueryLoader } from "react-relay";
 import { BoardList } from "./BoardList.tsx";
 import { BoardsQuery } from "./queries/BoardsQuery.tsx";
 
-import { BoardsQuery as BoardsQueryType } from "./__generated__/BoardsQuery.graphql.ts";
+import { BoardsQuery as BoardsQueryType } from "./queries/__generated__/BoardsQuery.graphql.ts";
 
 const Boards = () => {
   const [queryRef, loadQuery] = useQueryLoader<BoardsQueryType>(BoardsQuery);

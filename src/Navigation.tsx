@@ -1,23 +1,19 @@
-import {
-  Avatar,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
-  Link,
-  Navbar,
-  NavbarContent,
-  NavbarItem,
-} from "@nextui-org/react";
+import { Link, Navbar, NavbarContent, NavbarItem } from "@nextui-org/react";
 import React from "react";
-import { usePreloadedQuery } from "react-relay";
-import { CurrentUserQuery } from "./queries/CurrentUserQuery.tsx";
+import { graphql, usePreloadedQuery } from "react-relay";
 import { CurrentUserQuery as CurrentUserQueryType } from "./queries/__generated__/CurrentUserQuery.graphql.ts";
+import { UserMenu } from "./UserMenu.tsx";
 
 // eslint-disable-next-line react/prop-types
 export function Navigation({ queryRef }) {
   const data = usePreloadedQuery<CurrentUserQueryType>(
-    CurrentUserQuery,
+    graphql`
+        query NavigationQuery {
+            currentUser {
+                ...UserMenuFragment
+            }
+        }
+    `,
     queryRef,
   );
 
@@ -42,30 +38,7 @@ export function Navigation({ queryRef }) {
       </NavbarContent>
 
       <NavbarContent as="div" justify="end">
-        <Dropdown placement="bottom-end">
-          <DropdownTrigger>
-            <Avatar
-              isBordered
-              as="button"
-              className="transition-transform"
-              color="default"
-              name={data.currentUser.name}
-              size="sm"
-            />
-          </DropdownTrigger>
-          <DropdownMenu aria-label="Profile Actions" variant="flat">
-            <DropdownItem key="profile" href="/profile" className="h-14 gap-2">
-              <p className="font-semibold">Signed in as</p>
-              <p className="font-semibold">{data.currentUser.email}</p>
-            </DropdownItem>
-            <DropdownItem key="settings" href="/settings">
-              My Settings
-            </DropdownItem>
-            <DropdownItem key="logout" color="danger" href="/logout">
-              Log Out
-            </DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
+        <UserMenu fragmentRef={data.currentUser} />
       </NavbarContent>
     </Navbar>
   );

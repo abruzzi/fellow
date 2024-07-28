@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<32283a497b4b0ab09b0ffb67b55f41b5>>
+ * @generated SignedSource<<a35315fed84a752b306554866cb56944>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -176,6 +176,25 @@ return {
                       (v2/*: any*/)
                     ],
                     "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "concreteType": "Comment",
+                    "kind": "LinkedField",
+                    "name": "comments",
+                    "plural": true,
+                    "selections": [
+                      (v2/*: any*/),
+                      {
+                        "alias": null,
+                        "args": null,
+                        "kind": "ScalarField",
+                        "name": "content",
+                        "storageKey": null
+                      }
+                    ],
+                    "storageKey": null
                   }
                 ],
                 "storageKey": null
@@ -189,12 +208,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "2a9a4e4c7f49499c11c8faf3fae95172",
+    "cacheID": "7313f5a6cf96ba8ee67703ff8f8f56aa",
     "id": null,
     "metadata": {},
     "name": "BoardScreenQuery",
     "operationKind": "query",
-    "text": "query BoardScreenQuery(\n  $boardId: ID!\n) {\n  board(id: $boardId) {\n    id\n    name\n    columns {\n      id\n      position\n      ...ColumnFragment\n    }\n  }\n}\n\nfragment CardFragment on Card {\n  id\n  title\n  description\n  position\n  imageUrl\n  column {\n    id\n  }\n}\n\nfragment ColumnFragment on Column {\n  id\n  name\n  position\n  cards {\n    id\n    position\n    ...CardFragment\n  }\n}\n"
+    "text": "query BoardScreenQuery(\n  $boardId: ID!\n) {\n  board(id: $boardId) {\n    id\n    name\n    columns {\n      id\n      position\n      ...ColumnFragment\n    }\n  }\n}\n\nfragment CardEditorFragment on Card {\n  id\n  title\n  description\n  imageUrl\n  comments {\n    id\n    content\n  }\n}\n\nfragment CardFragment on Card {\n  id\n  title\n  description\n  position\n  imageUrl\n  column {\n    id\n  }\n  ...CardEditorFragment\n}\n\nfragment ColumnFragment on Column {\n  id\n  name\n  position\n  cards {\n    id\n    position\n    ...CardFragment\n  }\n}\n"
   }
 };
 })();

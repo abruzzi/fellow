@@ -13,39 +13,72 @@ import {
   Popover,
   PopoverContent,
   Spinner,
+  Avatar,
 } from "@nextui-org/react";
-import { graphql, useMutation } from "react-relay";
+import { graphql, useFragment, useMutation } from "react-relay";
 import { HiOutlineMenu, HiOutlinePlus, HiOutlineTrash } from "react-icons/hi";
 import { HiOutlineMenuAlt2 } from "react-icons/hi";
 import { HiOutlineTicket } from "react-icons/hi";
-import {FaRegEdit} from "react-icons/fa";
+import { FaRegEdit } from "react-icons/fa";
+import { CardEditorFragment$key as CardEditorFragmentType } from "./__generated__/CardEditorFragment.graphql.ts";
+import { CardEditorFragment } from "./queries/CardEditorFragment.tsx";
 
 export const CardEditor = ({
-  cardId,
-  cardTitle,
-  cardDescription,
-  cardImageUrl,
+  fragmentRef,
   isOpen,
   onRemoveCard,
   onOpenChange,
 }: {
-  cardId: string;
-  cardTitle: string;
-  cardDescription: string;
-  cardImageUrl: string | undefined;
+  fragmentRef: CardEditorFragmentType;
   isOpen: boolean;
   onRemoveCard: () => void;
   onOpenChange: () => void;
 }) => {
-  const [title, setTitle] = useState(cardTitle);
-  const [description, setDescription] = useState(cardDescription);
-  const [error, setError] = useState();
-  const [hovered, setHovered] = useState<boolean>(false);
+  const data = useFragment<CardEditorFragmentType>(
+    CardEditorFragment,
+    fragmentRef,
+  );
 
-  // const [selectedFile, setSelectedFile] = useState(null);
+  const [addComment, isAddingComment] = useMutation(graphql`
+    mutation CardEditorAddCommentMutation($cardId: ID!, $content: String!) {
+      addCommentToCard(cardId: $cardId, content: $content) {
+        id
+        content
+      }
+    }
+  `);
+
+  const [commitUpdate, isUpdating] = useMutation(graphql`
+    mutation CardEditorUpdateMutation(
+      $id: ID!
+      $title: String!
+      $description: String!
+      $imageUrl: String
+    ) {
+      updateCard(
+        cardId: $id
+        title: $title
+        description: $description
+        imageUrl: $imageUrl
+      ) {
+        id
+        position
+      }
+    }
+  `);
+
+  const [title, setTitle] = useState(data.title);
+  const [description, setDescription] = useState(data.description);
+  const [imageUrl, setImageUrl] = useState(data.imageUrl);
+  const [comments, setComments] = useState(data.comments);
+
+  const [comment, setComment] = useState("");
+
+  const [error, setError] = useState();
+
+  const [hovered, setHovered] = useState<boolean>(false);
   const [uploading, setUploading] = useState(false);
   const [uploadPopupOpen, setUploadPopupOpen] = useState(false);
-  const [imageUrl, setImageUrl] = useState(cardImageUrl);
 
   const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
@@ -82,28 +115,9 @@ export const CardEditor = ({
     }
   };
 
-  const [commitUpdate, isUpdating] = useMutation(graphql`
-    mutation CardEditorUpdateMutation(
-      $id: ID!
-      $title: String!
-      $description: String!
-      $imageUrl: String
-    ) {
-      updateCard(
-        cardId: $id
-        title: $title
-        description: $description
-        imageUrl: $imageUrl
-      ) {
-        id
-        position
-      }
-    }
-  `);
-
   const handleUpdate = (afterUpdate: () => void) => {
     commitUpdate({
-      variables: { id: cardId, title, description, imageUrl },
+      variables: { id: data.id, title, description, imageUrl },
       onCompleted: () => {
         onRemoveCard();
         afterUpdate();
@@ -112,6 +126,23 @@ export const CardEditor = ({
         console.log(error);
         // @ts-expect-error
         setError(error.message);
+      },
+    });
+  };
+
+  const handleAddComment = () => {
+    if (!comment) {
+      return;
+    }
+
+    addComment({
+      variables: {
+        id: data.id,
+        content: comment,
+      },
+      onCompleted: (response) => {
+        const { id, content } = response;
+        setComments([{ id, content }, ...comments]);
       },
     });
   };
@@ -125,6 +156,10 @@ export const CardEditor = ({
 
   const onDescriptionChange = (e: ChangeEvent<HTMLInputElement>) => {
     setDescription(e.target.value);
+  };
+
+  const onCommentChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setComment(e.target.value);
   };
 
   return (
@@ -164,10 +199,14 @@ export const CardEditor = ({
                   )}
                 </div>
 
-                <div className="flex flex-col">
+                <div className="flex flex-col gap-1">
                   <div className="flex flex-row justify-between items-center">
                     <h4 className="font-bold text-slate-600">Description</h4>
-                    <Button isIconOnly variant="light" onPress={() => setEditingDescription(true)}>
+                    <Button
+                      isIconOnly
+                      variant="light"
+                      onPress={() => setEditingDescription(true)}
+                    >
                       <FaRegEdit />
                     </Button>
                   </div>
@@ -187,7 +226,7 @@ export const CardEditor = ({
                   )}
                 </div>
 
-                <div className="flex flex-col">
+                <div className="flex flex-col gap-1">
                   <div className="flex flex-row justify-between items-center">
                     <h4 className="font-bold text-slate-600">Image</h4>
                     <Popover
@@ -227,7 +266,8 @@ export const CardEditor = ({
                       </PopoverContent>
                     </Popover>
                   </div>
-                  <div className="flex flex-row">
+
+                  <div className="flex flex-row gap-1">
                     <div className="max-w-36">
                       {imageUrl && (
                         <div
@@ -263,6 +303,52 @@ export const CardEditor = ({
               </div>
 
               <hr />
+
+              <div className="flex flex-col gap-1">
+                <h4 className="font-bold text-slate-600">Comments</h4>
+                <div className="flex flex-row items-start gap-2">
+                  <Avatar
+                    className="w-8 h-8 flex-grow-0 flex-shrink-0"
+                    color="default"
+                    name="Juntao"
+                    size="sm"
+                  />
+                  <div className="flex flex-col flex-grow gap-2">
+                    <Textarea
+                      label="Comment"
+                      endContent={<HiOutlineMenuAlt2 />}
+                      value={comment}
+                      onChange={onCommentChange}
+                      radius="none"
+                    />
+                    <Button
+                      onPress={handleAddComment}
+                      disabled={isAddingComment}
+                      className="mr-auto"
+                      size="sm"
+                    >
+                      Add comment
+                    </Button>
+                  </div>
+                </div>
+
+                {(comments || []).map((comment) => {
+                  return (
+                    <div
+                      className="flex flex-row items-start gap-2"
+                      key={comment.id}
+                    >
+                      <Avatar
+                        className="w-8 h-8 flex-grow flex-shrink-0"
+                        color="default"
+                        name="Juntao"
+                        size="sm"
+                      />
+                      <p>{comment.content}</p>
+                    </div>
+                  );
+                })}
+              </div>
             </ModalBody>
 
             <ModalFooter>

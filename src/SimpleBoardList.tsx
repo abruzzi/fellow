@@ -4,9 +4,9 @@ import { usePreloadedQuery } from "react-relay";
 import { BoardsQuery } from "./queries/BoardsQuery.tsx";
 import { Link } from "react-router-dom";
 import { HiOutlinePlus, HiOutlineStar } from "react-icons/hi";
-import { HiViewBoards } from "react-icons/hi";
 
 import type { BoardsQuery as BoardsQueryType } from "./queries/__generated__/BoardsQuery.graphql.ts";
+import {MdFeaturedPlayList} from "react-icons/md";
 
 // eslint-disable-next-line react/prop-types
 export const SimpleBoardList = ({ queryRef }) => {
@@ -30,7 +30,7 @@ export const SimpleBoardList = ({ queryRef }) => {
             <Link to={`/boards/${board.id}`}>
               <div className="flex flex-row items-center gap-1 hover:bg-slate-100 px-4 py-1">
                 <span className="text-slate-700">
-                  <HiViewBoards />
+                  <MdFeaturedPlayList />
                 </span>
                 <p>{board.name}</p>
                 <span className="ml-auto">

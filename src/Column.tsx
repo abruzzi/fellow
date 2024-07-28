@@ -38,17 +38,17 @@ const Column = ({
     ColumnFragment$key
   >(
     graphql`
-      fragment ColumnFragment on Column
-      @refetchable(queryName: "ColumnRefetchQuery") {
-        id
-        name
-        position
-        cards {
-          id
-          position
-          ...CardFragment
+        fragment ColumnFragment on Column
+        @refetchable(queryName: "ColumnRefetchQuery") {
+            id
+            name
+            position
+            cards {
+                id
+                position
+                ...CardFragment
+            }
         }
-      }
     `,
     fragmentRef,
   );
@@ -150,7 +150,7 @@ const Column = ({
         },
       }),
     );
-  }, [cards, moveCard, data.id, refreshBoard, refreshColumn]);
+  }, [cards, moveCard, data.id, refreshBoard, refreshColumn, boardId]);
 
   if (!data) {
     return <ColumnSkeleton />;

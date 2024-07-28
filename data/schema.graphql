@@ -13,9 +13,27 @@ type Card {
   id: ID!
   title: String!
   description: String!
+  tags: [Tag!]!
+  comments: [Comment!]!
   position: Int!
   imageUrl: String
+  createdAt: String!
+  updatedAt: String!
   column: Column!
+}
+
+type Tag {
+  id: ID!
+  name: String!
+  cards: [Card!]!
+}
+
+type Comment {
+  id: ID!
+  content: String!
+  card: Card!
+  createdAt: String!
+  updatedAt: String!
 }
 
 type Column implements Node {
@@ -38,6 +56,8 @@ type Query {
   column(id: ID!): Column!
   node(id: ID!): Node
   currentUser: User
+  tags: [Tag!]!
+  comments(cardId: ID!): [Comment!]!
 }
 
 type Mutation {
@@ -53,4 +73,8 @@ type Mutation {
   deleteCard(cardId: ID!): Card!
   updateCard(cardId: ID!, title: String!, description: String!, imageUrl: String): Card!
   moveCard(cardId: ID!, targetColumnId: ID!, targetPosition: Int!): Card!
+
+  addTagToCard(cardId: ID!, tagName: String!): Card!
+  removeTagFromCard(cardId: ID!, tagId: ID!): Card!
+  addCommentToCard(cardId: ID!, content: String!): Comment!
 }

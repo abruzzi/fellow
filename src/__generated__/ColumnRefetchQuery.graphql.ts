@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<59fa52deeb42da9eaa438d5c067db162>>
+ * @generated SignedSource<<03433a3d0aa6357819753abef15ed733>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -154,6 +154,25 @@ return {
                       (v2/*: any*/)
                     ],
                     "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "concreteType": "Comment",
+                    "kind": "LinkedField",
+                    "name": "comments",
+                    "plural": true,
+                    "selections": [
+                      (v2/*: any*/),
+                      {
+                        "alias": null,
+                        "args": null,
+                        "kind": "ScalarField",
+                        "name": "content",
+                        "storageKey": null
+                      }
+                    ],
+                    "storageKey": null
                   }
                 ],
                 "storageKey": null
@@ -168,12 +187,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "291d98e626a3b2d54a43f71998ef9f92",
+    "cacheID": "cbfb2a7560ef2d6d3caf13602d79bef1",
     "id": null,
     "metadata": {},
     "name": "ColumnRefetchQuery",
     "operationKind": "query",
-    "text": "query ColumnRefetchQuery(\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...ColumnFragment\n    id\n  }\n}\n\nfragment CardFragment on Card {\n  id\n  title\n  description\n  position\n  imageUrl\n  column {\n    id\n  }\n}\n\nfragment ColumnFragment on Column {\n  id\n  name\n  position\n  cards {\n    id\n    position\n    ...CardFragment\n  }\n}\n"
+    "text": "query ColumnRefetchQuery(\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...ColumnFragment\n    id\n  }\n}\n\nfragment CardEditorFragment on Card {\n  id\n  title\n  description\n  imageUrl\n  comments {\n    id\n    content\n  }\n}\n\nfragment CardFragment on Card {\n  id\n  title\n  description\n  position\n  imageUrl\n  column {\n    id\n  }\n  ...CardEditorFragment\n}\n\nfragment ColumnFragment on Column {\n  id\n  name\n  position\n  cards {\n    id\n    position\n    ...CardFragment\n  }\n}\n"
   }
 };
 })();

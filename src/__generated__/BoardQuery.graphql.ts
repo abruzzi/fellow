@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<cd9036d3d0e5bb2535fdd3619fad2b4a>>
+ * @generated SignedSource<<2c9a172b05c764f0aab9def72019a07f>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -173,6 +173,25 @@ return {
                       (v3/*: any*/)
                     ],
                     "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "concreteType": "Comment",
+                    "kind": "LinkedField",
+                    "name": "comments",
+                    "plural": true,
+                    "selections": [
+                      (v3/*: any*/),
+                      {
+                        "alias": null,
+                        "args": null,
+                        "kind": "ScalarField",
+                        "name": "content",
+                        "storageKey": null
+                      }
+                    ],
+                    "storageKey": null
                   }
                 ],
                 "storageKey": null
@@ -187,12 +206,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "e3db1fe39159e6825e48556808f1dbdb",
+    "cacheID": "b073fee64ec1af79e89ce97b0bb2ccc4",
     "id": null,
     "metadata": {},
     "name": "BoardQuery",
     "operationKind": "query",
-    "text": "query BoardQuery(\n  $boardId: ID!\n) {\n  board(id: $boardId) {\n    name\n    columns {\n      id\n      position\n      ...ColumnFragment\n    }\n    id\n  }\n}\n\nfragment CardFragment on Card {\n  id\n  title\n  description\n  position\n  imageUrl\n  column {\n    id\n  }\n}\n\nfragment ColumnFragment on Column {\n  id\n  name\n  position\n  cards {\n    id\n    position\n    ...CardFragment\n  }\n}\n"
+    "text": "query BoardQuery(\n  $boardId: ID!\n) {\n  board(id: $boardId) {\n    name\n    columns {\n      id\n      position\n      ...ColumnFragment\n    }\n    id\n  }\n}\n\nfragment CardEditorFragment on Card {\n  id\n  title\n  description\n  imageUrl\n  comments {\n    id\n    content\n  }\n}\n\nfragment CardFragment on Card {\n  id\n  title\n  description\n  position\n  imageUrl\n  column {\n    id\n  }\n  ...CardEditorFragment\n}\n\nfragment ColumnFragment on Column {\n  id\n  name\n  position\n  cards {\n    id\n    position\n    ...CardFragment\n  }\n}\n"
   }
 };
 })();

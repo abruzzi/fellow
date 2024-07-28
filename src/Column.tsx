@@ -88,41 +88,60 @@ const Column = ({
           const sourceData = source.data;
           const targetData = target.data;
 
-          const indexOfTarget = cards.findIndex(
-            (card) => card.id === targetData.id,
-          );
-
-          if (indexOfTarget < 0) {
-            return;
-          }
-
-          let targetPosition: unknown = -1;
-          if (indexOfTarget === 0) {
-            targetPosition = 0;
-          } else if (indexOfTarget === cards.length - 1) {
-            targetPosition = -1;
-          } else {
-            targetPosition = targetData.position;
-          }
-
-          moveCard({
-            variables: {
-              cardId: sourceData.id,
-              targetColumnId: data.id,
-              targetPosition: targetPosition,
-            },
-            onCompleted: () => {
-              if (sourceData.columnId === targetData.columnId) {
-                refreshColumn();
-              } else {
+          // we're moving into an empty column, put it to the top is fine
+          if (targetData.id === "placeholder") {
+            moveCard({
+              variables: {
+                cardId: sourceData.id,
+                targetColumnId: targetData.columnId,
+                targetPosition: 0,
+              },
+              onCompleted: () => {
                 refreshBoard();
-              }
-            },
-            onError: (error: unknown) => {
-              // error
-              console.log(error);
-            },
-          });
+              },
+              onError: (error: unknown) => {
+                // error
+                console.log(error);
+              },
+            });
+          } else {
+            // we're reordering in a column
+            const indexOfTarget = cards.findIndex(
+              (card) => card.id === targetData.id,
+            );
+
+            if (indexOfTarget < 0) {
+              return;
+            }
+
+            let targetPosition: unknown = -1;
+            if (indexOfTarget === 0) {
+              targetPosition = 0;
+            } else if (indexOfTarget === cards.length - 1) {
+              targetPosition = -1;
+            } else {
+              targetPosition = targetData.position;
+            }
+
+            moveCard({
+              variables: {
+                cardId: sourceData.id,
+                targetColumnId: data.id,
+                targetPosition: targetPosition,
+              },
+              onCompleted: () => {
+                if (sourceData.columnId === targetData.columnId) {
+                  refreshColumn();
+                } else {
+                  refreshBoard();
+                }
+              },
+              onError: (error: unknown) => {
+                // error
+                console.log(error);
+              },
+            });
+          }
         },
       }),
     );

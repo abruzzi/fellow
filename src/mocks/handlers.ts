@@ -16,4 +16,17 @@ export const handlers = [
   graphql.query("CurrentUserQuery", ({}) => {
     return HttpResponse.json(user);
   }),
+
+  graphql.mutation("ColumnMoveCardMutation", ({ variables }) => {
+    return HttpResponse.json({
+      data: {
+        moveCard: {
+          id: "new-id",
+          title: "",
+          description: "",
+          position: 100,
+        },
+      },
+    });
+  }),
 ];

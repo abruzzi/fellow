@@ -25,7 +25,7 @@ const CardHolder = ({ columnId }: { columnId: string }) => {
       },
       getData({ input, element }) {
         return attachClosestEdge(
-          { columnId: columnId, position: 0 },
+          { columnId: columnId, position: 0, id: 'placeholder' },
           {
             element,
             input,

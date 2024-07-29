@@ -13,7 +13,6 @@ import {
   Popover,
   PopoverContent,
   Spinner,
-  Avatar,
 } from "@nextui-org/react";
 import { graphql, useFragment, useMutation } from "react-relay";
 import { HiOutlineMenu, HiOutlinePlus, HiOutlineTrash } from "react-icons/hi";
@@ -21,8 +20,8 @@ import { HiOutlineMenuAlt2 } from "react-icons/hi";
 import { HiOutlineTicket } from "react-icons/hi";
 import { FaRegEdit } from "react-icons/fa";
 import { CardFragment$key as CardFragmentType } from "./queries/__generated__/CardFragment.graphql.ts";
-import { CardEditorAddCommentMutation } from "./__generated__/CardEditorAddCommentMutation.graphql.ts";
 import { CardFragment } from "./queries/CardFragment.tsx";
+import { Comments } from "./Comments.tsx";
 
 export const CardEditor = ({
   fragmentRef,
@@ -36,16 +35,6 @@ export const CardEditor = ({
   onOpenChange: () => void;
 }) => {
   const data = useFragment<CardFragmentType>(CardFragment, fragmentRef);
-
-  const [addComment, isAddingComment] =
-    useMutation<CardEditorAddCommentMutation>(graphql`
-      mutation CardEditorAddCommentMutation($cardId: ID!, $content: String!) {
-        addCommentToCard(cardId: $cardId, content: $content) {
-          id
-          content
-        }
-      }
-    `);
 
   const [commitUpdate, isUpdating] = useMutation(graphql`
     mutation CardEditorUpdateMutation(
@@ -69,9 +58,6 @@ export const CardEditor = ({
   const [title, setTitle] = useState(data.title);
   const [description, setDescription] = useState(data.description);
   const [imageUrl, setImageUrl] = useState(data.imageUrl);
-  const [comments, setComments] = useState([]);
-
-  const [comment, setComment] = useState("");
 
   const [error, setError] = useState();
 
@@ -123,25 +109,8 @@ export const CardEditor = ({
       },
       onError: (error: unknown) => {
         console.log(error);
-        // @ts-expect-error
+        // @ts-expect-error what else could I do?
         setError(error.message);
-      },
-    });
-  };
-
-  const handleAddComment = () => {
-    if (!comment) {
-      return;
-    }
-
-    addComment({
-      variables: {
-        cardId: data.id,
-        content: comment,
-      },
-      onCompleted: (response) => {
-        const { id, content } = response.addCommentToCard;
-        setComments([{ id, content }, ...comments]);
       },
     });
   };
@@ -155,10 +124,6 @@ export const CardEditor = ({
 
   const onDescriptionChange = (e: ChangeEvent<HTMLInputElement>) => {
     setDescription(e.target.value);
-  };
-
-  const onCommentChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setComment(e.target.value);
   };
 
   return (
@@ -303,51 +268,7 @@ export const CardEditor = ({
 
               <hr />
 
-              <div className="flex flex-col gap-1">
-                <h4 className="font-bold text-slate-600">Comments</h4>
-                <div className="flex flex-row items-start gap-2">
-                  <Avatar
-                    className="w-8 h-8 flex-grow-0 flex-shrink-0"
-                    color="default"
-                    name="Juntao"
-                    size="sm"
-                  />
-                  <div className="flex flex-col flex-grow gap-2">
-                    <Textarea
-                      label="Comment"
-                      endContent={<HiOutlineMenuAlt2 />}
-                      value={comment}
-                      onChange={onCommentChange}
-                      radius="none"
-                    />
-                    <Button
-                      onPress={handleAddComment}
-                      disabled={isAddingComment}
-                      className="mr-auto"
-                      size="sm"
-                    >
-                      Add comment
-                    </Button>
-                  </div>
-                </div>
-
-                {comments.map((comment) => {
-                  return (
-                    <div
-                      className="flex flex-row items-start gap-2"
-                      key={comment.id}
-                    >
-                      <Avatar
-                        className="w-8 h-8 flex-grow flex-shrink-0"
-                        color="default"
-                        name="Juntao"
-                        size="sm"
-                      />
-                      <p>{comment.content}</p>
-                    </div>
-                  );
-                })}
-              </div>
+              <Comments cardId={data.id} />
             </ModalBody>
 
             <ModalFooter>

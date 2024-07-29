@@ -99,7 +99,7 @@ const Comments = ({ cardId }: { cardId: string }) => {
       </div>
 
       <Suspense fallback={<div>Loading...</div>}>
-        <CommentList queryRef={queryRef} />
+        {queryRef ? <CommentList queryRef={queryRef} /> : null}
       </Suspense>
     </div>
   );

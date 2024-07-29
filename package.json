@@ -30,6 +30,7 @@
     "@nextui-org/spinner": "^2.0.33",
     "@nextui-org/system": "^2.2.5",
     "@nextui-org/theme": "^2.2.9",
+    "date-fns": "^3.6.0",
     "framer-motion": "^11.3.8",
     "graphql": "^16.9.0",
     "react": "^18.3.1",

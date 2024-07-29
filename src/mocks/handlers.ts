@@ -3,6 +3,7 @@ import {delay, graphql, HttpResponse} from "msw";
 import boards from "./boards.json";
 import board from "./board.json";
 import user from "./user.json";
+import comments from "./comments.json";
 
 export const handlers = [
   graphql.query("BoardsQuery", async ({}) => {
@@ -13,6 +14,11 @@ export const handlers = [
   graphql.query("BoardScreenQuery", async ({}) => {
     await delay();
     return HttpResponse.json(board);
+  }),
+
+  graphql.query("CommentsQuery", async ({}) => {
+    await delay();
+    return HttpResponse.json(comments);
   }),
 
   graphql.query("CurrentUserQuery", async ({}) => {

@@ -100,13 +100,13 @@ export const CardEditor = ({
           {
             method: "POST",
             body: formData,
-          },
+          } as RequestInit,
         );
         const data = await response.json();
         setImageUrl(data.secure_url);
       } catch (e: unknown) {
         console.log(error);
-        // @ts-expect-error
+        // @ts-expect-error what else should I do mate?
         setError(e.message);
       } finally {
         setUploading(false);

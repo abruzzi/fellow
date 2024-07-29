@@ -6,20 +6,22 @@ type User {
   id: ID!
   email: String!
   name: String
+  comments: [Comment!]!
   boards: [Board!]!
+  favorites: [Board!]!
 }
 
 type Card {
   id: ID!
   title: String!
   description: String!
+  imageUrl: String
   tags: [Tag!]!
   comments: [Comment!]!
   position: Int!
-  imageUrl: String
+  column: Column!
   createdAt: String!
   updatedAt: String!
-  column: Column!
 }
 
 type Tag {
@@ -32,6 +34,7 @@ type Comment {
   id: ID!
   content: String!
   card: Card!
+  user: User!
   createdAt: String!
   updatedAt: String!
 }
@@ -47,6 +50,8 @@ type Column implements Node {
 type Board {
   id: ID!
   name: String!
+  user: User!
+  favoritedBy: [User!]!
   columns: [Column!]!
 }
 
@@ -65,13 +70,22 @@ type Mutation {
   signIn(email: String!): User
 
   createBoard(name: String!): Board!
-
-  createSimpleCard(columnId: ID!, title: String!): Card!
+  favoriteBoard(boardId: ID!): Board!
+  unfavoriteBoard(boardId: ID!): Board!
 
   createColumn(boardId: ID!, name: String!, position: Int!): Column!
 
+  createSimpleCard(columnId: ID!, title: String!): Card!
   deleteCard(cardId: ID!): Card!
+
+  # should be deprecated
   updateCard(cardId: ID!, title: String!, description: String!, imageUrl: String): Card!
+
+  # instead use these granular ones
+  updateCardTitle(cardId: ID!, title: String!): Card!
+  updateCardDescription(cardId: ID!, description: String!): Card!
+  updateCardImageUrl(cardId: ID!, imageUrl: String!): Card!
+
   moveCard(cardId: ID!, targetColumnId: ID!, targetPosition: Int!): Card!
 
   addTagToCard(cardId: ID!, tagName: String!): Card!

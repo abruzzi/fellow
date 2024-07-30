@@ -63,7 +63,7 @@ const Comments = ({ cardId }: { cardId: string }) => {
       },
       onCompleted: () => {
         refreshComments(cardId);
-        setComment(undefined);
+        setComment("");
       },
     });
   };

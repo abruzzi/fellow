@@ -21,11 +21,24 @@ import { CommentsMutation } from "./__generated__/CommentsMutation.graphql.ts";
 import { CommentsQuery as CommentsQueryType } from "./queries/__generated__/CommentsQuery.graphql.ts";
 
 const Comments = ({ cardId }: { cardId: string }) => {
-  const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
 
   const [queryRef, loadQuery] =
     useQueryLoader<CommentsQueryType>(CommentsQuery);
+
+  const refreshComments = useCallback(
+    (cardId: string) => {
+      loadQuery({ cardId }, { fetchPolicy: "store-and-network" });
+    },
+    [loadQuery],
+  );
+
+  useEffect(() => {
+    if (!queryRef) {
+      refreshComments(cardId);
+    }
+  }, [queryRef, refreshComments, cardId]);
+
 
   const [addComment, isAddingComment] = useMutation<CommentsMutation>(graphql`
     mutation CommentsMutation($cardId: ID!, $content: String!) {
@@ -46,26 +59,12 @@ const Comments = ({ cardId }: { cardId: string }) => {
         cardId: cardId,
         content: comment,
       },
-      onCompleted: (response) => {
-        const { id, content } = response.addCommentToCard;
-        setComments([{ id, content }, ...comments]);
+      onCompleted: () => {
+        refreshComments(cardId);
         setComment(undefined);
       },
     });
   };
-
-  const refreshComments = useCallback(
-    (cardId: string) => {
-      loadQuery({ cardId }, { fetchPolicy: "store-and-network" });
-    },
-    [loadQuery],
-  );
-
-  useEffect(() => {
-    if (!queryRef) {
-      refreshComments(cardId);
-    }
-  }, [queryRef, refreshComments, cardId]);
 
   const onCommentChange = (e: ChangeEvent<HTMLInputElement>) => {
     setComment(e.target.value);

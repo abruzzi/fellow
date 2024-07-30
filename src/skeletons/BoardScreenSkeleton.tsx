@@ -6,7 +6,7 @@ export const BoardScreenSkeleton = () => {
   return (
     <div className="h-full flex">
       <SidebarSkeleton />
-      <div className={`flex-grow`}>
+      <div className="flex-grow">
         <BoardSkeleton />
       </div>
     </div>

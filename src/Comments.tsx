@@ -19,6 +19,7 @@ import { format } from "date-fns";
 import { CommentsQuery } from "./queries/CommentsQuery.tsx";
 import { CommentsMutation } from "./__generated__/CommentsMutation.graphql.ts";
 import { CommentsQuery as CommentsQueryType } from "./queries/__generated__/CommentsQuery.graphql.ts";
+import { CommentSkeleton } from "./skeletons/CommentSkeleton.tsx";
 
 const Comments = ({ cardId }: { cardId: string }) => {
   const [comment, setComment] = useState("");
@@ -38,7 +39,6 @@ const Comments = ({ cardId }: { cardId: string }) => {
       refreshComments(cardId);
     }
   }, [queryRef, refreshComments, cardId]);
-
 
   const [addComment, isAddingComment] = useMutation<CommentsMutation>(graphql`
     mutation CommentsMutation($cardId: ID!, $content: String!) {
@@ -101,7 +101,7 @@ const Comments = ({ cardId }: { cardId: string }) => {
         </div>
       </div>
 
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<CommentSkeleton />}>
         {queryRef ? <CommentList queryRef={queryRef} /> : null}
       </Suspense>
     </div>
@@ -113,29 +113,27 @@ const CommentList = ({ queryRef }) => {
   const data = usePreloadedQuery<CommentsQueryType>(CommentsQuery, queryRef);
   return (
     <div className="flex flex-col gap-4">
-      {data.comments.map((comment) => {
-        return (
-          <div className="flex flex-row items-start gap-2" key={comment.id}>
-            <Avatar
-              className="w-8 h-8 flex-shrink-0"
-              color="default"
-              name={comment.user.name}
-              size="sm"
-            />
-            <div className="flex-1 flex-grow flex-shrink-0 gap-2">
-              <div className="flex flex-row gap-2 items-center">
-                <p className="font-bold">{comment.user.name}</p>
-                <p className="text-xs text-slate-600">
-                  {format(new Date(parseInt(comment.updatedAt)), "PPpp")}
-                </p>
-              </div>
-              <p className="rounded-lg bg-white px-4 py-2 shadow-sm">
-                {comment.content}
+      {data.comments.map((comment) => (
+        <div className="flex flex-row items-start gap-2" key={comment.id}>
+          <Avatar
+            className="w-8 h-8 flex-shrink-0"
+            color="default"
+            name={comment.user.name}
+            size="sm"
+          />
+          <div className="flex-1 flex-grow flex-shrink-0 gap-2">
+            <div className="flex flex-row gap-2 items-center">
+              <p className="font-bold">{comment.user.name}</p>
+              <p className="text-xs text-slate-600">
+                {format(new Date(parseInt(comment.updatedAt)), "PPpp")}
               </p>
             </div>
+            <p className="rounded-lg bg-white px-4 py-2 shadow-sm">
+              {comment.content}
+            </p>
           </div>
-        );
-      })}
+        </div>
+      ))}
     </div>
   );
 };

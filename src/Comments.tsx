@@ -15,6 +15,8 @@ import {
 } from "react-relay";
 
 import { format } from "date-fns";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 import { CommentsQuery } from "./queries/CommentsQuery.tsx";
 import { CommentsMutation } from "./__generated__/CommentsMutation.graphql.ts";
@@ -129,9 +131,11 @@ const CommentList = ({ queryRef }) => {
                 {format(new Date(parseInt(comment.updatedAt)), "PPpp")}
               </p>
             </div>
-            <p className="rounded-lg bg-white px-4 py-2 shadow-sm">
-              {comment.content}
-            </p>
+            <div className="rounded-lg bg-white px-4 py-2 shadow-sm">
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                {comment.content}
+              </ReactMarkdown>
+            </div>
           </div>
         </div>
       ))}

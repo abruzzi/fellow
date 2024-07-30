@@ -76,10 +76,8 @@ type Mutation {
   createColumn(boardId: ID!, name: String!, position: Int!): Column!
 
   createSimpleCard(columnId: ID!, title: String!): Card!
+  createCardFromComment(cardId: ID!, title: String!, description: String!): Card!
   deleteCard(cardId: ID!): Card!
-
-  # should be deprecated
-  updateCard(cardId: ID!, title: String!, description: String!, imageUrl: String): Card!
 
   # instead use these granular ones
   updateCardTitle(cardId: ID!, title: String!): Card!
@@ -88,7 +86,10 @@ type Mutation {
 
   moveCard(cardId: ID!, targetColumnId: ID!, targetPosition: Int!): Card!
 
-  addTagToCard(cardId: ID!, tagName: String!): Card!
+  createTag(name: String!): Tag!
+  addTagToCard(cardId: ID!, tagId: ID!): Card!
   removeTagFromCard(cardId: ID!, tagId: ID!): Card!
+
   addCommentToCard(cardId: ID!, content: String!): Comment!
+  removeComment(commentId: ID!): Comment!
 }

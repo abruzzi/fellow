@@ -154,6 +154,8 @@ export const CardEditor = ({
   const handleUpdateDescription = () => {
     setEditingDescription(false);
 
+    console.log(description);
+
     updateDescription({
       variables: {
         cardId: data.id,

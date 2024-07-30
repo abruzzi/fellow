@@ -138,14 +138,14 @@ export const CardEditor = ({
       return;
     }
 
+    setEditingTitle(false);
+
     updateTitle({
       variables: {
         cardId: data.id,
         title: title,
       },
     });
-
-    setEditingTitle(false);
   };
 
   const onDescriptionChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -153,15 +153,14 @@ export const CardEditor = ({
   };
 
   const handleUpdateDescription = () => {
-    console.log(description);
+    setEditingDescription(false);
+
     updateDescription({
       variables: {
         cardId: data.id,
         description: description,
       },
     });
-
-    setEditingDescription(false);
   };
 
   return (

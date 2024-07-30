@@ -157,7 +157,6 @@ const Card = ({
         fragmentRef={fragmentRef}
         isOpen={isOpen}
         onOpenChange={onOpenChange}
-        onRemoveCard={onRemoveCard}
       />
     </li>
   );

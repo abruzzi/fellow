@@ -1,10 +1,9 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, KeyboardEvent, useState } from "react";
 import {
   Modal,
   ModalContent,
   ModalHeader,
   ModalBody,
-  ModalFooter,
   Button,
   Input,
   Textarea,
@@ -14,6 +13,8 @@ import {
   PopoverContent,
   Spinner,
 } from "@nextui-org/react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { graphql, useFragment, useMutation } from "react-relay";
 import { HiOutlineMenu, HiOutlinePlus, HiOutlineTrash } from "react-icons/hi";
 import { HiOutlineMenuAlt2 } from "react-icons/hi";
@@ -26,34 +27,13 @@ import { Comments } from "./Comments.tsx";
 export const CardEditor = ({
   fragmentRef,
   isOpen,
-  onRemoveCard,
   onOpenChange,
 }: {
   fragmentRef: CardFragmentType;
   isOpen: boolean;
-  onRemoveCard: () => void;
   onOpenChange: () => void;
 }) => {
   const data = useFragment<CardFragmentType>(CardFragment, fragmentRef);
-
-  const [commitUpdate, isUpdating] = useMutation(graphql`
-    mutation CardEditorUpdateMutation(
-      $id: ID!
-      $title: String!
-      $description: String!
-      $imageUrl: String
-    ) {
-      updateCard(
-        cardId: $id
-        title: $title
-        description: $description
-        imageUrl: $imageUrl
-      ) {
-        id
-        position
-      }
-    }
-  `);
 
   const [title, setTitle] = useState(data.title);
   const [description, setDescription] = useState(data.description);
@@ -64,6 +44,39 @@ export const CardEditor = ({
   const [hovered, setHovered] = useState<boolean>(false);
   const [uploading, setUploading] = useState(false);
   const [uploadPopupOpen, setUploadPopupOpen] = useState(false);
+
+  const [updateTitle] = useMutation(graphql`
+    mutation CardEditorUpdateTitleMutation($cardId: ID!, $title: String!) {
+      updateCardTitle(cardId: $cardId, title: $title) {
+        id
+        title
+      }
+    }
+  `);
+
+  const [updateDescription, isUpdatingDescription] = useMutation(graphql`
+    mutation CardEditorUpdateDescriptionMutation(
+      $cardId: ID!
+      $description: String!
+    ) {
+      updateCardDescription(cardId: $cardId, description: $description) {
+        id
+        description
+      }
+    }
+  `);
+
+  const [updateImageUrl] = useMutation(graphql`
+    mutation CardEditorUpdateImageUrlMutation(
+      $cardId: ID!
+      $imageUrl: String!
+    ) {
+      updateCardImageUrl(cardId: $cardId, imageUrl: $imageUrl) {
+        id
+        imageUrl
+      }
+    }
+  `);
 
   const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
@@ -88,8 +101,14 @@ export const CardEditor = ({
             body: formData,
           } as RequestInit,
         );
-        const data = await response.json();
-        setImageUrl(data.secure_url);
+        const result = await response.json();
+        setImageUrl(result.secure_url);
+        updateImageUrl({
+          variables: {
+            cardId: data.id,
+            imageUrl: result.secure_url,
+          },
+        });
       } catch (e: unknown) {
         console.log(error);
         // @ts-expect-error what else should I do mate?
@@ -100,21 +119,6 @@ export const CardEditor = ({
     }
   };
 
-  const handleUpdate = (afterUpdate: () => void) => {
-    commitUpdate({
-      variables: { id: data.id, title, description, imageUrl },
-      onCompleted: () => {
-        onRemoveCard();
-        afterUpdate();
-      },
-      onError: (error: unknown) => {
-        console.log(error);
-        // @ts-expect-error what else could I do?
-        setError(error.message);
-      },
-    });
-  };
-
   const [editingTitle, setEditingTitle] = useState<boolean>(false);
   const [editingDescription, setEditingDescription] = useState<boolean>(false);
 
@@ -122,8 +126,40 @@ export const CardEditor = ({
     setTitle(e.target.value);
   };
 
+  const handleTileEditKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleUpdateTitle();
+    }
+  };
+
+  const handleUpdateTitle = () => {
+    if (!title) {
+      return;
+    }
+
+    setEditingTitle(false);
+
+    updateTitle({
+      variables: {
+        cardId: data.id,
+        title: title,
+      },
+    });
+  };
+
   const onDescriptionChange = (e: ChangeEvent<HTMLInputElement>) => {
     setDescription(e.target.value);
+  };
+
+  const handleUpdateDescription = () => {
+    setEditingDescription(false);
+
+    updateDescription({
+      variables: {
+        cardId: data.id,
+        description: description,
+      },
+    });
   };
 
   return (
@@ -131,160 +167,169 @@ export const CardEditor = ({
       isOpen={isOpen}
       onOpenChange={onOpenChange}
       placement="top-center"
-      size="2xl"
+      size="3xl"
+      scrollBehavior="outside"
     >
       <ModalContent className="px-10 py-6">
-        {(onClose) => (
-          <>
-            <ModalHeader className="flex flex-col gap-1">
-              <div className={`flex flex-row items-center gap-2`}>
-                <HiOutlineTicket />
-                <h4 className="text-slate-600">Edit card</h4>
+        <>
+          <ModalHeader className="flex flex-col gap-1">
+            <div className={`flex flex-row items-center gap-2`}>
+              <HiOutlineTicket />
+              <h4 className="text-slate-600">Edit card</h4>
+            </div>
+          </ModalHeader>
+          {error && <p className="text-red-500">{error}</p>}
+          <ModalBody>
+            <div className="flex flex-col gap-4">
+              <div className="flex flex-col">
+                <h4 className="font-bold text-slate-600">Title</h4>
+                {editingTitle ? (
+                  <Input
+                    autoFocus
+                    variant="flat"
+                    endContent={<HiOutlineMenu />}
+                    label="Title"
+                    placeholder="Enter card title"
+                    value={title}
+                    onChange={onTitleChange}
+                    onKeyDown={handleTileEditKeyDown}
+                    radius="none"
+                  />
+                ) : (
+                  <p onClick={() => setEditingTitle(true)}>{title}</p>
+                )}
               </div>
-            </ModalHeader>
-            {error && <p className="text-red-500">{error}</p>}
-            <ModalBody>
-              <div className="flex flex-col gap-4">
-                <div className="flex flex-col">
-                  <h4 className="font-bold text-slate-600">Title</h4>
-                  {editingTitle ? (
-                    <Input
-                      autoFocus
-                      variant="flat"
-                      endContent={<HiOutlineMenu />}
-                      label="Title"
-                      placeholder="Enter card title"
-                      value={title}
-                      onChange={onTitleChange}
-                      radius="none"
-                    />
-                  ) : (
-                    <p onClick={() => setEditingTitle(true)}>{title}</p>
-                  )}
-                </div>
 
-                <div className="flex flex-col gap-1">
-                  <div className="flex flex-row justify-between items-center">
-                    <h4 className="font-bold text-slate-600">Description</h4>
-                    <Button
-                      isIconOnly
-                      variant="light"
-                      onPress={() => setEditingDescription(true)}
-                    >
-                      <FaRegEdit />
-                    </Button>
-                  </div>
+              <div className="flex flex-col gap-1">
+                <div className="flex flex-row justify-between items-center">
+                  <h4 className="font-bold text-slate-600">Description</h4>
+                  <Button
+                    isIconOnly
+                    variant="light"
+                    onPress={() => setEditingDescription(true)}
+                  >
+                    <FaRegEdit />
+                  </Button>
+                </div>
+                <div>
                   {editingDescription ? (
-                    <Textarea
-                      label="Description"
-                      endContent={<HiOutlineMenuAlt2 />}
-                      placeholder="Enter your description"
-                      value={description}
-                      onChange={onDescriptionChange}
-                      radius="none"
-                    />
+                    <div className="flex flex-col gap-2">
+                      <Textarea
+                        label="Description"
+                        endContent={<HiOutlineMenuAlt2 />}
+                        placeholder="Enter your description"
+                        value={description}
+                        onChange={onDescriptionChange}
+                        radius="sm"
+                      />
+                      <div className="flex flex-row justify-start gap-2">
+                        <Button
+                          onPress={handleUpdateDescription}
+                          disabled={isUpdatingDescription}
+                          size="sm"
+                          color="primary"
+                        >
+                          Save
+                        </Button>
+                        <Button
+                          onPress={() => setEditingDescription(false)}
+                          size="sm"
+                          color="default"
+                          variant="light"
+                        >
+                          Cancel
+                        </Button>
+                      </div>
+                    </div>
                   ) : (
-                    <p onClick={() => setEditingDescription(true)}>
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
                       {description}
-                    </p>
+                    </ReactMarkdown>
                   )}
                 </div>
+              </div>
 
-                <div className="flex flex-col gap-1">
-                  <div className="flex flex-row justify-between items-center">
-                    <h4 className="font-bold text-slate-600">Image</h4>
-                    <Popover
-                      placement="bottom"
-                      showArrow
-                      offset={10}
-                      isOpen={uploadPopupOpen}
-                      onOpenChange={(open) => setUploadPopupOpen(open)}
-                    >
-                      <PopoverTrigger>
-                        <Button
-                          isIconOnly
-                          variant="light"
-                          onPress={() => setUploadPopupOpen(true)}
-                        >
-                          <HiOutlinePlus />
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-[240px]">
-                        {(titleProps) => (
-                          <div className="px-1 py-2 w-full">
-                            <p
-                              className="text-small font-bold text-foreground"
-                              {...titleProps}
-                            >
-                              Upload
-                            </p>
-                            <div className="mt-2 flex flex-col gap-2 w-full">
-                              <Input
-                                className="flex-1"
-                                type="file"
-                                onChange={handleFileChange}
-                              />
-                            </div>
+              <div className="flex flex-col gap-1">
+                <div className="flex flex-row justify-between items-center">
+                  <h4 className="font-bold text-slate-600">Image</h4>
+                  <Popover
+                    placement="bottom"
+                    showArrow
+                    offset={10}
+                    isOpen={uploadPopupOpen}
+                    onOpenChange={(open) => setUploadPopupOpen(open)}
+                  >
+                    <PopoverTrigger>
+                      <Button
+                        isIconOnly
+                        variant="light"
+                        onPress={() => setUploadPopupOpen(true)}
+                      >
+                        <HiOutlinePlus />
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-[240px]">
+                      {(titleProps) => (
+                        <div className="px-1 py-2 w-full">
+                          <p
+                            className="text-small font-bold text-foreground"
+                            {...titleProps}
+                          >
+                            Upload
+                          </p>
+                          <div className="mt-2 flex flex-col gap-2 w-full">
+                            <Input
+                              className="flex-1"
+                              type="file"
+                              onChange={handleFileChange}
+                            />
                           </div>
-                        )}
-                      </PopoverContent>
-                    </Popover>
-                  </div>
-
-                  <div className="flex flex-row gap-1">
-                    <div className="max-w-36">
-                      {imageUrl && (
-                        <div
-                          className="relative"
-                          onMouseEnter={() => setHovered(true)}
-                          onMouseLeave={() => setHovered(false)}
-                        >
-                          {uploading && (
-                            <div className="absolute right-2 top-2 delay-100 z-20">
-                              <Spinner color="default" />
-                            </div>
-                          )}
-                          {hovered && (
-                            <div className="absolute right-2 top-2 delay-100 z-20">
-                              <Button
-                                size="sm"
-                                isIconOnly
-                                color="danger"
-                                variant="light"
-                                aria-label="Delete"
-                                onPress={() => setImageUrl(undefined)}
-                              >
-                                <HiOutlineTrash />
-                              </Button>
-                            </div>
-                          )}
-                          <Image src={imageUrl} alt="Uploaded file" />
                         </div>
                       )}
-                    </div>
+                    </PopoverContent>
+                  </Popover>
+                </div>
+
+                <div className="flex flex-row gap-1">
+                  <div className="max-w-36">
+                    {imageUrl && (
+                      <div
+                        className="relative"
+                        onMouseEnter={() => setHovered(true)}
+                        onMouseLeave={() => setHovered(false)}
+                      >
+                        {uploading && (
+                          <div className="absolute right-2 top-2 delay-100 z-20">
+                            <Spinner color="default" />
+                          </div>
+                        )}
+                        {hovered && (
+                          <div className="absolute right-2 top-2 delay-100 z-20">
+                            <Button
+                              size="sm"
+                              isIconOnly
+                              color="danger"
+                              variant="light"
+                              aria-label="Delete"
+                              onPress={() => setImageUrl(undefined)}
+                            >
+                              <HiOutlineTrash />
+                            </Button>
+                          </div>
+                        )}
+                        <Image src={imageUrl} alt="Uploaded file" />
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
+            </div>
 
-              <hr />
+            <hr />
 
-              <Comments cardId={data.id} />
-            </ModalBody>
-
-            <ModalFooter>
-              <Button color="default" variant="flat" onPress={onClose}>
-                Cancel
-              </Button>
-              <Button
-                color="primary"
-                onPress={() => handleUpdate(onClose)}
-                disabled={isUpdating}
-              >
-                Update
-              </Button>
-            </ModalFooter>
-          </>
-        )}
+            <Comments cardId={data.id} />
+          </ModalBody>
+        </>
       </ModalContent>
     </Modal>
   );

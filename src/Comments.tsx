@@ -87,14 +87,15 @@ const Comments = ({ cardId }: { cardId: string }) => {
             endContent={<HiOutlineMenuAlt2 />}
             value={comment}
             onChange={onCommentChange}
-            radius="none"
+            radius="sm"
+            minRows={1}
           />
           <Button
             onPress={handleAddComment}
-            disabled={isAddingComment}
+            disabled={isAddingComment || comment.trim().length === 0}
             className="mr-auto"
             size="sm"
-            color="primary"
+            color={comment.trim().length === 0 ? "default" : "primary"}
           >
             Save
           </Button>
@@ -112,7 +113,7 @@ const Comments = ({ cardId }: { cardId: string }) => {
 const CommentList = ({ queryRef }) => {
   const data = usePreloadedQuery<CommentsQueryType>(CommentsQuery, queryRef);
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-6">
       {data.comments.map((comment) => (
         <div className="flex flex-row items-start gap-2" key={comment.id}>
           <Avatar

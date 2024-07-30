@@ -133,11 +133,10 @@ export const CardEditor = ({
   };
 
   const handleUpdateTitle = () => {
+    // basically you cannot delete the card title to empty.
     if (!title) {
       return;
     }
-
-    setEditingTitle(false);
 
     updateTitle({
       variables: {
@@ -145,6 +144,8 @@ export const CardEditor = ({
         title: title,
       },
     });
+
+    setEditingTitle(false);
   };
 
   const onDescriptionChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -152,16 +153,15 @@ export const CardEditor = ({
   };
 
   const handleUpdateDescription = () => {
-    setEditingDescription(false);
-
     console.log(description);
-
     updateDescription({
       variables: {
         cardId: data.id,
         description: description,
       },
     });
+
+    setEditingDescription(false);
   };
 
   return (

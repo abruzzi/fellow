@@ -47,4 +47,4 @@ const OAuthCallback = () => {
   return <div>Processing login...</div>;
 };
 
-export default OAuthCallback;
+export { OAuthCallback };

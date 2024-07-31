@@ -1,5 +1,5 @@
 import { graphql, useQueryLoader } from "react-relay";
-import React, { Suspense, useCallback, useEffect, useState } from "react";
+import React, { Suspense, useCallback, useEffect } from "react";
 
 import { Board } from "./Board.tsx";
 import { Sidebar } from "./Sidebar.tsx";

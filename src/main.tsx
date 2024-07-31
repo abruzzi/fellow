@@ -4,18 +4,23 @@ import "./index.css";
 import { RelayEnvironmentProvider } from "react-relay";
 import environment from "./relay/environment.ts";
 
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  Navigate,
+  Route,
+  BrowserRouter as Router,
+  Routes,
+} from "react-router-dom";
+
+import { NextUIProvider } from "@nextui-org/react";
+
 import { Root } from "./routes/Root.tsx";
-import { ErrorPage } from "./ErrorPage.tsx";
 import { Board } from "./routes/Board.tsx";
 import { Boards } from "./Boards.tsx";
-import { NextUIProvider } from "@nextui-org/react";
-import Login from "./routes/Login.tsx";
-import OAuthCallback from "./OAuthCallback.tsx";
-import ProtectedRoute from "./routes/ProtectedRoute.tsx";
+import { Login } from "./routes/Login.tsx";
+import { Logout } from "./routes/Logout.tsx";
+import { OAuthCallback } from "./OAuthCallback.tsx";
+import { ProtectedRoute } from "./routes/ProtectedRoute.tsx";
 import { AuthProvider } from "./AuthenticationContext.tsx";
-import { Recent } from "./routes/Recent.tsx";
-import { Starred } from "./routes/Starred.tsx";
 
 async function enableMocking() {
   if (process.env.NODE_ENV !== "development") {
@@ -24,59 +29,8 @@ async function enableMocking() {
 
   const { worker } = await import("./mocks/browser");
 
-  // `worker.start()` returns a Promise that resolves
-  // once the Service Worker is up and ready to intercept requests.
   return worker.start();
 }
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Root />,
-    children: [
-      {
-        path: "boards",
-        element: (
-          <ProtectedRoute>
-            <Boards />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: "recent",
-        element: (
-          <ProtectedRoute>
-            <Recent />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: "starred",
-        element: (
-          <ProtectedRoute>
-            <Starred />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: "boards/:boardId",
-        element: (
-          <ProtectedRoute>
-            <Board />
-          </ProtectedRoute>
-        ),
-      },
-    ],
-  },
-  {
-    path: "/login",
-    element: <Login />,
-  },
-  {
-    path: "/oauth/callback",
-    element: <OAuthCallback />,
-  },
-]);
 
 enableMocking().then(() =>
   ReactDOM.createRoot(document.getElementById("root")!).render(
@@ -84,7 +38,32 @@ enableMocking().then(() =>
       <AuthProvider>
         <NextUIProvider>
           <RelayEnvironmentProvider environment={environment}>
-            <RouterProvider router={router} />
+            <Router>
+              <Routes>
+                <Route path="/" element={<Root />}>
+                  <Route index element={<Navigate to="/boards" replace />} />
+                  <Route
+                    path="boards"
+                    element={
+                      <ProtectedRoute>
+                        <Boards />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="boards/:boardId"
+                    element={
+                      <ProtectedRoute>
+                        <Board />
+                      </ProtectedRoute>
+                    }
+                  />
+                </Route>
+                <Route path="/login" element={<Login />} />
+                <Route path="/logout" element={<Logout />} />
+                <Route path="/oauth/callback" element={<OAuthCallback />} />
+              </Routes>
+            </Router>
           </RelayEnvironmentProvider>
         </NextUIProvider>
       </AuthProvider>

@@ -1,6 +1,6 @@
 import React, { Suspense, useEffect } from "react";
 
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { Navigation } from "../Navigation.tsx";
 import { useQueryLoader } from "react-relay";
 import { CurrentUserQuery } from "../queries/CurrentUserQuery.tsx";

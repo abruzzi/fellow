@@ -1,10 +1,13 @@
-import {graphql, usePreloadedQuery} from "react-relay";
-import {Column} from "./Column.tsx";
-import {HiOutlineStar} from "react-icons/hi";
+import { graphql, usePreloadedQuery } from "react-relay";
+import { Column } from "./Column.tsx";
+import { HiOutlineStar } from "react-icons/hi";
 import React from "react";
-import {BoardQuery} from "./__generated__/BoardQuery.graphql.ts";
+import { BoardQuery } from "./__generated__/BoardQuery.graphql.ts";
 
-import {BoardSkeleton} from "./skeletons/BoardSkeleton.tsx";
+import { BoardSkeleton } from "./skeletons/BoardSkeleton.tsx";
+import { Button } from "@nextui-org/react";
+import { MdMoreHoriz } from "react-icons/md";
+import { FiUserPlus } from "react-icons/fi";
 
 // eslint-disable-next-line react/prop-types
 export const Board = ({ queryRef, refresh: refreshBoard }) => {
@@ -37,6 +40,12 @@ export const Board = ({ queryRef, refresh: refreshBoard }) => {
         <span className="mr-auto">
           <HiOutlineStar />
         </span>
+        <Button color="primary" startContent={<FiUserPlus />}>
+          Invite others
+        </Button>
+        <Button isIconOnly variant="light">
+          <MdMoreHoriz />
+        </Button>
       </div>
       <div className="relative mt-4 flex-grow">
         <ol

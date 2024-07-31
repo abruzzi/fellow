@@ -1,7 +1,7 @@
 import { graphql, usePreloadedQuery } from "react-relay";
 import { Column } from "./Column.tsx";
 import { HiOutlineStar } from "react-icons/hi";
-import React from "react";
+import React, { useMemo, useState } from "react";
 import { BoardQuery } from "./__generated__/BoardQuery.graphql.ts";
 
 import { BoardSkeleton } from "./skeletons/BoardSkeleton.tsx";
@@ -11,7 +11,6 @@ import {
   Modal,
   ModalBody,
   ModalContent,
-  ModalFooter,
   ModalHeader,
   Select,
   SelectItem,
@@ -22,7 +21,18 @@ import { FiUserPlus } from "react-icons/fi";
 
 // eslint-disable-next-line react/prop-types
 export const Board = ({ queryRef, refresh: refreshBoard }) => {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [role, setRole] = useState<string>("member");
+  const [email, setEmail] = useState<string>("");
+
+  const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
+
+  const validateEmail = (value) =>
+    value.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i);
+
+  const isInvalid = useMemo(() => {
+    if (email === "") return false;
+    return !validateEmail(email);
+  }, [email]);
 
   const data = usePreloadedQuery<BoardQuery>(
     graphql`
@@ -44,6 +54,21 @@ export const Board = ({ queryRef, refresh: refreshBoard }) => {
     return <BoardSkeleton />;
   }
 
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+  };
+  const handleRoleSelect = (e) => {
+    setRole(e.target.value);
+  };
+
+  const handleSendInvite = (afterSubmit: () => void) => {
+    console.log(`sending invite to ${email}, with ${role} permission`);
+
+    if (!isInvalid) {
+      afterSubmit();
+    }
+  };
+
   return (
     <>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="md">
@@ -54,15 +79,38 @@ export const Board = ({ queryRef, refresh: refreshBoard }) => {
             </ModalHeader>
             <ModalBody>
               <div className="flex flex-col gap-4 py-2">
-                <Input type="email" label="Email" size="sm" />
-                <Select label="Select a role" size="sm">
-                  <SelectItem>Member</SelectItem>
-                  <SelectItem>Admin</SelectItem>
+                <Input
+                  type="email"
+                  label="Email"
+                  size="sm"
+                  isInvalid={isInvalid}
+                  color={isInvalid ? "danger" : "default"}
+                  errorMessage="Please enter a valid email"
+                  onChange={handleEmailChange}
+                />
+                <Select
+                  label="Select a role"
+                  size="sm"
+                  selectedKeys={[role]}
+                  onChange={handleRoleSelect}
+                  multiple={false}
+                >
+                  <SelectItem key="member">Member</SelectItem>
+                  <SelectItem key="admin">Admin</SelectItem>
                 </Select>
-                <Button color="primary" startContent={<FiUserPlus />}>Send invitation</Button>
+                <Button
+                  color="primary"
+                  startContent={<FiUserPlus />}
+                  onPress={() => handleSendInvite(onClose)}
+                  disabled={isInvalid}
+                >
+                  Send invitation
+                </Button>
               </div>
               <div className="mb-4">
-                <p className="font-light text-sm">It might take sometime for the invitation be derived</p>
+                <p className="font-light text-sm">
+                  It might take sometime for the invitation be derived
+                </p>
               </div>
             </ModalBody>
           </>

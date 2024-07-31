@@ -10,9 +10,9 @@ export const BoardSkeleton = () => {
         <ol
           className={`flex flex-row gap-4 absolute top-0 left-0 bottom-0 right-0 select-none px-4`}
         >
-          {["todo", "in progress", "done"].map((_, index) => (
-            <ColumnSkeleton key={index} />
-          ))}
+          <ColumnSkeleton numberOfCards={3} />
+          <ColumnSkeleton numberOfCards={1} />
+          <ColumnSkeleton numberOfCards={2} />
         </ol>
       </div>
     </div>

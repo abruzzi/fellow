@@ -45,7 +45,7 @@ export const BoardScreen = ({ id }: { id: string }) => {
   return (
     <div className="h-full flex">
       <Sidebar />
-      <div className={`flex-grow`}>
+      <div className="flex-grow">
         <Suspense fallback={<BoardSkeleton />}>
           <Board queryRef={queryRef} refresh={refreshBoard} />
         </Suspense>

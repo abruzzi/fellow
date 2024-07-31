@@ -81,13 +81,14 @@ const SimpleCardCreation = ({
             onKeyDown={handleKeyDown}
           />
           <div className={`flex flex-row gap-2 align-middle`}>
-            <Button color="primary" onPress={handleCreateCard}>
+            <Button color="primary" size="sm" onPress={handleCreateCard}>
               Add
             </Button>
             <Button
               isIconOnly
+              size="sm"
               color="default"
-              variant="solid"
+              variant="light"
               aria-label="Cancel"
               onPress={handleCancel}
             >

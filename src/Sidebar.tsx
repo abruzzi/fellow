@@ -20,7 +20,7 @@ const Sidebar = () => {
   if(!queryRef) {
     return <SidebarSkeleton />
   }
-  
+
   return (
     <Suspense fallback={<SidebarSkeleton />}>
       {queryRef ? <SimpleBoardList queryRef={queryRef} /> : null}

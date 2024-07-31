@@ -4,5 +4,4 @@
 
 body {
   @apply bg-cover bg-center h-screen;
-  /*background-image: url('./assets/board-background.jpg');*/
 }

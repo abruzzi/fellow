@@ -153,7 +153,7 @@ const Column = ({
   }, [cards, moveCard, data.id, refreshBoard, refreshColumn, boardId]);
 
   if (!data) {
-    return <ColumnSkeleton />;
+    return <ColumnSkeleton numberOfCards={3} />;
   }
 
   return (

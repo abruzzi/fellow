@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { HiOutlinePlus, HiOutlineStar } from "react-icons/hi";
 
 import type { BoardsQuery as BoardsQueryType } from "./queries/__generated__/BoardsQuery.graphql.ts";
-import { MdFeaturedPlayList } from "react-icons/md";
+import { MdFeaturedPlayList, MdFeaturedVideo } from "react-icons/md";
 import { Button } from "@nextui-org/react";
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 
@@ -47,12 +47,28 @@ export const SimpleBoardList = ({ queryRef }) => {
             </span>
           </div>
           <ol className="flex flex-wrap justify-start flex-col w-64">
-            {data.boards.map((board) => (
+            {(data.boards || []).map((board) => (
               <li key={board.id}>
                 <Link to={`/boards/${board.id}`}>
                   <div className="flex flex-row items-center gap-1 hover:bg-slate-100 px-4 py-1">
                     <span className="text-slate-700">
                       <MdFeaturedPlayList />
+                    </span>
+                    <p>{board.name}</p>
+                    <span className="ml-auto">
+                      <HiOutlineStar />
+                    </span>
+                  </div>
+                </Link>
+              </li>
+            ))}
+
+            {(data.collaborateBoards || []).map((board) => (
+              <li key={board.id}>
+                <Link to={`/boards/${board.id}`}>
+                  <div className="flex flex-row items-center gap-1 hover:bg-slate-100 px-4 py-1">
+                    <span className="text-emerald-500">
+                      <MdFeaturedVideo />
                     </span>
                     <p>{board.name}</p>
                     <span className="ml-auto">

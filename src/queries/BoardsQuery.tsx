@@ -6,5 +6,9 @@ export const BoardsQuery = graphql`
             id
             name
         }
+        collaborateBoards {
+            id
+            name
+        }
     }
 `;

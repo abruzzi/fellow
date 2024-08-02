@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<e09439fcb0f870f4ea30236717abba35>>
+ * @generated SignedSource<<e2951597848adbb286c43bc356f2ae45>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -15,6 +15,10 @@ export type BoardsQuery$data = {
     readonly id: string;
     readonly name: string;
   }>;
+  readonly collaborateBoards: ReadonlyArray<{
+    readonly id: string;
+    readonly name: string;
+  } | null | undefined>;
 };
 export type BoardsQuery = {
   response: BoardsQuery$data;
@@ -26,26 +30,37 @@ var v0 = [
   {
     "alias": null,
     "args": null,
+    "kind": "ScalarField",
+    "name": "id",
+    "storageKey": null
+  },
+  {
+    "alias": null,
+    "args": null,
+    "kind": "ScalarField",
+    "name": "name",
+    "storageKey": null
+  }
+],
+v1 = [
+  {
+    "alias": null,
+    "args": null,
     "concreteType": "Board",
     "kind": "LinkedField",
     "name": "boards",
     "plural": true,
-    "selections": [
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "id",
-        "storageKey": null
-      },
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "name",
-        "storageKey": null
-      }
-    ],
+    "selections": (v0/*: any*/),
+    "storageKey": null
+  },
+  {
+    "alias": null,
+    "args": null,
+    "concreteType": "Board",
+    "kind": "LinkedField",
+    "name": "collaborateBoards",
+    "plural": true,
+    "selections": (v0/*: any*/),
     "storageKey": null
   }
 ];
@@ -55,7 +70,7 @@ return {
     "kind": "Fragment",
     "metadata": null,
     "name": "BoardsQuery",
-    "selections": (v0/*: any*/),
+    "selections": (v1/*: any*/),
     "type": "Query",
     "abstractKey": null
   },
@@ -64,19 +79,19 @@ return {
     "argumentDefinitions": [],
     "kind": "Operation",
     "name": "BoardsQuery",
-    "selections": (v0/*: any*/)
+    "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "6c11a0f1a86c66f628a73375c815320c",
+    "cacheID": "6d9565caa243a5d7dc2c56d9b3a9210d",
     "id": null,
     "metadata": {},
     "name": "BoardsQuery",
     "operationKind": "query",
-    "text": "query BoardsQuery {\n  boards {\n    id\n    name\n  }\n}\n"
+    "text": "query BoardsQuery {\n  boards {\n    id\n    name\n  }\n  collaborateBoards {\n    id\n    name\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "feedb9b4519c755a456c46ee9fbb5f2b";
+(node as any).hash = "df3d5b42f0bad634fb2f38063300e637";
 
 export default node;

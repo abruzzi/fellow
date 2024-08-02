@@ -25,6 +25,7 @@ export const Board = ({ queryRef, refresh: refreshBoard }) => {
   const { token } = useAuth();
   const [role, setRole] = useState<string>("member");
   const [email, setEmail] = useState<string>("");
+  const [isSendingInvite, setSendingInvite] = useState<boolean>(false);
 
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
 
@@ -66,6 +67,7 @@ export const Board = ({ queryRef, refresh: refreshBoard }) => {
   };
 
   const handleSendInvite = async (afterSubmit: () => void) => {
+    setSendingInvite(true);
     try {
       const response = await fetch(
         `${import.meta.env.VITE_BOARDS_BASE_URL}/invite`,
@@ -83,6 +85,8 @@ export const Board = ({ queryRef, refresh: refreshBoard }) => {
       console.log(result);
     } catch (error) {
       console.log(error);
+    } finally {
+      setSendingInvite(false);
     }
 
     if (!isInvalid) {
@@ -123,7 +127,8 @@ export const Board = ({ queryRef, refresh: refreshBoard }) => {
                   color="primary"
                   startContent={<FiUserPlus />}
                   onPress={() => handleSendInvite(onClose)}
-                  disabled={isInvalid}
+                  disabled={isInvalid || isSendingInvite}
+                  isLoading={isSendingInvite}
                 >
                   Send invitation
                 </Button>

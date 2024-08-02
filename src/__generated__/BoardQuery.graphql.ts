@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<cd9036d3d0e5bb2535fdd3619fad2b4a>>
+ * @generated SignedSource<<2de60953c04b89d14ed10adf37a701be>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -20,6 +20,7 @@ export type BoardQuery$data = {
       readonly position: number;
       readonly " $fragmentSpreads": FragmentRefs<"ColumnFragment">;
     }>;
+    readonly id: string;
     readonly name: string;
   };
 };
@@ -47,14 +48,14 @@ v2 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "name",
+  "name": "id",
   "storageKey": null
 },
 v3 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "id",
+  "name": "name",
   "storageKey": null
 },
 v4 = {
@@ -80,6 +81,7 @@ return {
         "plural": false,
         "selections": [
           (v2/*: any*/),
+          (v3/*: any*/),
           {
             "alias": null,
             "args": null,
@@ -88,7 +90,7 @@ return {
             "name": "columns",
             "plural": true,
             "selections": [
-              (v3/*: any*/),
+              (v2/*: any*/),
               (v4/*: any*/),
               {
                 "args": null,
@@ -120,6 +122,7 @@ return {
         "plural": false,
         "selections": [
           (v2/*: any*/),
+          (v3/*: any*/),
           {
             "alias": null,
             "args": null,
@@ -128,9 +131,9 @@ return {
             "name": "columns",
             "plural": true,
             "selections": [
-              (v3/*: any*/),
-              (v4/*: any*/),
               (v2/*: any*/),
+              (v4/*: any*/),
+              (v3/*: any*/),
               {
                 "alias": null,
                 "args": null,
@@ -139,7 +142,7 @@ return {
                 "name": "cards",
                 "plural": true,
                 "selections": [
-                  (v3/*: any*/),
+                  (v2/*: any*/),
                   (v4/*: any*/),
                   {
                     "alias": null,
@@ -170,7 +173,7 @@ return {
                     "name": "column",
                     "plural": false,
                     "selections": [
-                      (v3/*: any*/)
+                      (v2/*: any*/)
                     ],
                     "storageKey": null
                   }
@@ -179,24 +182,23 @@ return {
               }
             ],
             "storageKey": null
-          },
-          (v3/*: any*/)
+          }
         ],
         "storageKey": null
       }
     ]
   },
   "params": {
-    "cacheID": "e3db1fe39159e6825e48556808f1dbdb",
+    "cacheID": "8b3d3bbe9b6fc7682594c993977dd48e",
     "id": null,
     "metadata": {},
     "name": "BoardQuery",
     "operationKind": "query",
-    "text": "query BoardQuery(\n  $boardId: ID!\n) {\n  board(id: $boardId) {\n    name\n    columns {\n      id\n      position\n      ...ColumnFragment\n    }\n    id\n  }\n}\n\nfragment CardFragment on Card {\n  id\n  title\n  description\n  position\n  imageUrl\n  column {\n    id\n  }\n}\n\nfragment ColumnFragment on Column {\n  id\n  name\n  position\n  cards {\n    id\n    position\n    ...CardFragment\n  }\n}\n"
+    "text": "query BoardQuery(\n  $boardId: ID!\n) {\n  board(id: $boardId) {\n    id\n    name\n    columns {\n      id\n      position\n      ...ColumnFragment\n    }\n  }\n}\n\nfragment CardFragment on Card {\n  id\n  title\n  description\n  position\n  imageUrl\n  column {\n    id\n  }\n}\n\nfragment ColumnFragment on Column {\n  id\n  name\n  position\n  cards {\n    id\n    position\n    ...CardFragment\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "f67ace95c6c5adf32151c528387d31d5";
+(node as any).hash = "00cd2108f7a5a8f937a8e36cda3af291";
 
 export default node;

@@ -18,9 +18,11 @@ import {
 } from "@nextui-org/react";
 import { MdMoreHoriz } from "react-icons/md";
 import { FiUserPlus } from "react-icons/fi";
+import { useAuth } from "./AuthenticationContext.tsx";
 
 // eslint-disable-next-line react/prop-types
 export const Board = ({ queryRef, refresh: refreshBoard }) => {
+  const { token } = useAuth();
   const [role, setRole] = useState<string>("member");
   const [email, setEmail] = useState<string>("");
 
@@ -38,6 +40,7 @@ export const Board = ({ queryRef, refresh: refreshBoard }) => {
     graphql`
       query BoardQuery($boardId: ID!) {
         board(id: $boardId) {
+          id
           name
           columns {
             id
@@ -57,12 +60,30 @@ export const Board = ({ queryRef, refresh: refreshBoard }) => {
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
   };
+
   const handleRoleSelect = (e) => {
     setRole(e.target.value);
   };
 
-  const handleSendInvite = (afterSubmit: () => void) => {
-    console.log(`sending invite to ${email}, with ${role} permission`);
+  const handleSendInvite = async (afterSubmit: () => void) => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_BOARDS_BASE_URL}/invite`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ email, boardId: data.board.id }),
+        },
+      );
+
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
 
     if (!isInvalid) {
       afterSubmit();

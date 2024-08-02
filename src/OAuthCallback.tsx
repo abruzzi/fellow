@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthenticationContext";
+import { useHandleInvite } from "./useHandleInvite.ts";
 
 type AuthResponse = {
   token: string;
@@ -9,6 +10,8 @@ type AuthResponse = {
 const OAuthCallback = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
+
+  const { handleInvite } = useHandleInvite();
 
   useEffect(() => {
     const exchangeCodeForToken = async () => {
@@ -33,7 +36,14 @@ const OAuthCallback = () => {
 
           const data: AuthResponse = await response.json();
           login(data.token);
-          navigate("/boards");
+          const inviteToken = localStorage.getItem("pendingInviteToken");
+
+          if (inviteToken) {
+            await handleInvite(inviteToken);
+            localStorage.removeItem("pendingInviteToken");
+          } else {
+            navigate("/boards");
+          }
         } catch (error) {
           console.error("Error exchanging code for token", error);
           navigate("/login");
@@ -42,7 +52,7 @@ const OAuthCallback = () => {
     };
 
     exchangeCodeForToken();
-  }, [login, navigate]);
+  }, [handleInvite, login, navigate]);
 
   return <div>Processing login...</div>;
 };

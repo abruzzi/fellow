@@ -9,7 +9,7 @@ const useHandleInvite = () => {
   const handleInvite = useCallback(
     async (invitationToken: string) => {
       try {
-        const response = await fetch("/accept-invitation", {
+        const response = await fetch(`${import.meta.env.VITE_BOARDS_BASE_URL}/accept-invitation`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

@@ -9,6 +9,7 @@ const useHandleInvite = () => {
   const handleInvite = useCallback(
     async (invitationToken: string) => {
       try {
+        console.log(invitationToken);
         const response = await fetch(`${import.meta.env.VITE_BOARDS_BASE_URL}/accept-invitation`, {
           method: "POST",
           headers: {
@@ -21,7 +22,7 @@ const useHandleInvite = () => {
         const data = await response.json();
         console.log(data);
 
-        navigate(`/board/${data.boardId}`);
+        navigate(`/boards/${data.boardId}`);
       } catch (error) {
         console.log(error);
       }

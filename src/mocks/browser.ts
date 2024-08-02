@@ -1,5 +1,6 @@
-import { setupWorker } from 'msw/browser';
+import { setupWorker } from "msw/browser";
 
-import { handlers } from './handlers';
+import { graphqlHandlers } from "./graphqlHandlers.ts";
+import { restHandlers } from "./restHandlers.ts";
 
-export const worker = setupWorker(...handlers);
+export const worker = setupWorker(...restHandlers, ...graphqlHandlers);

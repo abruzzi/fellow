@@ -5,7 +5,7 @@ import board from "./board.json";
 import user from "./user.json";
 import comments from "./comments.json";
 
-export const handlers = [
+export const graphqlHandlers = [
   graphql.query("BoardsQuery", async ({}) => {
     await delay();
     return HttpResponse.json(boards);

@@ -36,8 +36,9 @@ const OAuthCallback = () => {
 
           const data: AuthResponse = await response.json();
           login(data.token);
-          const inviteToken = localStorage.getItem("pendingInviteToken");
 
+          // if we have a pending invite token, deal with it first
+          const inviteToken = localStorage.getItem("pendingInviteToken");
           if (inviteToken) {
             await handleInvite(inviteToken);
             localStorage.removeItem("pendingInviteToken");

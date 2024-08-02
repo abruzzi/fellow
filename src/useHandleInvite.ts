@@ -19,6 +19,8 @@ const useHandleInvite = () => {
         });
 
         const data = await response.json();
+        console.log(data);
+
         navigate(`/board/${data.boardId}`);
       } catch (error) {
         console.log(error);

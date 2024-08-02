@@ -19,11 +19,7 @@ const AcceptInvitation = () => {
         handleInvite(inviteToken);
       } else {
         localStorage.setItem("pendingInviteToken", inviteToken);
-        navigate("/login", {
-          state: {
-            redirectUrl: `/accept-invitation`,
-          },
-        });
+        navigate("/login");
       }
     }
   }, [handleInvite, location, navigate, userToken]);

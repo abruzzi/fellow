@@ -13,12 +13,12 @@ const AcceptInvitation = () => {
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const inviteToken = params.get("token");
+    localStorage.setItem("pendingInviteToken", inviteToken);
 
     if (inviteToken) {
       if (userToken) {
         handleInvite(inviteToken);
       } else {
-        localStorage.setItem("pendingInviteToken", inviteToken);
         navigate("/login");
       }
     }

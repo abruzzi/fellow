@@ -21,6 +21,7 @@ import { Logout } from "./routes/Logout.tsx";
 import { OAuthCallback } from "./OAuthCallback.tsx";
 import { ProtectedRoute } from "./routes/ProtectedRoute.tsx";
 import { AuthProvider } from "./AuthenticationContext.tsx";
+import { AcceptInvitation } from "./routes/AcceptInvitation.tsx";
 
 async function enableMocking() {
   if (process.env.NODE_ENV !== "development") {
@@ -59,6 +60,10 @@ enableMocking().then(() =>
                     }
                   />
                 </Route>
+                <Route
+                  path="/accept-invitation"
+                  element={<AcceptInvitation />}
+                />
                 <Route path="/login" element={<Login />} />
                 <Route path="/logout" element={<Logout />} />
                 <Route path="/oauth/callback" element={<OAuthCallback />} />

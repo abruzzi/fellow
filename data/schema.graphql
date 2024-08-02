@@ -8,7 +8,17 @@ type User {
   name: String
   comments: [Comment!]!
   boards: [Board!]!
+  collaborations: [Board!]!
   favorites: [Board!]!
+}
+
+type Board {
+  id: ID!
+  name: String!
+  user: User!
+  collaborators: [User!]!
+  favoritedBy: [User!]!
+  columns: [Column!]!
 }
 
 type Card {
@@ -47,18 +57,12 @@ type Column implements Node {
   cards: [Card!]!
 }
 
-type Board {
-  id: ID!
-  name: String!
-  user: User!
-  favoritedBy: [User!]!
-  columns: [Column!]!
-}
-
 type Query {
   boards: [Board!]!
   board(id: ID!): Board!
+  collaborators(boardId: ID!): [User!]!
   column(id: ID!): Column!
+  card(id: ID!): Card!
   node(id: ID!): Node
   currentUser: User
   tags: [Tag!]!

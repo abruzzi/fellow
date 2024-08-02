@@ -2,10 +2,15 @@ import React from "react";
 import { Button } from "@nextui-org/react";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
+import { useLocation } from "react-router-dom";
 
 const Login = () => {
+  const location = useLocation();
+  const { redirectUrl = import.meta.env.VITE_OAUTH_REDIRECT_URI } =
+    location.state;
+
   const handleGoogleLogin = () => {
-    window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${import.meta.env.VITE_GOOGLE_CLIENT_ID}&redirect_uri=${encodeURIComponent(import.meta.env.VITE_OAUTH_REDIRECT_URI)}&response_type=code&scope=openid%20profile%20email`;
+    window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${import.meta.env.VITE_GOOGLE_CLIENT_ID}&redirect_uri=${encodeURIComponent(redirectUrl)}&response_type=code&scope=openid%20profile%20email`;
   };
 
   const handleGithubLogin = () => {

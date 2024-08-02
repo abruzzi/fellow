@@ -109,7 +109,7 @@ export const Board = ({ queryRef, refresh: refreshBoard }) => {
               </div>
               <div className="mb-4">
                 <p className="font-light text-sm">
-                  It might take sometime for the invitation be derived
+                  It might take some time for the invitation be derived
                 </p>
               </div>
             </ModalBody>

@@ -3,6 +3,7 @@ import { useQueryLoader } from "react-relay";
 import { BoardsQuery } from "./queries/BoardsQuery.tsx";
 import { SimpleBoardList } from "./SimpleBoardList.tsx";
 import { SidebarSkeleton } from "./skeletons/SidebarSkeleton.tsx";
+import { ErrorBoundary } from "react-error-boundary";
 
 const Sidebar = () => {
   const [queryRef, loadQuery] = useQueryLoader(BoardsQuery);
@@ -17,14 +18,16 @@ const Sidebar = () => {
     }
   }, [queryRef, refreshBoardList]);
 
-  if(!queryRef) {
-    return <SidebarSkeleton />
+  if (!queryRef) {
+    return <SidebarSkeleton />;
   }
 
   return (
-    <Suspense fallback={<SidebarSkeleton />}>
-      {queryRef ? <SimpleBoardList queryRef={queryRef} /> : null}
-    </Suspense>
+    <ErrorBoundary fallback={<div>Something went wrong on the sidebar</div>}>
+      <Suspense fallback={<SidebarSkeleton />}>
+        {queryRef ? <SimpleBoardList queryRef={queryRef} /> : null}
+      </Suspense>
+    </ErrorBoundary>
   );
 };
 

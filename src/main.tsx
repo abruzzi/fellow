@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import { RelayEnvironmentProvider } from "react-relay";
 import environment from "./relay/environment.ts";
+import { ErrorBoundary } from "react-error-boundary";
 
 import {
   Navigate,
@@ -36,42 +37,50 @@ async function enableMocking() {
 enableMocking().then(() =>
   ReactDOM.createRoot(document.getElementById("root")!).render(
     <React.StrictMode>
-      <AuthProvider>
-        <NextUIProvider>
-          <RelayEnvironmentProvider environment={environment}>
-            <Router>
-              <Routes>
-                <Route path="/" element={<Root />}>
-                  <Route index element={<Navigate to="/boards" replace />} />
+      <ErrorBoundary
+        fallback={
+          <div>
+            If you could see this, that means something seriously wrong.
+          </div>
+        }
+      >
+        <AuthProvider>
+          <NextUIProvider>
+            <RelayEnvironmentProvider environment={environment}>
+              <Router>
+                <Routes>
+                  <Route path="/" element={<Root />}>
+                    <Route index element={<Navigate to="/boards" replace />} />
+                    <Route
+                      path="boards"
+                      element={
+                        <ProtectedRoute>
+                          <Boards />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="boards/:boardId"
+                      element={
+                        <ProtectedRoute>
+                          <Board />
+                        </ProtectedRoute>
+                      }
+                    />
+                  </Route>
                   <Route
-                    path="boards"
-                    element={
-                      <ProtectedRoute>
-                        <Boards />
-                      </ProtectedRoute>
-                    }
+                    path="/accept-invitation"
+                    element={<AcceptInvitation />}
                   />
-                  <Route
-                    path="boards/:boardId"
-                    element={
-                      <ProtectedRoute>
-                        <Board />
-                      </ProtectedRoute>
-                    }
-                  />
-                </Route>
-                <Route
-                  path="/accept-invitation"
-                  element={<AcceptInvitation />}
-                />
-                <Route path="/login" element={<Login />} />
-                <Route path="/logout" element={<Logout />} />
-                <Route path="/oauth/callback" element={<OAuthCallback />} />
-              </Routes>
-            </Router>
-          </RelayEnvironmentProvider>
-        </NextUIProvider>
-      </AuthProvider>
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/logout" element={<Logout />} />
+                  <Route path="/oauth/callback" element={<OAuthCallback />} />
+                </Routes>
+              </Router>
+            </RelayEnvironmentProvider>
+          </NextUIProvider>
+        </AuthProvider>
+      </ErrorBoundary>
     </React.StrictMode>,
   ),
 );

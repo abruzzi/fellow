@@ -22,6 +22,7 @@ import { CommentsQuery } from "./queries/CommentsQuery.tsx";
 import { CommentsMutation } from "./__generated__/CommentsMutation.graphql.ts";
 import { CommentsQuery as CommentsQueryType } from "./queries/__generated__/CommentsQuery.graphql.ts";
 import { CommentSkeleton } from "./skeletons/CommentSkeleton.tsx";
+import { ErrorBoundary } from "react-error-boundary";
 
 const Comments = ({ cardId }: { cardId: string }) => {
   const [queryRef, loadQuery] =
@@ -44,18 +45,20 @@ const Comments = ({ cardId }: { cardId: string }) => {
     <div className="flex flex-col gap-1">
       <h4 className="font-bold text-slate-600">Comments</h4>
 
-      <Suspense fallback={<CommentSkeleton />}>
-        {queryRef ? (
-          <>
-            <CommentInput
-              queryRef={queryRef}
-              cardId={cardId}
-              refreshComments={refreshComments}
-            />
-            <CommentList queryRef={queryRef} />
-          </>
-        ) : null}
-      </Suspense>
+      <ErrorBoundary fallback={<div>Something went wrong on the comments</div>}>
+        <Suspense fallback={<CommentSkeleton />}>
+          {queryRef ? (
+            <>
+              <CommentInput
+                queryRef={queryRef}
+                cardId={cardId}
+                refreshComments={refreshComments}
+              />
+              <CommentList queryRef={queryRef} />
+            </>
+          ) : null}
+        </Suspense>
+      </ErrorBoundary>
     </div>
   );
 };

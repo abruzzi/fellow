@@ -5,6 +5,7 @@ import { Board } from "./Board.tsx";
 import { Sidebar } from "./Sidebar.tsx";
 import { BoardScreenSkeleton } from "./skeletons/BoardScreenSkeleton.tsx";
 import { BoardSkeleton } from "./skeletons/BoardSkeleton.tsx";
+import { ErrorBoundary } from "react-error-boundary";
 
 export const BoardScreen = ({ id }: { id: string }) => {
   const [queryRef, loadQuery] = useQueryLoader(graphql`
@@ -46,9 +47,11 @@ export const BoardScreen = ({ id }: { id: string }) => {
     <div className="h-full flex">
       <Sidebar />
       <div className="flex-grow">
-        <Suspense fallback={<BoardSkeleton />}>
-          <Board queryRef={queryRef} refresh={refreshBoard} />
-        </Suspense>
+        <ErrorBoundary fallback={<div>Something went wrong on the board</div>}>
+          <Suspense fallback={<BoardSkeleton />}>
+            <Board queryRef={queryRef} refresh={refreshBoard} />
+          </Suspense>
+        </ErrorBoundary>
       </div>
     </div>
   );

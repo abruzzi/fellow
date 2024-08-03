@@ -26,11 +26,7 @@ export function Navigation({ queryRef }) {
 
   const location = useLocation();
 
-  const [recentListOpen, setRecentListOpen] = useState<boolean>(false);
   const [favouriteListOpen, setFavouriteListOpen] = useState<boolean>(false);
-  const handleRecentListOpen = (isOpen: boolean) => {
-    setRecentListOpen(isOpen);
-  };
   const handleFavouriteListOpen = (isOpen: boolean) => {
     setFavouriteListOpen(isOpen);
   };

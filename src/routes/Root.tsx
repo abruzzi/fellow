@@ -12,6 +12,7 @@ import {
 } from "@nextui-org/react";
 import { NavigationQuery } from "../queries/NavigationQuery.ts";
 import { NavigationQuery as NavigationQueryType } from "../queries/__generated__/NavigationQuery.graphql.ts";
+import { ErrorBoundary } from "react-error-boundary";
 
 const NavigationSkeleton = () => {
   return (
@@ -45,9 +46,13 @@ const Root = () => {
 
   return (
     <div className="h-screen flex flex-col max-h-screen">
-      <Suspense fallback={<NavigationSkeleton />}>
-        {queryRef ? <Navigation queryRef={queryRef} /> : null}
-      </Suspense>
+      <ErrorBoundary
+        fallback={<div>Something went wrong on the navigation</div>}
+      >
+        <Suspense fallback={<NavigationSkeleton />}>
+          {queryRef ? <Navigation queryRef={queryRef} /> : null}
+        </Suspense>
+      </ErrorBoundary>
       <Outlet />
     </div>
   );

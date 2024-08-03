@@ -10,5 +10,9 @@ export const BoardsQuery = graphql`
             id
             name
         }
+        favoriteBoards {
+            id
+            name
+        }
     }
 `;

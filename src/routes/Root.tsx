@@ -3,8 +3,6 @@ import React, { Suspense, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import { Navigation } from "../Navigation.tsx";
 import { useQueryLoader } from "react-relay";
-import { CurrentUserQuery } from "../queries/CurrentUserQuery.tsx";
-import { CurrentUserQuery as CurrentUserQueryType } from "../queries/__generated__/CurrentUserQuery.graphql.ts";
 import {
   Link,
   Navbar,
@@ -12,25 +10,21 @@ import {
   NavbarItem,
   Skeleton,
 } from "@nextui-org/react";
+import { NavigationQuery } from "../queries/NavigationQuery.ts";
+import { NavigationQuery as NavigationQueryType } from "../queries/__generated__/NavigationQuery.graphql.ts";
 
 const NavigationSkeleton = () => {
   return (
     <Navbar isBordered>
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
         <NavbarItem>
-          <Link color="foreground" href="/boards">
-            Boards
-          </Link>
+          <Link color="foreground">Boards</Link>
         </NavbarItem>
         <NavbarItem>
-          <Link color="foreground" href="/recent">
-            Recent
-          </Link>
+          <Link color="foreground">Recent</Link>
         </NavbarItem>
         <NavbarItem>
-          <Link color="foreground" href="/starred">
-            Favourite
-          </Link>
+          <Link color="foreground">Favourite</Link>
         </NavbarItem>
       </NavbarContent>
 
@@ -43,7 +37,7 @@ const NavigationSkeleton = () => {
 
 const Root = () => {
   const [queryRef, loadQuery] =
-    useQueryLoader<CurrentUserQueryType>(CurrentUserQuery);
+    useQueryLoader<NavigationQueryType>(NavigationQuery);
 
   useEffect(() => {
     loadQuery({});

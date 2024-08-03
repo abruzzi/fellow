@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Button,
   Dropdown,
   DropdownItem,
@@ -11,22 +10,17 @@ import {
   NavbarItem,
 } from "@nextui-org/react";
 import React, { useState } from "react";
-import { graphql, usePreloadedQuery } from "react-relay";
-import { CurrentUserQuery as CurrentUserQueryType } from "./queries/__generated__/CurrentUserQuery.graphql.ts";
+import { usePreloadedQuery } from "react-relay";
+import { NavigationQuery as NavigationQueryType } from "./queries/__generated__/NavigationQuery.graphql.ts";
 import { UserMenu } from "./UserMenu.tsx";
 import { useLocation } from "react-router-dom";
 import { MdOutlineExpandLess, MdOutlineExpandMore } from "react-icons/md";
+import { NavigationQuery } from "./queries/NavigationQuery.ts";
 
 // eslint-disable-next-line react/prop-types
 export function Navigation({ queryRef }) {
-  const data = usePreloadedQuery<CurrentUserQueryType>(
-    graphql`
-      query NavigationQuery {
-        currentUser {
-          ...UserMenuFragment
-        }
-      }
-    `,
+  const data = usePreloadedQuery<NavigationQueryType>(
+    NavigationQuery,
     queryRef,
   );
 
@@ -55,42 +49,12 @@ export function Navigation({ queryRef }) {
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Dropdown placement="bottom" onOpenChange={handleRecentListOpen}>
-            <DropdownTrigger>
-              <Button
-                variant="light"
-                endContent={
-                  recentListOpen ? (
-                    <MdOutlineExpandLess />
-                  ) : (
-                    <MdOutlineExpandMore />
-                  )
-                }
-                className="text-lg"
-              >
-                Recent
-              </Button>
-            </DropdownTrigger>
-            <DropdownMenu aria-label="Profile Actions" variant="flat">
-              <DropdownItem key="profile" href="/profile">
-                Board 1
-              </DropdownItem>
-              <DropdownItem key="settings" href="/settings">
-                Board 2
-              </DropdownItem>
-              <DropdownItem key="logout" href="/logout">
-                Board 3
-              </DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
-        </NavbarItem>
-        <NavbarItem>
           <Dropdown placement="bottom" onOpenChange={handleFavouriteListOpen}>
             <DropdownTrigger>
               <Button
                 variant="light"
                 endContent={
-                  recentListOpen ? (
+                  favouriteListOpen ? (
                     <MdOutlineExpandLess />
                   ) : (
                     <MdOutlineExpandMore />
@@ -102,15 +66,11 @@ export function Navigation({ queryRef }) {
               </Button>
             </DropdownTrigger>
             <DropdownMenu aria-label="Profile Actions" variant="flat">
-              <DropdownItem key="profile" href="/profile">
-                Board 1
-              </DropdownItem>
-              <DropdownItem key="settings" href="/settings">
-                Board 2
-              </DropdownItem>
-              <DropdownItem key="logout" href="/logout">
-                Board 3
-              </DropdownItem>
+              {(data.favoriteBoards || []).map((board) => (
+                <DropdownItem key={board.id} href={`/boards/${board.id}`}>
+                  {board.name}
+                </DropdownItem>
+              ))}
             </DropdownMenu>
           </Dropdown>
         </NavbarItem>

@@ -19,6 +19,10 @@ export const SimpleBoardList = ({ queryRef }) => {
     setMinimise((min) => !min);
   };
 
+  const isBoardFavorite = (boardId: string) => {
+    return data.favoriteBoards.map((b) => b.id).includes(boardId);
+  };
+
   return (
     <div
       className={`bg-slate-100 border-r-1 border-gray-300 bg-opacity-50 backdrop-blur-lg relative`}
@@ -55,7 +59,9 @@ export const SimpleBoardList = ({ queryRef }) => {
                       <MdFeaturedPlayList />
                     </span>
                     <p>{board.name}</p>
-                    <span className="ml-auto">
+                    <span
+                      className={`${isBoardFavorite(board.id) ? "text-orange-400" : "text-slate-700"} ml-auto`}
+                    >
                       <HiOutlineStar />
                     </span>
                   </div>

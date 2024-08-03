@@ -1,4 +1,4 @@
-import {delay, graphql, HttpResponse} from "msw";
+import { delay, graphql, HttpResponse } from "msw";
 
 import boards from "./boards.json";
 import board from "./board.json";
@@ -9,6 +9,11 @@ export const graphqlHandlers = [
   graphql.query("BoardsQuery", async ({}) => {
     await delay();
     return HttpResponse.json(boards);
+  }),
+
+  graphql.query("BoardQuery", async ({}) => {
+    await delay();
+    return HttpResponse.json(board);
   }),
 
   graphql.query("BoardScreenQuery", async ({}) => {
@@ -26,7 +31,7 @@ export const graphqlHandlers = [
     return HttpResponse.json(user);
   }),
 
-  graphql.query("NavigationQuery", async({}) => {
+  graphql.query("NavigationQuery", async ({}) => {
     await delay();
     return HttpResponse.json(user);
   }),

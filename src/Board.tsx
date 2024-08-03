@@ -1,7 +1,7 @@
 import { graphql, useMutation, usePreloadedQuery } from "react-relay";
 import { Column } from "./Column.tsx";
 import { HiOutlineStar } from "react-icons/hi";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { BoardQuery } from "./__generated__/BoardQuery.graphql.ts";
 
 import { BoardSkeleton } from "./skeletons/BoardSkeleton.tsx";
@@ -23,6 +23,7 @@ import { useAuth } from "./AuthenticationContext.tsx";
 // eslint-disable-next-line react/prop-types
 export const Board = ({ queryRef, refresh: refreshBoard }) => {
   const { token } = useAuth();
+  const [isFavorite, setFavorite] = useState<boolean>(false);
   const [role, setRole] = useState<string>("member");
   const [email, setEmail] = useState<string>("");
   const [isSendingInvite, setSendingInvite] = useState<boolean>(false);
@@ -75,13 +76,18 @@ export const Board = ({ queryRef, refresh: refreshBoard }) => {
     }
   `);
 
+  useEffect(() => {
+    if (data.board) {
+      const isFav = data.favoriteBoards
+        .map((board) => board.id)
+        .includes(data.board.id);
+      setFavorite(isFav);
+    }
+  }, [data]);
+
   if (!data.board) {
     return <BoardSkeleton />;
   }
-
-  const isFavorite = data.favoriteBoards
-    .map((board) => board.id)
-    .includes(data.board.id);
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -196,6 +202,7 @@ export const Board = ({ queryRef, refresh: refreshBoard }) => {
               variant="light"
               onPress={handleFavoriteBoard}
               disabled={isAddingFavorite || isRemovingFavorite}
+              className={`${isFavorite ? "text-orange-400" : "text-slate-700"}`}
             >
               <HiOutlineStar />
             </Button>

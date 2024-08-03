@@ -21,7 +21,7 @@ function fetchQuery(operation: unknown, variables: unknown) {
         // Check if any of the errors are authentication errors
         const authError = json.errors.find(
           (error) =>
-            error.message.toLowerCase().includes("Not authenticated") ||
+            error.message.toLowerCase().includes("not authenticated") ||
             error.message.toLowerCase().includes("unauthenticated"),
         );
 

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<2d99f3c71919354939214383eadb0744>>
+ * @generated SignedSource<<57ef6fa9143171098d57945bf2bc1fc8>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -18,11 +18,13 @@ export type CommentsQuery$data = {
     readonly id: string;
     readonly updatedAt: string;
     readonly user: {
+      readonly avatarUrl: string | null | undefined;
       readonly id: string;
       readonly name: string | null | undefined;
     };
   }>;
   readonly currentUser: {
+    readonly avatarUrl: string | null | undefined;
     readonly email: string;
     readonly name: string | null | undefined;
   } | null | undefined;
@@ -58,10 +60,17 @@ v3 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "id",
+  "name": "avatarUrl",
   "storageKey": null
 },
 v4 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "id",
+  "storageKey": null
+},
+v5 = {
   "alias": null,
   "args": [
     {
@@ -75,7 +84,7 @@ v4 = {
   "name": "comments",
   "plural": true,
   "selections": [
-    (v3/*: any*/),
+    (v4/*: any*/),
     {
       "alias": null,
       "args": null,
@@ -98,8 +107,9 @@ v4 = {
       "name": "user",
       "plural": false,
       "selections": [
-        (v3/*: any*/),
-        (v1/*: any*/)
+        (v4/*: any*/),
+        (v1/*: any*/),
+        (v3/*: any*/)
       ],
       "storageKey": null
     }
@@ -122,11 +132,12 @@ return {
         "plural": false,
         "selections": [
           (v1/*: any*/),
-          (v2/*: any*/)
+          (v2/*: any*/),
+          (v3/*: any*/)
         ],
         "storageKey": null
       },
-      (v4/*: any*/)
+      (v5/*: any*/)
     ],
     "type": "Query",
     "abstractKey": null
@@ -147,24 +158,25 @@ return {
         "selections": [
           (v1/*: any*/),
           (v2/*: any*/),
-          (v3/*: any*/)
+          (v3/*: any*/),
+          (v4/*: any*/)
         ],
         "storageKey": null
       },
-      (v4/*: any*/)
+      (v5/*: any*/)
     ]
   },
   "params": {
-    "cacheID": "52d1e73493651efd34af3948f02ee397",
+    "cacheID": "b678493126bdd8aa8d16d2e1343cdc5b",
     "id": null,
     "metadata": {},
     "name": "CommentsQuery",
     "operationKind": "query",
-    "text": "query CommentsQuery(\n  $cardId: ID!\n) {\n  currentUser {\n    name\n    email\n    id\n  }\n  comments(cardId: $cardId) {\n    id\n    content\n    updatedAt\n    user {\n      id\n      name\n    }\n  }\n}\n"
+    "text": "query CommentsQuery(\n  $cardId: ID!\n) {\n  currentUser {\n    name\n    email\n    avatarUrl\n    id\n  }\n  comments(cardId: $cardId) {\n    id\n    content\n    updatedAt\n    user {\n      id\n      name\n      avatarUrl\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "158f75069558d01dbe2885e1af6f3517";
+(node as any).hash = "12ecf237152eb303b677adce8df69a02";
 
 export default node;

@@ -103,6 +103,7 @@ const CommentInput = ({ queryRef, cardId, refreshComments }) => {
       <Avatar
         className="w-8 h-8 flex-grow-0 flex-shrink-0"
         color="default"
+        src={data.currentUser.avatarUrl}
         name={data.currentUser.name}
         size="sm"
       />
@@ -139,6 +140,7 @@ const CommentList = ({ queryRef }) => {
             className="w-8 h-8 flex-shrink-0"
             color="default"
             name={comment.user.name}
+            src={comment.user.avatarUrl}
             size="sm"
           />
           <div className="flex-1 flex-grow flex-shrink-0 gap-2">

@@ -5,6 +5,7 @@ export const CommentsQuery = graphql`
         currentUser {
             name
             email
+            avatarUrl
         }
         comments(cardId: $cardId) {
             id
@@ -13,6 +14,7 @@ export const CommentsQuery = graphql`
             user {
                 id
                 name
+                avatarUrl
             }
         }
     }

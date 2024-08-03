@@ -131,11 +131,23 @@ export const Board = ({ queryRef, refresh: refreshBoard }) => {
         variables: {
           boardId: data.board.id,
         },
+        onCompleted: () => {
+          setFavorite(false);
+        },
+        onError: () => {
+          setFavorite(true);
+        },
       });
     } else {
       addFavorite({
         variables: {
           boardId: data.board.id,
+        },
+        onCompleted: () => {
+          setFavorite(true);
+        },
+        onError: () => {
+          setFavorite(false);
         },
       });
     }

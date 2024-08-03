@@ -6,6 +6,7 @@ type User {
   id: ID!
   email: String!
   name: String
+  avatarUrl: String
   comments: [Comment!]!
   boards: [Board!]!
   collaborations: [Board!]!
@@ -16,6 +17,7 @@ type Board {
   id: ID!
   name: String!
   user: User!
+  imageUrl: String
   collaborators: [User!]!
   favoritedBy: [User!]!
   columns: [Column!]!
@@ -72,12 +74,11 @@ type Query {
 }
 
 type Mutation {
-  signUp(email: String!, name: String): User
-  signIn(email: String!): User
-
   createBoard(name: String!): Board!
   favoriteBoard(boardId: ID!): Board!
   unfavoriteBoard(boardId: ID!): Board!
+  updateBoardImageUrl(boardId: ID!, imageUrl: String!): Board!
+  updateBoardName(boardId: ID!, name: String!): Board!
 
   createColumn(boardId: ID!, name: String!, position: Int!): Column!
 

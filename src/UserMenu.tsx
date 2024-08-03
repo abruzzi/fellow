@@ -17,6 +17,7 @@ const UserMenu = ({ fragmentRef }) => {
       fragment UserMenuFragment on User {
         name
         email
+        avatarUrl
       }
     `,
     fragmentRef,
@@ -31,10 +32,12 @@ const UserMenu = ({ fragmentRef }) => {
       <DropdownTrigger>
         <Avatar
           isBordered
+          showFallback
           as="button"
           className="transition-transform"
           color="default"
           name={data.name}
+          src={data.avatarUrl}
           size="sm"
         />
       </DropdownTrigger>

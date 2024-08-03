@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<1557c08a238f5f0c06eb44e55f83420b>>
+ * @generated SignedSource<<c69f743487ef8cd9c9cfedfd5973b1f2>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -103,6 +103,13 @@ return {
             "name": "email",
             "storageKey": null
           },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "avatarUrl",
+            "storageKey": null
+          },
           (v0/*: any*/)
         ],
         "storageKey": null
@@ -111,12 +118,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "5a87a861a8dcb6f8afd9218a6d6d16a2",
+    "cacheID": "23fad7caf84d299a38162bda756a1d6f",
     "id": null,
     "metadata": {},
     "name": "NavigationQuery",
     "operationKind": "query",
-    "text": "query NavigationQuery {\n  currentUser {\n    ...UserMenuFragment\n    id\n  }\n  favoriteBoards {\n    id\n    name\n  }\n}\n\nfragment UserMenuFragment on User {\n  name\n  email\n}\n"
+    "text": "query NavigationQuery {\n  currentUser {\n    ...UserMenuFragment\n    id\n  }\n  favoriteBoards {\n    id\n    name\n  }\n}\n\nfragment UserMenuFragment on User {\n  name\n  email\n  avatarUrl\n}\n"
   }
 };
 })();

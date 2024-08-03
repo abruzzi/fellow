@@ -1,23 +1,40 @@
-import {
-  Environment,
-  Network,
-  RecordSource,
-  Store,
-} from 'relay-runtime';
+import { Environment, Network, RecordSource, Store } from "relay-runtime";
 
 function fetchQuery(operation: unknown, variables: unknown) {
   return fetch(`${import.meta.env.VITE_BOARDS_BASE_URL}/graphql`, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
     body: JSON.stringify({
-      // @ts-expect-error
+      // @ts-expect-error it's expected
       query: operation.text,
       variables,
     }),
-  }).then(response => response.json());
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .then((json) => {
+      if (json.errors) {
+        // Check if any of the errors are authentication errors
+        const authError = json.errors.find(
+          (error) =>
+            error.message.toLowerCase().includes("Not authenticated") ||
+            error.message.toLowerCase().includes("unauthenticated"),
+        );
+
+        if (authError) {
+          localStorage.removeItem("token");
+          window.location.href = "/login";
+          throw new Error("Unauthorized");
+        }
+        // For other types of errors, you might want to handle them differently
+        throw new Error(json.errors[0].message);
+      }
+      return json;
+    });
 }
 
 const environment = new Environment({

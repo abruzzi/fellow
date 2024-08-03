@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<2de60953c04b89d14ed10adf37a701be>>
+ * @generated SignedSource<<26b408c6c12ae3b68678d3d4b61b2650>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -23,6 +23,9 @@ export type BoardQuery$data = {
     readonly id: string;
     readonly name: string;
   };
+  readonly favoriteBoards: ReadonlyArray<{
+    readonly id: string;
+  } | null | undefined>;
 };
 export type BoardQuery = {
   response: BoardQuery$data;
@@ -37,28 +40,41 @@ var v0 = [
     "name": "boardId"
   }
 ],
-v1 = [
-  {
-    "kind": "Variable",
-    "name": "id",
-    "variableName": "boardId"
-  }
-],
-v2 = {
+v1 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "id",
   "storageKey": null
 },
+v2 = [
+  (v1/*: any*/)
+],
 v3 = {
+  "alias": null,
+  "args": null,
+  "concreteType": "Board",
+  "kind": "LinkedField",
+  "name": "favoriteBoards",
+  "plural": true,
+  "selections": (v2/*: any*/),
+  "storageKey": null
+},
+v4 = [
+  {
+    "kind": "Variable",
+    "name": "id",
+    "variableName": "boardId"
+  }
+],
+v5 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "name",
   "storageKey": null
 },
-v4 = {
+v6 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
@@ -72,16 +88,17 @@ return {
     "metadata": null,
     "name": "BoardQuery",
     "selections": [
+      (v3/*: any*/),
       {
         "alias": null,
-        "args": (v1/*: any*/),
+        "args": (v4/*: any*/),
         "concreteType": "Board",
         "kind": "LinkedField",
         "name": "board",
         "plural": false,
         "selections": [
-          (v2/*: any*/),
-          (v3/*: any*/),
+          (v1/*: any*/),
+          (v5/*: any*/),
           {
             "alias": null,
             "args": null,
@@ -90,8 +107,8 @@ return {
             "name": "columns",
             "plural": true,
             "selections": [
-              (v2/*: any*/),
-              (v4/*: any*/),
+              (v1/*: any*/),
+              (v6/*: any*/),
               {
                 "args": null,
                 "kind": "FragmentSpread",
@@ -113,16 +130,17 @@ return {
     "kind": "Operation",
     "name": "BoardQuery",
     "selections": [
+      (v3/*: any*/),
       {
         "alias": null,
-        "args": (v1/*: any*/),
+        "args": (v4/*: any*/),
         "concreteType": "Board",
         "kind": "LinkedField",
         "name": "board",
         "plural": false,
         "selections": [
-          (v2/*: any*/),
-          (v3/*: any*/),
+          (v1/*: any*/),
+          (v5/*: any*/),
           {
             "alias": null,
             "args": null,
@@ -131,9 +149,9 @@ return {
             "name": "columns",
             "plural": true,
             "selections": [
-              (v2/*: any*/),
-              (v4/*: any*/),
-              (v3/*: any*/),
+              (v1/*: any*/),
+              (v6/*: any*/),
+              (v5/*: any*/),
               {
                 "alias": null,
                 "args": null,
@@ -142,8 +160,8 @@ return {
                 "name": "cards",
                 "plural": true,
                 "selections": [
-                  (v2/*: any*/),
-                  (v4/*: any*/),
+                  (v1/*: any*/),
+                  (v6/*: any*/),
                   {
                     "alias": null,
                     "args": null,
@@ -172,9 +190,7 @@ return {
                     "kind": "LinkedField",
                     "name": "column",
                     "plural": false,
-                    "selections": [
-                      (v2/*: any*/)
-                    ],
+                    "selections": (v2/*: any*/),
                     "storageKey": null
                   }
                 ],
@@ -189,16 +205,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "8b3d3bbe9b6fc7682594c993977dd48e",
+    "cacheID": "bf94f0176426fc47dfbb0dcd6f9776dc",
     "id": null,
     "metadata": {},
     "name": "BoardQuery",
     "operationKind": "query",
-    "text": "query BoardQuery(\n  $boardId: ID!\n) {\n  board(id: $boardId) {\n    id\n    name\n    columns {\n      id\n      position\n      ...ColumnFragment\n    }\n  }\n}\n\nfragment CardFragment on Card {\n  id\n  title\n  description\n  position\n  imageUrl\n  column {\n    id\n  }\n}\n\nfragment ColumnFragment on Column {\n  id\n  name\n  position\n  cards {\n    id\n    position\n    ...CardFragment\n  }\n}\n"
+    "text": "query BoardQuery(\n  $boardId: ID!\n) {\n  favoriteBoards {\n    id\n  }\n  board(id: $boardId) {\n    id\n    name\n    columns {\n      id\n      position\n      ...ColumnFragment\n    }\n  }\n}\n\nfragment CardFragment on Card {\n  id\n  title\n  description\n  position\n  imageUrl\n  column {\n    id\n  }\n}\n\nfragment ColumnFragment on Column {\n  id\n  name\n  position\n  cards {\n    id\n    position\n    ...CardFragment\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "00cd2108f7a5a8f937a8e36cda3af291";
+(node as any).hash = "fbc85203d02d35ec2a4077965a99342e";
 
 export default node;

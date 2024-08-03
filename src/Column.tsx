@@ -165,7 +165,7 @@ const Column = ({
         <h2 className="text-lg font-semibold mb-2 px-2 text-slate-600">
           {data.name}
         </h2>
-        <div className="flex-1 p-2 mb-2 overflow-auto bg-gray-100">
+        <div className="flex-1 px-2 py-4 mb-2 overflow-auto bg-gray-100">
           {cards.length > 0 && (
             <ol className="flex flex-col gap-4 shrink-0">
               {cards.map((card) => (

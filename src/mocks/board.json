@@ -55,6 +55,11 @@
           "cards": []
         }
       ]
-    }
+    },
+    "favoriteBoards": [
+      {
+        "id": "ac9c5aea-d365-4bc9-9f1d-b5c2ba0d765a"
+      }
+    ]
   }
 }

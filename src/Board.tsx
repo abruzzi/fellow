@@ -1,4 +1,4 @@
-import { graphql, usePreloadedQuery } from "react-relay";
+import { graphql, useMutation, usePreloadedQuery } from "react-relay";
 import { Column } from "./Column.tsx";
 import { HiOutlineStar } from "react-icons/hi";
 import React, { useMemo, useState } from "react";
@@ -40,6 +40,9 @@ export const Board = ({ queryRef, refresh: refreshBoard }) => {
   const data = usePreloadedQuery<BoardQuery>(
     graphql`
       query BoardQuery($boardId: ID!) {
+        favoriteBoards {
+          id
+        }
         board(id: $boardId) {
           id
           name
@@ -54,9 +57,31 @@ export const Board = ({ queryRef, refresh: refreshBoard }) => {
     queryRef,
   );
 
+  const [addFavorite, isAddingFavorite] = useMutation(graphql`
+    mutation BoardUpdateFavoriteMutation($boardId: ID!) {
+      favoriteBoard(boardId: $boardId) {
+        id
+        name
+      }
+    }
+  `);
+
+  const [removeFavorite, isRemovingFavorite] = useMutation(graphql`
+    mutation BoardUpdateUnFavoriteMutation($boardId: ID!) {
+      unfavoriteBoard(boardId: $boardId) {
+        id
+        name
+      }
+    }
+  `);
+
   if (!data.board) {
     return <BoardSkeleton />;
   }
+
+  const isFavorite = data.favoriteBoards
+    .map((board) => board.id)
+    .includes(data.board.id);
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -91,6 +116,22 @@ export const Board = ({ queryRef, refresh: refreshBoard }) => {
 
     if (!isInvalid) {
       afterSubmit();
+    }
+  };
+
+  const handleFavoriteBoard = () => {
+    if (isFavorite) {
+      removeFavorite({
+        variables: {
+          boardId: data.board.id,
+        },
+      });
+    } else {
+      addFavorite({
+        variables: {
+          boardId: data.board.id,
+        },
+      });
     }
   };
 
@@ -149,7 +190,15 @@ export const Board = ({ queryRef, refresh: refreshBoard }) => {
             {data.board.name}
           </h2>
           <span className="mr-auto">
-            <HiOutlineStar />
+            <Button
+              isIconOnly
+              size="md"
+              variant="light"
+              onPress={handleFavoriteBoard}
+              disabled={isAddingFavorite || isRemovingFavorite}
+            >
+              <HiOutlineStar />
+            </Button>
           </span>
           <Button
             color="primary"

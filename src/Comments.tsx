@@ -24,8 +24,6 @@ import { CommentsQuery as CommentsQueryType } from "./queries/__generated__/Comm
 import { CommentSkeleton } from "./skeletons/CommentSkeleton.tsx";
 
 const Comments = ({ cardId }: { cardId: string }) => {
-  const [comment, setComment] = useState("");
-
   const [queryRef, loadQuery] =
     useQueryLoader<CommentsQueryType>(CommentsQuery);
 
@@ -42,6 +40,31 @@ const Comments = ({ cardId }: { cardId: string }) => {
     }
   }, [queryRef, refreshComments, cardId]);
 
+  return (
+    <div className="flex flex-col gap-1">
+      <h4 className="font-bold text-slate-600">Comments</h4>
+
+      <Suspense fallback={<CommentSkeleton />}>
+        {queryRef ? (
+          <>
+            <CommentInput
+              queryRef={queryRef}
+              cardId={cardId}
+              refreshComments={refreshComments}
+            />
+            <CommentList queryRef={queryRef} />
+          </>
+        ) : null}
+      </Suspense>
+    </div>
+  );
+};
+
+// eslint-disable-next-line react/prop-types
+const CommentInput = ({ queryRef, cardId, refreshComments }) => {
+  const data = usePreloadedQuery<CommentsQueryType>(CommentsQuery, queryRef);
+
+  const [comment, setComment] = useState("");
   const [addComment, isAddingComment] = useMutation<CommentsMutation>(graphql`
     mutation CommentsMutation($cardId: ID!, $content: String!) {
       addCommentToCard(cardId: $cardId, content: $content) {
@@ -73,44 +96,35 @@ const Comments = ({ cardId }: { cardId: string }) => {
   };
 
   return (
-    <div className="flex flex-col gap-1">
-      <h4 className="font-bold text-slate-600">Comments</h4>
-
-      <div className="flex flex-row items-start gap-2 mt-4 mb-8">
-        <Avatar
-          className="w-8 h-8 flex-grow-0 flex-shrink-0"
-          color="default"
-          name="Juntao"
-          size="sm"
+    <div className="flex flex-row items-start gap-2 mt-4 mb-8">
+      <Avatar
+        className="w-8 h-8 flex-grow-0 flex-shrink-0"
+        color="default"
+        name={data.currentUser.name}
+        size="sm"
+      />
+      <div className="flex flex-col flex-grow gap-2">
+        <Textarea
+          label="Comment"
+          endContent={<HiOutlineMenuAlt2 />}
+          value={comment}
+          onChange={onCommentChange}
+          radius="sm"
+          minRows={1}
         />
-        <div className="flex flex-col flex-grow gap-2">
-          <Textarea
-            label="Comment"
-            endContent={<HiOutlineMenuAlt2 />}
-            value={comment}
-            onChange={onCommentChange}
-            radius="sm"
-            minRows={1}
-          />
-          <Button
-            onPress={handleAddComment}
-            disabled={isAddingComment || comment.trim().length === 0}
-            className="mr-auto"
-            size="sm"
-            color={comment.trim().length === 0 ? "default" : "primary"}
-          >
-            Save
-          </Button>
-        </div>
+        <Button
+          onPress={handleAddComment}
+          disabled={isAddingComment || comment.trim().length === 0}
+          className="mr-auto"
+          size="sm"
+          color={comment.trim().length === 0 ? "default" : "primary"}
+        >
+          Save
+        </Button>
       </div>
-
-      <Suspense fallback={<CommentSkeleton />}>
-        {queryRef ? <CommentList queryRef={queryRef} /> : null}
-      </Suspense>
     </div>
   );
 };
-
 // eslint-disable-next-line react/prop-types
 const CommentList = ({ queryRef }) => {
   const data = usePreloadedQuery<CommentsQueryType>(CommentsQuery, queryRef);

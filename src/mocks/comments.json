@@ -1,5 +1,9 @@
 {
   "data": {
+    "currentUser": {
+      "id": "5f2d7f12-e922-40a4-bbe7-bab7e967661c",
+      "name": "Juntao Qiu"
+    },
     "comments": [
       {
         "id": "9392b6e8-b3c0-402a-aa22-6e9b06761fb6",

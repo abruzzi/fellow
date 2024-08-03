@@ -15,6 +15,12 @@
         "id": "7a9a4ed2-ef04-47b7-9877-fe3eb0da5a2e",
         "name": "Darkness"
       }
+    ],
+    "favoriteBoards": [
+      {
+        "id": "ac9c5aea-d365-4bc9-9f1d-b5c2ba0d765a",
+        "name": "Fellow"
+      }
     ]
   }
 }

@@ -28,10 +28,9 @@ function fetchQuery(operation: unknown, variables: unknown) {
         if (authError) {
           localStorage.removeItem("token");
           window.location.href = "/login";
-          throw new Error("Unauthorized");
+        } else {
+          throw new Error(json.errors[0].message);
         }
-        // For other types of errors, you might want to handle them differently
-        throw new Error(json.errors[0].message);
       }
       return json;
     });

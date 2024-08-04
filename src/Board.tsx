@@ -1,8 +1,7 @@
-import { graphql, useMutation, usePreloadedQuery } from "react-relay";
+import { usePreloadedQuery } from "react-relay";
 import { Column } from "./Column.tsx";
 import { HiOutlineStar } from "react-icons/hi";
 import React, { useEffect, useMemo, useState } from "react";
-import { BoardQuery } from "./__generated__/BoardQuery.graphql.ts";
 
 import { BoardSkeleton } from "./skeletons/BoardSkeleton.tsx";
 import {
@@ -19,10 +18,18 @@ import {
 import { MdMoreHoriz } from "react-icons/md";
 import { FiUserPlus } from "react-icons/fi";
 import { useAuth } from "./AuthenticationContext.tsx";
+import { useFavoriteBoards } from "./FavoriteBoardContext.tsx";
+import { BoardQuery as BoardQueryType } from "./queries/__generated__/BoardQuery.graphql.ts";
+import { BoardQuery } from "./queries/BoardQuery.ts";
+
+const validateEmail = (value) =>
+  value.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i);
 
 // eslint-disable-next-line react/prop-types
 export const Board = ({ queryRef, refresh: refreshBoard }) => {
   const { token } = useAuth();
+  const { toggleFavorite, favoriteBoards } = useFavoriteBoards();
+
   const [isFavorite, setFavorite] = useState<boolean>(false);
   const [role, setRole] = useState<string>("member");
   const [email, setEmail] = useState<string>("");
@@ -30,60 +37,21 @@ export const Board = ({ queryRef, refresh: refreshBoard }) => {
 
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
 
-  const validateEmail = (value) =>
-    value.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i);
-
   const isInvalid = useMemo(() => {
     if (email === "") return false;
     return !validateEmail(email);
   }, [email]);
 
-  const data = usePreloadedQuery<BoardQuery>(
-    graphql`
-      query BoardQuery($boardId: ID!) {
-        favoriteBoards {
-          id
-        }
-        board(id: $boardId) {
-          id
-          name
-          columns {
-            id
-            position
-            ...ColumnFragment
-          }
-        }
-      }
-    `,
-    queryRef,
-  );
-
-  const [addFavorite, isAddingFavorite] = useMutation(graphql`
-    mutation BoardUpdateFavoriteMutation($boardId: ID!) {
-      favoriteBoard(boardId: $boardId) {
-        id
-        name
-      }
-    }
-  `);
-
-  const [removeFavorite, isRemovingFavorite] = useMutation(graphql`
-    mutation BoardUpdateUnFavoriteMutation($boardId: ID!) {
-      unfavoriteBoard(boardId: $boardId) {
-        id
-        name
-      }
-    }
-  `);
+  const data = usePreloadedQuery<BoardQueryType>(BoardQuery, queryRef);
 
   useEffect(() => {
-    if (data.board) {
-      const isFav = data.favoriteBoards
+    if (data.board && favoriteBoards) {
+      const isFav = favoriteBoards
         .map((board) => board.id)
         .includes(data.board.id);
       setFavorite(isFav);
     }
-  }, [data]);
+  }, [data, favoriteBoards]);
 
   if (!data.board) {
     return <BoardSkeleton />;
@@ -126,31 +94,7 @@ export const Board = ({ queryRef, refresh: refreshBoard }) => {
   };
 
   const handleFavoriteBoard = () => {
-    if (isFavorite) {
-      removeFavorite({
-        variables: {
-          boardId: data.board.id,
-        },
-        onCompleted: () => {
-          setFavorite(false);
-        },
-        onError: () => {
-          setFavorite(true);
-        },
-      });
-    } else {
-      addFavorite({
-        variables: {
-          boardId: data.board.id,
-        },
-        onCompleted: () => {
-          setFavorite(true);
-        },
-        onError: () => {
-          setFavorite(false);
-        },
-      });
-    }
+    toggleFavorite(data.board.id);
   };
 
   return (
@@ -213,7 +157,6 @@ export const Board = ({ queryRef, refresh: refreshBoard }) => {
               size="md"
               variant="light"
               onPress={handleFavoriteBoard}
-              disabled={isAddingFavorite || isRemovingFavorite}
               className={`${isFavorite ? "text-orange-400" : "text-slate-700"}`}
             >
               <HiOutlineStar />

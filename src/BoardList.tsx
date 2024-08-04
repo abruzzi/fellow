@@ -3,13 +3,19 @@ import { CreateNewBoard } from "./CreateNewBoard.tsx";
 import React from "react";
 import { Link } from "react-router-dom";
 import { Card } from "@nextui-org/react";
-import { BoardsQuery } from "./queries/BoardsQuery.tsx";
+import { ApplicationQuery } from "./queries/ApplicationQuery.tsx";
 
 import type { BoardsQuery as BoardsQueryType } from "./queries/__generated__/BoardsQuery.graphql";
 
+import { BoardListSkeleton } from "./skeletons/BoardListSkeleton.tsx";
+
 // eslint-disable-next-line react/prop-types
 export const BoardList = ({ queryRef, refreshBoards }) => {
-  const data = usePreloadedQuery<BoardsQueryType>(BoardsQuery, queryRef);
+  const data = usePreloadedQuery<BoardsQueryType>(ApplicationQuery, queryRef);
+
+  if (!queryRef) {
+    return <BoardListSkeleton />;
+  }
 
   return (
     <div className={`container flex flex-col max-w-4xl m-auto my-8`}>

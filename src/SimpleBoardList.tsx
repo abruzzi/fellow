@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { usePreloadedQuery } from "react-relay";
-import { BoardsQuery } from "./queries/BoardsQuery.tsx";
+import { ApplicationQuery } from "./queries/ApplicationQuery.tsx";
 import { Link } from "react-router-dom";
 import { HiOutlinePlus, HiOutlineStar } from "react-icons/hi";
 
@@ -12,7 +12,7 @@ import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 
 // eslint-disable-next-line react/prop-types
 export const SimpleBoardList = ({ queryRef }) => {
-  const data = usePreloadedQuery<BoardsQueryType>(BoardsQuery, queryRef);
+  const data = usePreloadedQuery<BoardsQueryType>(ApplicationQuery, queryRef);
   const [minimise, setMinimise] = useState<boolean>(false);
 
   const handleMinimiseClick = () => {

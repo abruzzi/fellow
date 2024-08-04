@@ -1,29 +1,27 @@
-import React, { Suspense, useEffect } from "react";
+import React, { Suspense } from "react";
 
-import { useQueryLoader } from "react-relay";
 import { BoardList } from "./BoardList.tsx";
-import { BoardsQuery } from "./queries/BoardsQuery.tsx";
 
-import { BoardsQuery as BoardsQueryType } from "./queries/__generated__/BoardsQuery.graphql.ts";
 import { BoardListSkeleton } from "./skeletons/BoardListSkeleton.tsx";
 import { ErrorBoundary } from "react-error-boundary";
+import { useOutletContext } from "react-router-dom";
+import { PreloadedQuery } from "react-relay";
+
+import { ApplicationQuery as ApplicationQueryType } from "./queries/__generated__/ApplicationQuery.graphql.ts";
+
+type RootContextType = {
+  queryRef: PreloadedQuery<ApplicationQueryType>;
+  refreshQuery: () => void;
+};
 
 const Boards = () => {
-  const [queryRef, loadQuery] = useQueryLoader<BoardsQueryType>(BoardsQuery);
-
-  useEffect(() => {
-    loadQuery({});
-  }, [loadQuery]);
-
-  const refreshBoards = () => {
-    loadQuery({}, { fetchPolicy: "network-only" });
-  };
+  const { queryRef, refreshQuery } = useOutletContext<RootContextType>();
 
   return (
     <ErrorBoundary fallback={<div>Something went wrong on the board list</div>}>
       <Suspense fallback={<BoardListSkeleton />}>
         {queryRef ? (
-          <BoardList queryRef={queryRef} refreshBoards={refreshBoards} />
+          <BoardList queryRef={queryRef} refreshBoards={refreshQuery} />
         ) : null}
       </Suspense>
     </ErrorBoundary>

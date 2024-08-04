@@ -8,21 +8,41 @@ import {
   Navbar,
   NavbarContent,
   NavbarItem,
+  Skeleton,
 } from "@nextui-org/react";
 import React, { useState } from "react";
-import { usePreloadedQuery } from "react-relay";
-import { NavigationQuery as NavigationQueryType } from "./queries/__generated__/NavigationQuery.graphql.ts";
 import { UserMenu } from "./UserMenu.tsx";
 import { useLocation } from "react-router-dom";
 import { MdOutlineExpandLess, MdOutlineExpandMore } from "react-icons/md";
-import { NavigationQuery } from "./queries/NavigationQuery.ts";
+import { useFavoriteBoards } from "./FavoriteBoardContext.tsx";
+import { useCurrentUser } from "./UserContext.tsx";
+
+const NavigationSkeleton = () => {
+  return (
+    <Navbar isBordered>
+      <NavbarContent className="hidden sm:flex gap-4" justify="center">
+        <NavbarItem>
+          <Link color="foreground">Boards</Link>
+        </NavbarItem>
+        <NavbarItem>
+          <Link color="foreground">Recent</Link>
+        </NavbarItem>
+        <NavbarItem>
+          <Link color="foreground">Favourite</Link>
+        </NavbarItem>
+      </NavbarContent>
+
+      <NavbarContent as="div" justify="end">
+        <Skeleton className="flex rounded-full w-8 h-8" />
+      </NavbarContent>
+    </Navbar>
+  );
+};
 
 // eslint-disable-next-line react/prop-types
-export function Navigation({ queryRef }) {
-  const data = usePreloadedQuery<NavigationQueryType>(
-    NavigationQuery,
-    queryRef,
-  );
+export function Navigation() {
+  const { currentUser } = useCurrentUser();
+  const { favoriteBoards } = useFavoriteBoards();
 
   const location = useLocation();
 
@@ -30,6 +50,10 @@ export function Navigation({ queryRef }) {
   const handleFavouriteListOpen = (isOpen: boolean) => {
     setFavouriteListOpen(isOpen);
   };
+
+  if (!currentUser || !favoriteBoards) {
+    return <NavigationSkeleton />;
+  }
 
   return (
     <Navbar isBordered>
@@ -62,7 +86,7 @@ export function Navigation({ queryRef }) {
               </Button>
             </DropdownTrigger>
             <DropdownMenu aria-label="Profile Actions" variant="flat">
-              {(data.favoriteBoards || []).map((board) => (
+              {(favoriteBoards || []).map((board) => (
                 <DropdownItem key={board.id} href={`/boards/${board.id}`}>
                   {board.name}
                 </DropdownItem>
@@ -73,7 +97,7 @@ export function Navigation({ queryRef }) {
       </NavbarContent>
 
       <NavbarContent as="div" justify="end">
-        <UserMenu fragmentRef={data.currentUser} />
+        <UserMenu fragmentRef={currentUser} />
       </NavbarContent>
     </Navbar>
   );

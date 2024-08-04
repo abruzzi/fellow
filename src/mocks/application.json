@@ -1,0 +1,30 @@
+{
+  "data": {
+    "boards": [
+      {
+        "id": "7a9a4ed2-ef04-47b7-9877-fe3eb0da5a2e",
+        "name": "Macaw"
+      },
+      {
+        "id": "ac9c5aea-d365-4bc9-9f1d-b5c2ba0d765a",
+        "name": "Fellow"
+      }
+    ],
+    "collaborateBoards": [
+      {
+        "id": "4a9a4ed2-ef04-57b8-9800-fe3eb0da5a2e",
+        "name": "Darkness"
+      }
+    ],
+    "favoriteBoards": [
+      {
+        "id": "ac9c5aea-d365-4bc9-9f1d-b5c2ba0d765a"
+      }
+    ],
+    "currentUser": {
+      "name": "Juntao Qiu",
+      "email": "juntao.qiu@gmail.com",
+      "id": "5f2d7f12-e922-40a4-bbe7-bab7e967661c"
+    }
+  }
+}

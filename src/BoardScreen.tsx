@@ -1,4 +1,4 @@
-import { graphql, useQueryLoader } from "react-relay";
+import { useQueryLoader } from "react-relay";
 import React, { Suspense, useCallback, useEffect } from "react";
 
 import { Board } from "./Board.tsx";
@@ -6,21 +6,19 @@ import { Sidebar } from "./Sidebar.tsx";
 import { BoardScreenSkeleton } from "./skeletons/BoardScreenSkeleton.tsx";
 import { BoardSkeleton } from "./skeletons/BoardSkeleton.tsx";
 import { ErrorBoundary } from "react-error-boundary";
+import { BoardQuery } from "./queries/BoardQuery.ts";
+import { useNavigate, useParams } from "react-router-dom";
 
-export const BoardScreen = ({ id }: { id: string }) => {
-  const [queryRef, loadQuery] = useQueryLoader(graphql`
-    query BoardScreenQuery($boardId: ID!) {
-      board(id: $boardId) {
-        id
-        name
-        columns {
-          id
-          position
-          ...ColumnFragment
-        }
-      }
-    }
-  `);
+export const BoardScreen = () => {
+  const { boardId = "" } = useParams();
+
+  const [queryRef, loadQuery] = useQueryLoader(BoardQuery);
+
+  const navigate = useNavigate();
+
+  if (!boardId || boardId.length === 0) {
+    navigate("/boards");
+  }
 
   const refreshBoard = useCallback(
     (id: string) => {
@@ -31,13 +29,9 @@ export const BoardScreen = ({ id }: { id: string }) => {
 
   useEffect(() => {
     if (!queryRef) {
-      refreshBoard(id);
+      refreshBoard(boardId);
     }
-  }, [queryRef, refreshBoard, id]);
-
-  useEffect(() => {
-    refreshBoard(id);
-  }, [id, refreshBoard]);
+  }, [queryRef, refreshBoard, boardId]);
 
   if (!queryRef) {
     return <BoardScreenSkeleton />;

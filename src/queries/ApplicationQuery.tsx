@@ -1,7 +1,7 @@
 import { graphql } from 'react-relay';
 
-export const BoardsQuery = graphql`
-    query BoardsQuery {
+export const ApplicationQuery = graphql`
+    query ApplicationQuery {
         boards {
             id
             name
@@ -13,6 +13,11 @@ export const BoardsQuery = graphql`
         favoriteBoards {
             id
             name
+        }
+        currentUser {
+            name
+            email
+            avatarUrl
         }
     }
 `;

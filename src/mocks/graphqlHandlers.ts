@@ -5,7 +5,14 @@ import board from "./board.json";
 import user from "./user.json";
 import comments from "./comments.json";
 
+import application from "./application.json";
+
 export const graphqlHandlers = [
+  graphql.query('ApplicationQuery', async ({}) => {
+    await delay();
+    return HttpResponse.json(application);
+  }),
+
   graphql.query("BoardsQuery", async ({}) => {
     await delay();
     return HttpResponse.json(boards);
@@ -49,4 +56,15 @@ export const graphqlHandlers = [
       },
     });
   }),
+
+  graphql.mutation("FavoriteBoardContextToggleMutation", ({variables}) => {
+    const { boardId } = variables;
+    return HttpResponse.json({
+      data: {
+        toggleFavoriteBoard: {
+          boardId
+        }
+      },
+    });
+  })
 ];

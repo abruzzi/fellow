@@ -1,12 +1,12 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
 import { graphql, useMutation, usePreloadedQuery } from "react-relay";
 import {
-  NavigationQuery as NavigationQueryType,
-  NavigationQuery$data,
-} from "./queries/__generated__/NavigationQuery.graphql.ts";
-import { NavigationQuery } from "./queries/NavigationQuery.ts";
+  ApplicationQuery as ApplicationQueryType,
+  ApplicationQuery$data,
+} from "./queries/__generated__/ApplicationQuery.graphql.ts";
+import { ApplicationQuery } from "./queries/ApplicationQuery.ts";
 
-type FavoriteBoards = NavigationQuery$data["favoriteBoards"];
+type FavoriteBoards = ApplicationQuery$data["favoriteBoards"];
 type FavoriteBoardContextType = {
   favoriteBoards: FavoriteBoards;
   toggleFavorite: (boardId: string) => void;
@@ -16,13 +16,13 @@ const FavoriteBoardContext = createContext<FavoriteBoardContextType>(null);
 
 // eslint-disable-next-line react/prop-types
 export function FavoriteBoardProvider({ children, queryRef, refresh }) {
-  const data = usePreloadedQuery<NavigationQueryType>(
-    NavigationQuery,
+  const data = usePreloadedQuery<ApplicationQueryType>(
+    ApplicationQuery,
     queryRef,
   );
 
   const [favoriteBoards, setFavoriteBoards] = useState<FavoriteBoards>(
-    data.favoriteBoards,
+    data.favoriteBoards || [],
   );
 
   useEffect(() => {

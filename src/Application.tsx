@@ -9,7 +9,7 @@ import { OAuthCallback } from "./OAuthCallback.tsx";
 import React, { useCallback, useEffect } from "react";
 import { useQueryLoader } from "react-relay";
 import { ApplicationQuery as ApplicationQueryType } from "./queries/__generated__/ApplicationQuery.graphql.ts";
-import { ApplicationQuery } from "./queries/ApplicationQuery.tsx";
+import { ApplicationQuery } from "./queries/ApplicationQuery.ts";
 import { BoardScreen } from "./BoardScreen.tsx";
 
 export const Application = () => {

@@ -1,6 +1,6 @@
 import React, { Suspense, useCallback, useEffect } from "react";
 import { useQueryLoader } from "react-relay";
-import { ApplicationQuery } from "./queries/ApplicationQuery.tsx";
+import { ApplicationQuery } from "./queries/ApplicationQuery.ts";
 import { SimpleBoardList } from "./SimpleBoardList.tsx";
 import { SidebarSkeleton } from "./skeletons/SidebarSkeleton.tsx";
 import { ErrorBoundary } from "react-error-boundary";

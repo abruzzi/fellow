@@ -1,18 +1,25 @@
 import React, { useState } from "react";
 
 import { usePreloadedQuery } from "react-relay";
-import { ApplicationQuery } from "./queries/ApplicationQuery.tsx";
+import { ApplicationQuery } from "./queries/ApplicationQuery.ts";
 import { Link } from "react-router-dom";
 import { HiOutlinePlus, HiOutlineStar } from "react-icons/hi";
 
-import type { BoardsQuery as BoardsQueryType } from "./queries/__generated__/BoardsQuery.graphql.ts";
+import type { ApplicationQuery as ApplicationQueryType } from "./queries/__generated__/ApplicationQuery.graphql.ts";
 import { MdFeaturedPlayList, MdFeaturedVideo } from "react-icons/md";
 import { Button } from "@nextui-org/react";
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
+import { useFavoriteBoards } from "./FavoriteBoardContext.tsx";
 
 // eslint-disable-next-line react/prop-types
 export const SimpleBoardList = ({ queryRef }) => {
-  const data = usePreloadedQuery<BoardsQueryType>(ApplicationQuery, queryRef);
+  const data = usePreloadedQuery<ApplicationQueryType>(
+    ApplicationQuery,
+    queryRef,
+  );
+
+  const { favoriteBoards } = useFavoriteBoards();
+
   const [minimise, setMinimise] = useState<boolean>(false);
 
   const handleMinimiseClick = () => {
@@ -20,7 +27,7 @@ export const SimpleBoardList = ({ queryRef }) => {
   };
 
   const isBoardFavorite = (boardId: string) => {
-    return data.favoriteBoards.map((b) => b.id).includes(boardId);
+    return favoriteBoards.map((b) => b.id).includes(boardId);
   };
 
   return (

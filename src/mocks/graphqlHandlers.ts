@@ -13,17 +13,7 @@ export const graphqlHandlers = [
     return HttpResponse.json(application);
   }),
 
-  graphql.query("BoardsQuery", async ({}) => {
-    await delay();
-    return HttpResponse.json(boards);
-  }),
-
   graphql.query("BoardQuery", async ({}) => {
-    await delay();
-    return HttpResponse.json(board);
-  }),
-
-  graphql.query("BoardScreenQuery", async ({}) => {
     await delay();
     return HttpResponse.json(board);
   }),
@@ -31,16 +21,6 @@ export const graphqlHandlers = [
   graphql.query("CommentsQuery", async ({}) => {
     await delay();
     return HttpResponse.json(comments);
-  }),
-
-  graphql.query("CurrentUserQuery", async ({}) => {
-    await delay();
-    return HttpResponse.json(user);
-  }),
-
-  graphql.query("NavigationQuery", async ({}) => {
-    await delay();
-    return HttpResponse.json(user);
   }),
 
   graphql.mutation("ColumnMoveCardMutation", ({ variables }) => {

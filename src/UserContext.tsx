@@ -1,12 +1,12 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
 import { usePreloadedQuery } from "react-relay";
 import {
-  NavigationQuery as NavigationQueryType,
-  NavigationQuery$data,
-} from "./queries/__generated__/NavigationQuery.graphql.ts";
-import { NavigationQuery } from "./queries/NavigationQuery.ts";
+  ApplicationQuery as ApplicationQueryType,
+  ApplicationQuery$data,
+} from "./queries/__generated__/ApplicationQuery.graphql.ts";
+import { ApplicationQuery } from "./queries/ApplicationQuery.ts";
 
-type CurrentUser = NavigationQuery$data["currentUser"];
+type CurrentUser = ApplicationQuery$data["currentUser"];
 type CurrentUserContextType = {
   currentUser: CurrentUser;
 };
@@ -15,8 +15,8 @@ const CurrentUserContext = createContext<CurrentUserContextType>(null);
 
 // eslint-disable-next-line react/prop-types
 export function UserProvider({ children, queryRef }) {
-  const data = usePreloadedQuery<NavigationQueryType>(
-    NavigationQuery,
+  const data = usePreloadedQuery<ApplicationQueryType>(
+    ApplicationQuery,
     queryRef,
   );
 

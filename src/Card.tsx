@@ -26,6 +26,8 @@ import {
 import { CardEditor } from "./CardEditor.tsx";
 import { CardFragment$key as CardFragmentType } from "./queries/__generated__/CardFragment.graphql.ts";
 import { CardFragment } from "./queries/CardFragment.tsx";
+import { RegularCardContent } from "./RegularCardContent.tsx";
+import { ImageCardContent } from "./ImageCardContent.tsx";
 
 // eslint-disable-next-line react/prop-types
 const Card = ({
@@ -118,37 +120,23 @@ const Card = ({
     <li className="relative" onClick={onOpen}>
       <NextCard
         shadow="sm"
-        className={`py-2 ${isDragging ? "opacity-50" : ""}`}
+        className={`${isDragging ? "opacity-50" : ""} rounded-md hover:cursor-pointer`}
         ref={ref}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >
-        <CardHeader className="py-0 px-4 flex-col items-start">
-          <h4 className="text-large text-slate-800">{data.title}</h4>
-          {hovered && (
-            <div className="absolute right-2 top-2 delay-100">
-              <Button
-                size="sm"
-                isIconOnly
-                color="danger"
-                variant="light"
-                aria-label="Delete"
-                onPress={handleDelete}
-                disabled={isDeleting}
-              >
-                <HiOutlineTrash />
-              </Button>
-            </div>
-          )}
-        </CardHeader>
-        <CardBody>
-          {data.imageUrl && <Image radius="sm" src={data.imageUrl} />}
-          {data.description && (
-            <div className={`pt-2`}>
-              <HiOutlineMenuAlt2 title="This card has a description." />
-            </div>
-          )}
-        </CardBody>
+        {data.imageUrl ? (
+          <ImageCardContent
+            title={data.title}
+            description={data.description}
+            imageUrl={data.imageUrl}
+          />
+        ) : (
+          <RegularCardContent
+            title={data.title}
+            description={data.description}
+          />
+        )}
       </NextCard>
 
       {closestEdge && <DropIndicator edge={closestEdge} gap="1rem" />}

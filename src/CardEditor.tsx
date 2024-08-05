@@ -38,6 +38,7 @@ export const CardEditor = ({
   const [title, setTitle] = useState(data.title);
   const [description, setDescription] = useState(data.description);
   const [imageUrl, setImageUrl] = useState(data.imageUrl);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   const [error, setError] = useState();
 
@@ -85,6 +86,8 @@ export const CardEditor = ({
 
       if (!selectedFile) return;
 
+      setPreviewUrl(URL.createObjectURL(selectedFile));
+
       const formData = new FormData();
       formData.append("file", selectedFile);
       formData.append("upload_preset", import.meta.env.VITE_UPLOAD_PRESET); // Set your upload preset
@@ -103,6 +106,7 @@ export const CardEditor = ({
         );
         const result = await response.json();
         setImageUrl(result.secure_url);
+        setPreviewUrl(null);
         updateImageUrl({
           variables: {
             cardId: data.id,
@@ -171,7 +175,7 @@ export const CardEditor = ({
       size="3xl"
       scrollBehavior="outside"
     >
-      <ModalContent className="px-10 py-6">
+      <ModalContent className="px-6 pt-6 pb-10">
         <>
           <ModalHeader className="flex flex-col gap-1">
             <div className={`flex flex-row items-center gap-2`}>
@@ -293,6 +297,17 @@ export const CardEditor = ({
 
                 <div className="flex flex-row gap-1">
                   <div className="max-w-36">
+                    {previewUrl && !imageUrl && (
+                      <div className="relative">
+                        {uploading && (
+                          <div className="absolute right-2 top-2 delay-100 z-20">
+                            <Spinner color="default" />
+                          </div>
+                        )}
+                        <Image src={previewUrl} alt="Uploaded file" />
+                      </div>
+                    )}
+
                     {imageUrl && (
                       <div
                         className="relative"

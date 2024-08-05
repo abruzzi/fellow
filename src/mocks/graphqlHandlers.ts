@@ -39,6 +39,8 @@ export const graphqlHandlers = [
 
   graphql.mutation("FavoriteBoardContextToggleMutation", ({variables}) => {
     const { boardId } = variables;
+    console.log(boardId);
+
     return HttpResponse.json({
       data: {
         toggleFavoriteBoard: {

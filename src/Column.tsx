@@ -158,7 +158,7 @@ const Column = ({
 
   return (
     <li
-      className={`overflow-auto ${isMoving ? "opacity-50" : ""} w-72 shrink-0`}
+      className={`${isMoving ? "opacity-50" : ""} w-72 shrink-0`}
       ref={ref}
     >
       <div className="bg-gray-100 p-4 rounded-lg flex flex-col max-h-screen">

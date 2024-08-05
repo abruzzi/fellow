@@ -18,14 +18,14 @@ export const Application = () => {
     useQueryLoader<ApplicationQueryType>(ApplicationQuery);
 
   const refreshApplicationQuery = useCallback(() => {
-    loadApplicationQuery({});
+    loadApplicationQuery({}, { fetchPolicy: "store-and-network" });
   }, [loadApplicationQuery]);
 
   useEffect(() => {
     if (!applicationQueryRef) {
-      loadApplicationQuery({});
+      refreshApplicationQuery();
     }
-  }, [loadApplicationQuery, applicationQueryRef]);
+  }, [refreshApplicationQuery, applicationQueryRef]);
 
   return (
     <Routes>

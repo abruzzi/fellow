@@ -81,7 +81,6 @@ export const Board = ({ queryRef, refresh: refreshBoard }) => {
       );
 
       const result = await response.json();
-      console.log(result);
     } catch (error) {
       console.log(error);
     } finally {

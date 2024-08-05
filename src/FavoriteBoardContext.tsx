@@ -43,11 +43,7 @@ export function FavoriteBoardProvider({ children, queryRef, refresh }) {
       variables: {
         boardId: boardId,
       },
-      onCompleted: (response) => {
-        console.log(response);
-        setFavoriteBoards(
-          data.favoriteBoards.filter((board) => board.id !== boardId),
-        );
+      onCompleted: () => {
         refresh();
       },
     });

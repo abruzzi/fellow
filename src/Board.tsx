@@ -168,7 +168,7 @@ export const Board = ({ queryRef, refresh: refreshBoard }) => {
             <MdMoreHoriz />
           </Button>
         </div>
-        <div className="relative mt-4 flex-grow">
+        <div className="relative my-4 flex-grow">
           <ol
             className={`flex flex-row gap-4 absolute top-0 left-0 bottom-0 right-0 select-none px-4`}
           >

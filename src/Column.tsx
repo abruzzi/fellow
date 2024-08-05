@@ -161,7 +161,7 @@ const Column = ({
       className={`${isMoving ? "opacity-50" : ""} w-72 shrink-0`}
       ref={ref}
     >
-      <div className="bg-gray-100 p-4 rounded-lg flex flex-col max-h-screen">
+      <div className="bg-gray-100 p-4 rounded-lg flex flex-col max-h-full">
         <h2 className="text-lg font-semibold mb-2 px-2 text-slate-600">
           {data.name}
         </h2>

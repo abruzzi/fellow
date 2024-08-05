@@ -11,6 +11,7 @@ import { useQueryLoader } from "react-relay";
 import { ApplicationQuery as ApplicationQueryType } from "./queries/__generated__/ApplicationQuery.graphql.ts";
 import { ApplicationQuery } from "./queries/ApplicationQuery.ts";
 import { BoardScreen } from "./BoardScreen.tsx";
+import { Loading } from "./Loading.tsx";
 
 export const Application = () => {
   const [applicationQueryRef, loadApplicationQuery] =
@@ -37,7 +38,7 @@ export const Application = () => {
               refreshQuery={refreshApplicationQuery}
             />
           ) : (
-            <div>Loading...</div>
+            <Loading />
           )
         }
       >

@@ -11,7 +11,7 @@ const Root = ({ queryRef, refreshQuery }) => {
   return (
     <div className="h-screen flex flex-col max-h-screen">
       <ErrorBoundary
-        fallback={<div>Something went wrong on the navigation</div>}
+        fallback={<div>Something went wrong on the root level</div>}
       >
         <FavoriteBoardProvider queryRef={queryRef} refresh={refreshQuery}>
           <UserProvider queryRef={queryRef}>

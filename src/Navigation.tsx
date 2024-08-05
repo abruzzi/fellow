@@ -97,7 +97,7 @@ export function Navigation() {
       </NavbarContent>
 
       <NavbarContent as="div" justify="end">
-        <UserMenu fragmentRef={currentUser} />
+        <UserMenu currentUser={currentUser} />
       </NavbarContent>
     </Navbar>
   );

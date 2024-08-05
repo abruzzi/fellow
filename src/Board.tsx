@@ -68,19 +68,15 @@ export const Board = ({ queryRef, refresh: refreshBoard }) => {
   const handleSendInvite = async (afterSubmit: () => void) => {
     setSendingInvite(true);
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_BOARDS_BASE_URL}/invite`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ email, boardId: data.board.id }),
+      // just send it out, we could handle it async
+      await fetch(`${import.meta.env.VITE_BOARDS_BASE_URL}/invite`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
-      );
-
-      const result = await response.json();
+        body: JSON.stringify({ email, boardId: data.board.id }),
+      });
     } catch (error) {
       console.log(error);
     } finally {

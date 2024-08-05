@@ -1,18 +1,11 @@
 import React, { Suspense } from "react";
 
-import { BoardList } from "./BoardList.tsx";
+import { BoardListScreen } from "./BoardListScreen.tsx";
 
 import { BoardListSkeleton } from "./skeletons/BoardListSkeleton.tsx";
 import { ErrorBoundary } from "react-error-boundary";
 import { useOutletContext } from "react-router-dom";
-import { PreloadedQuery } from "react-relay";
-
-import { ApplicationQuery as ApplicationQueryType } from "./queries/__generated__/ApplicationQuery.graphql.ts";
-
-type RootContextType = {
-  queryRef: PreloadedQuery<ApplicationQueryType>;
-  refreshQuery: () => void;
-};
+import { RootContextType } from "./types.ts";
 
 const Boards = () => {
   const { queryRef, refreshQuery } = useOutletContext<RootContextType>();
@@ -20,9 +13,7 @@ const Boards = () => {
   return (
     <ErrorBoundary fallback={<div>Something went wrong on the board list</div>}>
       <Suspense fallback={<BoardListSkeleton />}>
-        {queryRef ? (
-          <BoardList queryRef={queryRef} refreshBoards={refreshQuery} />
-        ) : null}
+        <BoardListScreen queryRef={queryRef} refreshBoards={refreshQuery} />
       </Suspense>
     </ErrorBoundary>
   );

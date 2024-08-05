@@ -10,6 +10,7 @@ import { MdFeaturedPlayList, MdFeaturedVideo } from "react-icons/md";
 import { Button } from "@nextui-org/react";
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 import { useFavoriteBoards } from "./FavoriteBoardContext.tsx";
+import {SidebarSkeleton} from "./skeletons/SidebarSkeleton.tsx";
 
 // eslint-disable-next-line react/prop-types
 export const SimpleBoardList = ({ queryRef }) => {
@@ -29,6 +30,10 @@ export const SimpleBoardList = ({ queryRef }) => {
   const isBoardFavorite = (boardId: string) => {
     return favoriteBoards.map((b) => b.id).includes(boardId);
   };
+
+  if(!queryRef) {
+    return <SidebarSkeleton />
+  }
 
   return (
     <div

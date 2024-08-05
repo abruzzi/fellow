@@ -10,7 +10,7 @@ import type { ApplicationQuery as ApplicationQueryType } from "./queries/__gener
 import { BoardListSkeleton } from "./skeletons/BoardListSkeleton.tsx";
 
 // eslint-disable-next-line react/prop-types
-export const BoardList = ({ queryRef, refreshBoards }) => {
+export const BoardListScreen = ({ queryRef, refreshBoards }) => {
   const data = usePreloadedQuery<ApplicationQueryType>(
     ApplicationQuery,
     queryRef,

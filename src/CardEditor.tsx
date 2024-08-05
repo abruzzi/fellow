@@ -199,6 +199,7 @@ export const CardEditor = ({
                     onChange={onTitleChange}
                     onKeyDown={handleTileEditKeyDown}
                     radius="none"
+                    onBlur={() => setEditingTitle(false)}
                   />
                 ) : (
                   <p onClick={() => setEditingTitle(true)}>{title}</p>

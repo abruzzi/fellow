@@ -5,7 +5,7 @@ import React, {
 } from "react-relay";
 import { Card } from "./Card.tsx";
 
-import { monitorForElements } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
+import {dropTargetForElements, monitorForElements} from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { combine } from "@atlaskit/pragmatic-drag-and-drop/combine";
 import { SimpleCardCreation } from "./SimpleCardCreation.tsx";
@@ -27,7 +27,6 @@ const Column = ({
   fragmentRef: ColumnFragment$key;
   refreshBoard: (id: string) => void;
 }) => {
-  const ref = useRef(null);
   const [cards, setCards] = useState<CardType[]>([]);
 
   const params = useParams();
@@ -81,6 +80,28 @@ const Column = ({
     refetch({ id: data.id }, { fetchPolicy: "network-only" });
   }, [data.id, refetch]);
 
+  const ref = useRef(null);
+  const [aboutToDrop, setAboutToDrop] = useState(false);
+
+  useEffect(() => {
+    const element = ref.current;
+    if(!element) {
+      return;
+    }
+
+    return dropTargetForElements({
+      element,
+      onDrag() {
+        setAboutToDrop(true);
+      },
+      onDragLeave() {
+        setAboutToDrop(false);
+      },
+      onDrop() {
+        setAboutToDrop(false);
+      }
+    })
+  }, []);
   useEffect(() => {
     return combine(
       monitorForElements({
@@ -161,11 +182,11 @@ const Column = ({
       className={`${isMoving ? "opacity-50" : ""} w-72 shrink-0`}
       ref={ref}
     >
-      <div className="bg-gray-100 p-4 rounded-md flex flex-col max-h-full">
+      <div className={`bg-gray-50 p-4 rounded-md flex flex-col max-h-full ${aboutToDrop ? "bg-blue-100": ""}`}>
         <h2 className="text-lg font-semibold mb-2 px-2 text-slate-600">
           {data.name}
         </h2>
-        <div className="flex-1 px-2 py-4 mb-2 overflow-auto bg-gray-100">
+        <div className={`flex-1 px-2 py-4 mb-2 overflow-auto`}>
           {cards.length > 0 && (
             <ol className="flex flex-col gap-4 shrink-0">
               {cards.map((card) => (

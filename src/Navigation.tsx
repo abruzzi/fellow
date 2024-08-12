@@ -11,6 +11,7 @@ import {
   Skeleton,
 } from "@nextui-org/react";
 import React, { useState } from "react";
+import { Link as RouterLink } from "react-router-dom";
 import { UserMenu } from "./UserMenu.tsx";
 import { useLocation } from "react-router-dom";
 import { MdOutlineExpandLess, MdOutlineExpandMore } from "react-icons/md";
@@ -59,9 +60,9 @@ export function Navigation() {
   return (
     <Navbar isBordered maxWidth="full">
       <NavbarBrand className="flex-grow-0" >
-        <Link to="/">
+        <RouterLink to="/">
           <img src={FellowLogo} alt="Fellow Logo" className="max-w-36" />
-        </Link>
+        </RouterLink>
       </NavbarBrand>
       <NavbarContent className="hidden sm:flex gap-4" justify="start">
         <NavbarItem>

@@ -162,10 +162,7 @@ export const Board = ({ queryRef, refresh: refreshBoard }) => {
             startContent={<FiUserPlus />}
             onPress={onOpen}
           >
-            Invite others
-          </Button>
-          <Button isIconOnly variant="light">
-            <MdMoreHoriz />
+            Share
           </Button>
         </div>
         <div className="relative my-4 flex-grow">

@@ -39,7 +39,7 @@ export const SimpleBoardList = ({ queryRef }) => {
     <div
       className={`bg-slate-100 border-r-1 border-gray-300 bg-opacity-50 backdrop-blur-lg relative`}
     >
-      <div className={`absolute top-2 ${minimise ? "right-2" : "right-2"}`}>
+      <div className={`absolute top-4 ${minimise ? "right-2" : "right-2"}`}>
         <Button
           isIconOnly
           size="sm"

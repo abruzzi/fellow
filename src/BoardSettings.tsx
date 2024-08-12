@@ -1,33 +1,72 @@
-import React, { useState } from "react";
+import React, { ChangeEvent, KeyboardEvent, useState } from "react";
 
-import { Button } from "@nextui-org/react";
+import { Button, Input } from "@nextui-org/react";
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
+import { graphql, useMutation } from "react-relay";
 
-// eslint-disable-next-line react/prop-types
 export const BoardSettings = ({ boardId }: { boardId: string }) => {
+  const [backgroundImageUrl, setBackgroundImageUrl] = useState<string>("");
   const [minimise, setMinimise] = useState<boolean>(false);
+
+  const [updateBackgroundImage] = useMutation(graphql`
+    mutation BoardSettingsBackgroundMutation(
+      $boardId: ID!
+      $bgImageUrl: String!
+    ) {
+      updateBoardImageUrl(boardId: $boardId, imageUrl: $bgImageUrl) {
+        id
+        imageUrl
+      }
+    }
+  `);
 
   const handleMinimiseClick = () => {
     setMinimise((min) => !min);
   };
 
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setBackgroundImageUrl(e.target.value);
+  };
+
+  const handleBackgroundImageEditKeyDown = (
+    e: KeyboardEvent<HTMLInputElement>,
+  ) => {
+    if (e.key === "Enter") {
+      handleUpdateBackgroundImageUrl();
+    }
+  };
+
+  const handleUpdateBackgroundImageUrl = () => {
+    if (!backgroundImageUrl) {
+      return;
+    }
+
+    updateBackgroundImage({
+      variables: {
+        boardId: boardId,
+        bgImageUrl: backgroundImageUrl,
+      },
+    });
+  };
+
   return (
     <div
-      className={`bg-slate-100 border-r-1 border-gray-300 bg-opacity-50 backdrop-blur-lg relative`}
+      className={`bg-slate-100 border-l-1 border-gray-300 bg-opacity-50 backdrop-blur-lg relative`}
     >
-      <div className={`absolute top-2 ${minimise ? "-left-2" : "left-2"}`}>
+      <div className={`absolute top-4 ${minimise ? "left-2" : "left-2"}`}>
         <Button
           isIconOnly
           size="sm"
           variant="light"
           onPress={handleMinimiseClick}
+          className="text-slate-600"
         >
           {minimise ? <FaArrowLeftLong /> : <FaArrowRightLong />}
         </Button>
       </div>
 
       {minimise ? (
-        <div className="w-4" />
+        <div className="w-12 mt-16" />
       ) : (
         <div>
           <div className="flex flex-row items-center justify-center mt-12 px-4">
@@ -36,7 +75,17 @@ export const BoardSettings = ({ boardId }: { boardId: string }) => {
             </h2>
           </div>
           <ol className="flex flex-wrap justify-start flex-col w-64">
-            <li>Hello world</li>
+            <li>
+              <div className="flex flex-row items-center gap-2 px-4 py-1">
+                <Input
+                  type="url"
+                  label="Board background image"
+                  onChange={handleChange}
+                  onKeyDown={handleBackgroundImageEditKeyDown}
+                  placeholder="Paste image url here"
+                />
+              </div>
+            </li>
           </ol>
         </div>
       )}

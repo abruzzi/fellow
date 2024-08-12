@@ -10,6 +10,7 @@ import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 import { SidebarSkeleton } from "./skeletons/SidebarSkeleton.tsx";
 import { SimpleBoardList } from "./SimpleBoardList.tsx";
 import { RootContextType } from "./types.ts";
+import {BoardSettings} from "./BoardSettings.tsx";
 
 export const BoardScreen = () => {
   const { queryRef } = useOutletContext<RootContextType>();
@@ -52,6 +53,7 @@ export const BoardScreen = () => {
           </Suspense>
         </ErrorBoundary>
       </div>
+      <BoardSettings boardId={boardId} />
     </div>
   );
 };

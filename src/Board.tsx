@@ -15,7 +15,6 @@ import {
   SelectItem,
   useDisclosure,
 } from "@nextui-org/react";
-import { MdMoreHoriz } from "react-icons/md";
 import { FiUserPlus } from "react-icons/fi";
 import { useAuth } from "./AuthenticationContext.tsx";
 import { useFavoriteBoards } from "./FavoriteBoardContext.tsx";
@@ -141,7 +140,15 @@ export const Board = ({ queryRef, refresh: refreshBoard }) => {
         </ModalContent>
       </Modal>
 
-      <div className="h-full flex flex-col">
+      <div className="h-full flex flex-col relative">
+        {data.board.imageUrl && (
+          <div
+            className="absolute top-0 left-0 right-0 bottom-0 bg-red-500 bg-cover bg-center"
+            style={{
+              backgroundImage: `url(${data.board.imageUrl})`,
+            }}
+          />
+        )}
         <div className="flex flex-row items-center gap-2 bg-slate-100 px-4 py-2 bg-opacity-50 backdrop-blur-md">
           <h2 className="text-xl text-slate-800 font-bold font-mono py-2">
             {data.board.name}

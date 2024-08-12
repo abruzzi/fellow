@@ -1,12 +1,17 @@
 import React, { ChangeEvent, KeyboardEvent, useState } from "react";
 
-import { Button, Input } from "@nextui-org/react";
+import { Button, Image, Input } from "@nextui-org/react";
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
-import { graphql, useMutation } from "react-relay";
+import { graphql, useMutation, usePreloadedQuery } from "react-relay";
+import { BoardQuery as BoardQueryType } from "./queries/__generated__/BoardQuery.graphql.ts";
+import { BoardQuery } from "./queries/BoardQuery.ts";
 
-export const BoardSettings = ({ boardId }: { boardId: string }) => {
-  const [backgroundImageUrl, setBackgroundImageUrl] = useState<string>("");
+// eslint-disable-next-line react/prop-types
+export const BoardSettings = ({ queryRef, refresh: refreshBoard }) => {
+  const [backgroundImageUrl, setBackgroundImageUrl] = useState<string>(null);
   const [minimise, setMinimise] = useState<boolean>(false);
+
+  const data = usePreloadedQuery<BoardQueryType>(BoardQuery, queryRef);
 
   const [updateBackgroundImage] = useMutation(graphql`
     mutation BoardSettingsBackgroundMutation(
@@ -43,11 +48,18 @@ export const BoardSettings = ({ boardId }: { boardId: string }) => {
 
     updateBackgroundImage({
       variables: {
-        boardId: boardId,
+        boardId: data.board.id,
         bgImageUrl: backgroundImageUrl,
+      },
+      onCompleted: () => {
+        refreshBoard();
       },
     });
   };
+
+  if (!data.board) {
+    return <div>loading...</div>;
+  }
 
   return (
     <div
@@ -80,11 +92,18 @@ export const BoardSettings = ({ boardId }: { boardId: string }) => {
                 <Input
                   type="url"
                   label="Board background image"
+                  defaultValue={data.board.imageUrl}
+                  value={backgroundImageUrl}
                   onChange={handleChange}
                   onKeyDown={handleBackgroundImageEditKeyDown}
                   placeholder="Paste image url here"
                 />
               </div>
+              {data.board.imageUrl && (
+                <div className="flex flex-row items-center gap-2 px-4 py-2">
+                  <Image src={data.board.imageUrl} alt="Background image" />
+                </div>
+              )}
             </li>
           </ol>
         </div>

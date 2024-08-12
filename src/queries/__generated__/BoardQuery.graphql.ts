@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<2de60953c04b89d14ed10adf37a701be>>
+ * @generated SignedSource<<0beb03b6d53d67f41861d65829b9c132>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -21,6 +21,7 @@ export type BoardQuery$data = {
       readonly " $fragmentSpreads": FragmentRefs<"ColumnFragment">;
     }>;
     readonly id: string;
+    readonly imageUrl: string | null | undefined;
     readonly name: string;
   };
 };
@@ -62,6 +63,13 @@ v4 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
+  "name": "imageUrl",
+  "storageKey": null
+},
+v5 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
   "name": "position",
   "storageKey": null
 };
@@ -82,6 +90,7 @@ return {
         "selections": [
           (v2/*: any*/),
           (v3/*: any*/),
+          (v4/*: any*/),
           {
             "alias": null,
             "args": null,
@@ -91,7 +100,7 @@ return {
             "plural": true,
             "selections": [
               (v2/*: any*/),
-              (v4/*: any*/),
+              (v5/*: any*/),
               {
                 "args": null,
                 "kind": "FragmentSpread",
@@ -123,6 +132,7 @@ return {
         "selections": [
           (v2/*: any*/),
           (v3/*: any*/),
+          (v4/*: any*/),
           {
             "alias": null,
             "args": null,
@@ -132,7 +142,7 @@ return {
             "plural": true,
             "selections": [
               (v2/*: any*/),
-              (v4/*: any*/),
+              (v5/*: any*/),
               (v3/*: any*/),
               {
                 "alias": null,
@@ -143,7 +153,7 @@ return {
                 "plural": true,
                 "selections": [
                   (v2/*: any*/),
-                  (v4/*: any*/),
+                  (v5/*: any*/),
                   {
                     "alias": null,
                     "args": null,
@@ -158,13 +168,7 @@ return {
                     "name": "description",
                     "storageKey": null
                   },
-                  {
-                    "alias": null,
-                    "args": null,
-                    "kind": "ScalarField",
-                    "name": "imageUrl",
-                    "storageKey": null
-                  },
+                  (v4/*: any*/),
                   {
                     "alias": null,
                     "args": null,
@@ -189,16 +193,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "8b3d3bbe9b6fc7682594c993977dd48e",
+    "cacheID": "d0f0fe4ce65920ab8eea668bd016e50c",
     "id": null,
     "metadata": {},
     "name": "BoardQuery",
     "operationKind": "query",
-    "text": "query BoardQuery(\n  $boardId: ID!\n) {\n  board(id: $boardId) {\n    id\n    name\n    columns {\n      id\n      position\n      ...ColumnFragment\n    }\n  }\n}\n\nfragment CardFragment on Card {\n  id\n  title\n  description\n  position\n  imageUrl\n  column {\n    id\n  }\n}\n\nfragment ColumnFragment on Column {\n  id\n  name\n  position\n  cards {\n    id\n    position\n    ...CardFragment\n  }\n}\n"
+    "text": "query BoardQuery(\n  $boardId: ID!\n) {\n  board(id: $boardId) {\n    id\n    name\n    imageUrl\n    columns {\n      id\n      position\n      ...ColumnFragment\n    }\n  }\n}\n\nfragment CardFragment on Card {\n  id\n  title\n  description\n  position\n  imageUrl\n  column {\n    id\n  }\n}\n\nfragment ColumnFragment on Column {\n  id\n  name\n  position\n  cards {\n    id\n    position\n    ...CardFragment\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "00cd2108f7a5a8f937a8e36cda3af291";
+(node as any).hash = "b7e54469091e8e78e81ef6c407b56205";
 
 export default node;

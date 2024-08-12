@@ -5,7 +5,7 @@ import {
   DropdownMenu,
   DropdownTrigger,
   Link,
-  Navbar,
+  Navbar, NavbarBrand,
   NavbarContent,
   NavbarItem,
   Skeleton,
@@ -16,6 +16,7 @@ import { useLocation } from "react-router-dom";
 import { MdOutlineExpandLess, MdOutlineExpandMore } from "react-icons/md";
 import { useFavoriteBoards } from "./FavoriteBoardContext.tsx";
 import { useCurrentUser } from "./UserContext.tsx";
+import FellowLogo from "./assets/brand.png";
 
 const NavigationSkeleton = () => {
   return (
@@ -56,8 +57,13 @@ export function Navigation() {
   }
 
   return (
-    <Navbar isBordered>
-      <NavbarContent className="hidden sm:flex gap-4" justify="center">
+    <Navbar isBordered maxWidth="full">
+      <NavbarBrand className="flex-grow-0" >
+        <Link to="/">
+          <img src={FellowLogo} alt="Fellow Logo" className="max-w-36" />
+        </Link>
+      </NavbarBrand>
+      <NavbarContent className="hidden sm:flex gap-4" justify="start">
         <NavbarItem>
           <Link color="foreground" href="/boards">
             <Button

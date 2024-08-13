@@ -2,16 +2,28 @@ import React, { ChangeEvent, KeyboardEvent, useState } from "react";
 
 import { Button, Image, Input } from "@nextui-org/react";
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
-import { graphql, useMutation, usePreloadedQuery } from "react-relay";
-import { BoardQuery as BoardQueryType } from "./queries/__generated__/BoardQuery.graphql.ts";
-import { BoardQuery } from "./queries/BoardQuery.ts";
+import { graphql, useMutation, useRefetchableFragment } from "react-relay";
+import { BoardSettingsFragment$key } from "./__generated__/BoardSettingsFragment.graphql.ts";
+import { BoardSettingsRefetchQuery } from "./__generated__/BoardSettingsRefetchQuery.graphql.ts";
 
 // eslint-disable-next-line react/prop-types
-export const BoardSettings = ({ queryRef, refresh: refreshBoard }) => {
+export const BoardSettings = ({ fragmentRef }) => {
+  const [data, refetch] = useRefetchableFragment<
+    BoardSettingsRefetchQuery,
+    BoardSettingsFragment$key
+  >(
+    graphql`
+      fragment BoardSettingsFragment on Board
+      @refetchable(queryName: "BoardSettingsRefetchQuery") {
+        id
+        imageUrl
+      }
+    `,
+    fragmentRef,
+  );
+
   const [backgroundImageUrl, setBackgroundImageUrl] = useState<string>(null);
   const [minimise, setMinimise] = useState<boolean>(false);
-
-  const data = usePreloadedQuery<BoardQueryType>(BoardQuery, queryRef);
 
   const [updateBackgroundImage] = useMutation(graphql`
     mutation BoardSettingsBackgroundMutation(
@@ -48,16 +60,16 @@ export const BoardSettings = ({ queryRef, refresh: refreshBoard }) => {
 
     updateBackgroundImage({
       variables: {
-        boardId: data.board.id,
+        boardId: data.id,
         bgImageUrl: backgroundImageUrl,
       },
       onCompleted: () => {
-        refreshBoard();
+        refetch({ id: data.id });
       },
     });
   };
 
-  if (!data.board) {
+  if (!data) {
     return <div>loading...</div>;
   }
 
@@ -78,9 +90,9 @@ export const BoardSettings = ({ queryRef, refresh: refreshBoard }) => {
       </div>
 
       {minimise ? (
-        <div className="w-12 mt-16" />
+        <div className="w-12 mt-16 transition-width duration-500 ease-in-out" />
       ) : (
-        <div>
+        <div className="transition-width duration-500 ease-in-out">
           <div className="flex flex-row items-center justify-center mt-12 px-4">
             <h2 className="text-medium text-slate-800 font-bold font-mono py-2">
               Board settings
@@ -92,16 +104,16 @@ export const BoardSettings = ({ queryRef, refresh: refreshBoard }) => {
                 <Input
                   type="url"
                   label="Board background image"
-                  defaultValue={data.board.imageUrl}
+                  defaultValue={data.imageUrl}
                   value={backgroundImageUrl}
                   onChange={handleChange}
                   onKeyDown={handleBackgroundImageEditKeyDown}
                   placeholder="Paste image url here"
                 />
               </div>
-              {data.board.imageUrl && (
+              {data.imageUrl && (
                 <div className="flex flex-row items-center gap-2 px-4 py-2">
-                  <Image src={data.board.imageUrl} alt="Background image" />
+                  <Image src={data.imageUrl} alt="Background image" />
                 </div>
               )}
             </li>

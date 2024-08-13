@@ -20,6 +20,7 @@ import { useAuth } from "./AuthenticationContext.tsx";
 import { useFavoriteBoards } from "./FavoriteBoardContext.tsx";
 import { BoardQuery as BoardQueryType } from "./queries/__generated__/BoardQuery.graphql.ts";
 import { BoardQuery } from "./queries/BoardQuery.ts";
+import { BoardSettings } from "./BoardSettings.tsx";
 
 const validateEmail = (value) =>
   value.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i);
@@ -140,10 +141,10 @@ export const Board = ({ queryRef, refresh: refreshBoard }) => {
         </ModalContent>
       </Modal>
 
-      <div className="h-full flex flex-col relative">
+      <div className="h-full flex flex-col relative w-full overflow-x-auto">
         {data.board.imageUrl && (
           <div
-            className="absolute top-0 left-0 right-0 bottom-0 bg-red-500 bg-cover bg-center"
+            className="absolute top-0 left-0 right-0 bottom-0 bg-gradient-to-br from-slate-50 to-slate-100 bg-cover bg-center"
             style={{
               backgroundImage: `url(${data.board.imageUrl})`,
             }}
@@ -186,6 +187,8 @@ export const Board = ({ queryRef, refresh: refreshBoard }) => {
           </ol>
         </div>
       </div>
+
+      <BoardSettings fragmentRef={data.board} />
     </>
   );
 };

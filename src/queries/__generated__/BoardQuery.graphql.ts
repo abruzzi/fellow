@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<0beb03b6d53d67f41861d65829b9c132>>
+ * @generated SignedSource<<5247c71e6f221c62ed85df18989d2261>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -23,6 +23,7 @@ export type BoardQuery$data = {
     readonly id: string;
     readonly imageUrl: string | null | undefined;
     readonly name: string;
+    readonly " $fragmentSpreads": FragmentRefs<"BoardSettingsFragment">;
   };
 };
 export type BoardQuery = {
@@ -108,6 +109,11 @@ return {
               }
             ],
             "storageKey": null
+          },
+          {
+            "args": null,
+            "kind": "FragmentSpread",
+            "name": "BoardSettingsFragment"
           }
         ],
         "storageKey": null
@@ -193,16 +199,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "d0f0fe4ce65920ab8eea668bd016e50c",
+    "cacheID": "bf508ea6011f026c196f29b358761b4c",
     "id": null,
     "metadata": {},
     "name": "BoardQuery",
     "operationKind": "query",
-    "text": "query BoardQuery(\n  $boardId: ID!\n) {\n  board(id: $boardId) {\n    id\n    name\n    imageUrl\n    columns {\n      id\n      position\n      ...ColumnFragment\n    }\n  }\n}\n\nfragment CardFragment on Card {\n  id\n  title\n  description\n  position\n  imageUrl\n  column {\n    id\n  }\n}\n\nfragment ColumnFragment on Column {\n  id\n  name\n  position\n  cards {\n    id\n    position\n    ...CardFragment\n  }\n}\n"
+    "text": "query BoardQuery(\n  $boardId: ID!\n) {\n  board(id: $boardId) {\n    id\n    name\n    imageUrl\n    columns {\n      id\n      position\n      ...ColumnFragment\n    }\n    ...BoardSettingsFragment\n  }\n}\n\nfragment BoardSettingsFragment on Board {\n  id\n  imageUrl\n}\n\nfragment CardFragment on Card {\n  id\n  title\n  description\n  position\n  imageUrl\n  column {\n    id\n  }\n}\n\nfragment ColumnFragment on Column {\n  id\n  name\n  position\n  cards {\n    id\n    position\n    ...CardFragment\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "b7e54469091e8e78e81ef6c407b56205";
+(node as any).hash = "23b55c994fc0782b60d6769328f5539f";
 
 export default node;

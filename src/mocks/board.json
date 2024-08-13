@@ -3,23 +3,13 @@
     "board": {
       "id": "7a9a4ed2-ef04-47b7-9877-fe3eb0da5a2e",
       "name": "Macaw",
-      "imageUrl": "https://res.cloudinary.com/dwbszr4tz/image/upload/v1722079383/vdwqtmost6hdesuavmyo.jpg",
+      "imageUrl": "https://res.cloudinary.com/dwbszr4tz/image/upload/v1722144702/dcniw0owvfngdewer5ye.jpg",
       "columns": [
         {
           "id": "7da600a5-a110-4bc8-b896-40c397cabfbe",
           "position": 0,
           "name": "To do",
           "cards": [
-            {
-              "id": "8c280ca5-b7ef-42ff-97f2-0042072b2abb",
-              "position": 50,
-              "title": "This card is created by 邱俊涛 from another account",
-              "description": "",
-              "imageUrl": null,
-              "column": {
-                "id": "7da600a5-a110-4bc8-b896-40c397cabfbe"
-              }
-            },
             {
               "id": "0390ed09-ce80-4f46-82de-2cdfcb67bffe",
               "position": 60,
@@ -57,6 +47,16 @@
           "position": 2,
           "name": "Done",
           "cards": [
+            {
+              "id": "8c280ca5-b7ef-42ff-97f2-0042072b2abb",
+              "position": 70,
+              "title": "This card is created by 邱俊涛 from another account",
+              "description": "",
+              "imageUrl": null,
+              "column": {
+                "id": "2f654319-03a0-4574-9cd2-c91f64db2fe3"
+              }
+            },
             {
               "id": "f55a36d9-2976-4abb-ab45-f31ba8cb8220",
               "position": 80,

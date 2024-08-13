@@ -11,6 +11,7 @@ const BoardQuery = graphql`
                 position
                 ...ColumnFragment
             }
+            ...BoardSettingsFragment
         }
     }
 `;

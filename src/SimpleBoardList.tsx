@@ -52,7 +52,7 @@ export const SimpleBoardList = ({ queryRef }) => {
       </div>
 
       {minimise ? (
-        <div className="flex flex-row items-center justify-center w-12 mt-16">
+        <div className="flex flex-row items-center justify-center w-12 mt-16 transition-all duration-500 ease-in-out">
           <ol className="flex flex-wrap justify-start flex-col">
             {(data.boards || []).map((board) => (
               <li key={board.id}>
@@ -86,7 +86,7 @@ export const SimpleBoardList = ({ queryRef }) => {
           </ol>
         </div>
       ) : (
-        <div>
+        <div className="transition-width duration-500 ease-in-out">
           <div className="flex flex-row items-center mt-12 px-4">
             <h2 className="text-medium text-slate-800 font-bold font-mono py-2">
               My Boards

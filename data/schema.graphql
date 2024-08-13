@@ -13,7 +13,7 @@ type User {
   favorites: [Board!]!
 }
 
-type Board {
+type Board implements Node {
   id: ID!
   name: String!
   user: User!
@@ -59,6 +59,21 @@ type Column implements Node {
   cards: [Card!]!
 }
 
+type CommentConnection {
+  edges: [CommentEdge!]!
+  pageInfo: PageInfo!
+}
+
+type CommentEdge {
+  cursor: String!
+  node: Comment!
+}
+
+type PageInfo {
+  endCursor: String
+  hasNextPage: Boolean!
+}
+
 type Query {
   boards: [Board!]!
   collaborateBoards: [Board]!
@@ -70,7 +85,7 @@ type Query {
   node(id: ID!): Node
   currentUser: User
   tags: [Tag!]!
-  comments(cardId: ID!): [Comment!]!
+  comments(cardId: ID!, first: Int, after: String): CommentConnection!
 }
 
 type Mutation {

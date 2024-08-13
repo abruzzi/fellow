@@ -46,18 +46,13 @@ export const BoardScreen = () => {
           <SimpleBoardList queryRef={queryRef} />
         </Suspense>
       </ErrorBoundary>
-      <div className="flex-grow">
+      <div className="flex-grow flex flex-row w-full">
         <ErrorBoundary fallback={<div>Something went wrong on the board</div>}>
           <Suspense fallback={<BoardSkeleton />}>
             <Board queryRef={boardQueryRef} refresh={refreshBoard} />
           </Suspense>
         </ErrorBoundary>
       </div>
-      <ErrorBoundary fallback={<div>Something went wrong on the board settings</div>}>
-        <Suspense fallback={<BoardSkeleton />}>
-          <BoardSettings queryRef={boardQueryRef} refresh={refreshBoard} />
-        </Suspense>
-      </ErrorBoundary>
     </div>
   );
 };

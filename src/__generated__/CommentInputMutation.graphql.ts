@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<f6d5ae0261449967d03b7dc4ead85999>>
+ * @generated SignedSource<<11abdfbae223c5386a254ca3e6770f6c>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,18 +9,19 @@
 // @ts-nocheck
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
-export type BoardUpdateUnFavoriteMutation$variables = {
-  boardId: string;
+export type CommentInputMutation$variables = {
+  cardId: string;
+  content: string;
 };
-export type BoardUpdateUnFavoriteMutation$data = {
-  readonly unfavoriteBoard: {
+export type CommentInputMutation$data = {
+  readonly addCommentToCard: {
+    readonly content: string;
     readonly id: string;
-    readonly name: string;
   };
 };
-export type BoardUpdateUnFavoriteMutation = {
-  response: BoardUpdateUnFavoriteMutation$data;
-  variables: BoardUpdateUnFavoriteMutation$variables;
+export type CommentInputMutation = {
+  response: CommentInputMutation$data;
+  variables: CommentInputMutation$variables;
 };
 
 const node: ConcreteRequest = (function(){
@@ -28,7 +29,12 @@ var v0 = [
   {
     "defaultValue": null,
     "kind": "LocalArgument",
-    "name": "boardId"
+    "name": "cardId"
+  },
+  {
+    "defaultValue": null,
+    "kind": "LocalArgument",
+    "name": "content"
   }
 ],
 v1 = [
@@ -37,13 +43,18 @@ v1 = [
     "args": [
       {
         "kind": "Variable",
-        "name": "boardId",
-        "variableName": "boardId"
+        "name": "cardId",
+        "variableName": "cardId"
+      },
+      {
+        "kind": "Variable",
+        "name": "content",
+        "variableName": "content"
       }
     ],
-    "concreteType": "Board",
+    "concreteType": "Comment",
     "kind": "LinkedField",
-    "name": "unfavoriteBoard",
+    "name": "addCommentToCard",
     "plural": false,
     "selections": [
       {
@@ -57,7 +68,7 @@ v1 = [
         "alias": null,
         "args": null,
         "kind": "ScalarField",
-        "name": "name",
+        "name": "content",
         "storageKey": null
       }
     ],
@@ -69,7 +80,7 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "BoardUpdateUnFavoriteMutation",
+    "name": "CommentInputMutation",
     "selections": (v1/*: any*/),
     "type": "Mutation",
     "abstractKey": null
@@ -78,20 +89,20 @@ return {
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "BoardUpdateUnFavoriteMutation",
+    "name": "CommentInputMutation",
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "119618aedada08301613b2980394ca12",
+    "cacheID": "e087da366c6fcfad617646675a87c274",
     "id": null,
     "metadata": {},
-    "name": "BoardUpdateUnFavoriteMutation",
+    "name": "CommentInputMutation",
     "operationKind": "mutation",
-    "text": "mutation BoardUpdateUnFavoriteMutation(\n  $boardId: ID!\n) {\n  unfavoriteBoard(boardId: $boardId) {\n    id\n    name\n  }\n}\n"
+    "text": "mutation CommentInputMutation(\n  $cardId: ID!\n  $content: String!\n) {\n  addCommentToCard(cardId: $cardId, content: $content) {\n    id\n    content\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "5696dccbaedfb56e45410b64f771a2c3";
+(node as any).hash = "88133eff88098736d0d4ef1b1d406583";
 
 export default node;

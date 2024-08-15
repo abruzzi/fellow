@@ -10,7 +10,6 @@ import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 import { SidebarSkeleton } from "./skeletons/SidebarSkeleton.tsx";
 import { SimpleBoardList } from "./SimpleBoardList.tsx";
 import { RootContextType } from "./types.ts";
-import { BoardSettings } from "./BoardSettings.tsx";
 
 export const BoardScreen = () => {
   const { queryRef } = useOutletContext<RootContextType>();
@@ -49,7 +48,7 @@ export const BoardScreen = () => {
       <div className="flex-grow flex flex-row w-full">
         <ErrorBoundary fallback={<div>Something went wrong on the board</div>}>
           <Suspense fallback={<BoardSkeleton />}>
-            <Board queryRef={boardQueryRef} refresh={refreshBoard} />
+            <Board queryRef={boardQueryRef} />
           </Suspense>
         </ErrorBoundary>
       </div>

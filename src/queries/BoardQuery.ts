@@ -8,7 +8,6 @@ const BoardQuery = graphql`
             imageUrl
             columns {
                 id
-                position
                 ...ColumnFragment
             }
             ...BoardSettingsFragment

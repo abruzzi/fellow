@@ -1,25 +1,31 @@
-import React from 'react';
+import React from "react";
 
 import { Button, Input } from "@nextui-org/react";
 import { HiOutlinePlus, HiOutlineX } from "react-icons/hi";
 import { ChangeEvent, KeyboardEvent, useState } from "react";
-import { graphql, useMutation } from "react-relay";
+import { graphql, useFragment, useMutation } from "react-relay";
+import { SimpleCardCreationFragment$key } from "./__generated__/SimpleCardCreationFragment.graphql.ts";
+
+const SimpleCardCreationFragment = graphql`
+  fragment SimpleCardCreationFragment on Column {
+    id
+  }
+`;
 
 const SimpleCardCreation = ({
-  columnId,
-  onCardCreated,
+  column,
 }: {
-  columnId: string;
-  onCardCreated: () => void;
+  column: SimpleCardCreationFragment$key;
 }) => {
+  const data = useFragment(SimpleCardCreationFragment, column);
+
   const [title, setTitle] = useState<string>("");
   const [isEditing, setEditing] = useState<boolean>(false);
 
   const [createSimpleCard, isCreating] = useMutation(graphql`
     mutation SimpleCardCreationMutation($columnId: ID!, $title: String!) {
       createSimpleCard(columnId: $columnId, title: $title) {
-        id
-        title
+        ...CardFragment
       }
     }
   `);
@@ -34,11 +40,11 @@ const SimpleCardCreation = ({
 
     createSimpleCard({
       variables: {
-        columnId: columnId,
+        columnId: data.id,
         title: title,
       },
       onCompleted: () => {
-        onCardCreated();
+        // onCardCreated();
       },
       onError: (error) => {
         console.error("Mutation error:", error);

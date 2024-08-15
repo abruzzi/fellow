@@ -22,27 +22,38 @@ import {
   useDisclosure,
   CardBody,
   Image,
+  Modal,
+  ModalContent,
 } from "@nextui-org/react";
 import { CardEditor } from "./CardEditor.tsx";
-import { CardFragment$key as CardFragmentType } from "./queries/__generated__/CardFragment.graphql.ts";
-import { CardFragment } from "./queries/CardFragment.tsx";
+import { CardFragment$key } from "./__generated__/CardFragment.graphql.ts";
 import { RegularCardContent } from "./RegularCardContent.tsx";
 import { ImageCardContent } from "./ImageCardContent.tsx";
+import { Comments } from "./Comments.tsx";
+
+const CardFragment = graphql`
+  fragment CardFragment on Card {
+    id
+    title
+    description
+    position
+    imageUrl
+    column {
+      id
+    }
+    ...CommentsFragment
+    ...CardEditorFragment
+  }
+`;
 
 // eslint-disable-next-line react/prop-types
-const Card = ({
-  fragmentRef,
-  onRemoveCard,
-}: {
-  fragmentRef: CardFragmentType;
-  onRemoveCard: () => void;
-}) => {
+const Card = ({ card }: { card: CardFragment$key }) => {
   const ref = useRef(null);
   const [isDragging, setDragging] = useState<boolean>(false);
   const [closestEdge, setClosestEdge] = useState<Edge>(null);
   const [hovered, setHovered] = useState<boolean>(false);
 
-  const data = useFragment<CardFragmentType>(CardFragment, fragmentRef);
+  const data = useFragment<CardFragment$key>(CardFragment, card);
 
   const [deleteCard, isDeleting] = useMutation(graphql`
     mutation CardDeleteMutation($id: ID!) {
@@ -57,7 +68,7 @@ const Card = ({
     deleteCard({
       variables: { id: data.id },
       onCompleted: () => {
-        onRemoveCard();
+        // onRemoveCard();
       },
       onError: () => {
         // error
@@ -141,11 +152,20 @@ const Card = ({
 
       {closestEdge && <DropIndicator edge={closestEdge} gap="1rem" />}
 
-      <CardEditor
-        fragmentRef={fragmentRef}
+      <Modal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
-      />
+        placement="top-center"
+        size="3xl"
+        scrollBehavior="outside"
+      >
+        <ModalContent className="px-6 pt-6 pb-10">
+          <>
+            <CardEditor card={data} />
+            <Comments card={data} />
+          </>
+        </ModalContent>
+      </Modal>
     </li>
   );
 };

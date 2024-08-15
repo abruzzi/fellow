@@ -22,7 +22,7 @@ export const BoardSettings = ({ fragmentRef }) => {
     fragmentRef,
   );
 
-  const [backgroundImageUrl, setBackgroundImageUrl] = useState<string>(null);
+  const [backgroundImageUrl, setBackgroundImageUrl] = useState<string>("");
   const [minimise, setMinimise] = useState<boolean>(false);
 
   const [updateBackgroundImage] = useMutation(graphql`

@@ -1,61 +1,34 @@
-import React, {
-  graphql,
-  useMutation,
-  useRefetchableFragment,
-} from "react-relay";
+import React, { graphql, useFragment, useMutation } from "react-relay";
 import { Card } from "./Card.tsx";
 
-import {dropTargetForElements, monitorForElements} from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  dropTargetForElements,
+  monitorForElements,
+} from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
+import { useEffect, useRef, useState } from "react";
 import { combine } from "@atlaskit/pragmatic-drag-and-drop/combine";
 import { SimpleCardCreation } from "./SimpleCardCreation.tsx";
 import { CardHolder } from "./CardHolder.tsx";
-import { ColumnRefetchQuery } from "./__generated__/ColumnRefetchQuery.graphql.ts";
 import {
-  ColumnFragment$data,
   ColumnFragment$key,
 } from "./__generated__/ColumnFragment.graphql.ts";
 import { ColumnSkeleton } from "./skeletons/ColumnSkeleton.tsx";
-import { useParams } from "react-router-dom";
 
-type CardType = ColumnFragment$data["cards"][number];
-
-const Column = ({
-  fragmentRef,
-  refreshBoard,
-}: {
-  fragmentRef: ColumnFragment$key;
-  refreshBoard: (id: string) => void;
-}) => {
-  const [cards, setCards] = useState<CardType[]>([]);
-
-  const params = useParams();
-  const boardId = params.boardId;
-
-  const [data, refetch] = useRefetchableFragment<
-    ColumnRefetchQuery,
-    ColumnFragment$key
-  >(
-    graphql`
-        fragment ColumnFragment on Column
-        @refetchable(queryName: "ColumnRefetchQuery") {
+const ColumnFragment = graphql`
+    fragment ColumnFragment on Column {
+        id
+        name
+        position
+        cards {
             id
-            name
-            position
-            cards {
-                id
-                position
-                ...CardFragment
-            }
+            ...CardFragment
         }
-    `,
-    fragmentRef,
-  );
+        ...SimpleCardCreationFragment
+    }
+`;
 
-  useEffect(() => {
-    // @ts-expect-error who knows
-    setCards(data.cards);
-  }, [data.cards]);
+const Column = ({ column }: { column: ColumnFragment$key }) => {
+  const data = useFragment(ColumnFragment, column);
 
   const [moveCard, isMoving] = useMutation(graphql`
     mutation ColumnMoveCardMutation(
@@ -68,24 +41,17 @@ const Column = ({
         targetColumnId: $targetColumnId
         targetPosition: $targetPosition
       ) {
-        id
-        title
-        description
-        position
+        ...CardFragment
       }
     }
   `);
-
-  const refreshColumn = useCallback(() => {
-    refetch({ id: data.id }, { fetchPolicy: "network-only" });
-  }, [data.id, refetch]);
 
   const ref = useRef(null);
   const [aboutToDrop, setAboutToDrop] = useState(false);
 
   useEffect(() => {
     const element = ref.current;
-    if(!element) {
+    if (!element) {
       return;
     }
 
@@ -99,9 +65,10 @@ const Column = ({
       },
       onDrop() {
         setAboutToDrop(false);
-      }
-    })
+      },
+    });
   }, []);
+
   useEffect(() => {
     return combine(
       monitorForElements({
@@ -123,7 +90,7 @@ const Column = ({
                 targetPosition: 0,
               },
               onCompleted: () => {
-                refreshBoard(boardId);
+                // refreshBoard(boardId);
               },
               onError: (error: unknown) => {
                 // error
@@ -132,7 +99,7 @@ const Column = ({
             });
           } else {
             // we're reordering in a column
-            const indexOfTarget = cards.findIndex(
+            const indexOfTarget = data.cards.findIndex(
               (card) => card.id === targetData.id,
             );
 
@@ -143,7 +110,7 @@ const Column = ({
             let targetPosition: unknown = -1;
             if (indexOfTarget === 0) {
               targetPosition = 0;
-            } else if (indexOfTarget === cards.length - 1) {
+            } else if (indexOfTarget === data.cards.length - 1) {
               targetPosition = -1;
             } else {
               targetPosition = targetData.position;
@@ -157,9 +124,9 @@ const Column = ({
               },
               onCompleted: () => {
                 if (sourceData.columnId === targetData.columnId) {
-                  refreshColumn();
+                  // refreshColumn();
                 } else {
-                  refreshBoard(boardId);
+                  // refreshBoard(boardId);
                 }
               },
               onError: (error: unknown) => {
@@ -171,37 +138,32 @@ const Column = ({
         },
       }),
     );
-  }, [cards, moveCard, data.id, refreshBoard, refreshColumn, boardId]);
+  }, [moveCard, data.id, data.cards]);
 
   if (!data) {
     return <ColumnSkeleton numberOfCards={3} />;
   }
 
   return (
-    <li
-      className={`${isMoving ? "opacity-50" : ""} w-72 shrink-0`}
-      ref={ref}
-    >
-      <div className={`bg-gray-50 p-4 rounded-md flex flex-col max-h-full ${aboutToDrop ? "bg-blue-100": ""}`}>
+    <li className={`${isMoving ? "opacity-50" : ""} w-72 shrink-0`} ref={ref}>
+      <div
+        className={`bg-gray-50 p-4 rounded-md flex flex-col max-h-full ${aboutToDrop ? "bg-blue-100" : ""}`}
+      >
         <h2 className="text-lg font-semibold mb-2 px-2 text-slate-600">
           {data.name}
         </h2>
         <div className={`flex-1 px-2 py-4 mb-2 overflow-auto`}>
-          {cards.length > 0 && (
+          {data.cards.length > 0 && (
             <ol className="flex flex-col gap-4 shrink-0">
-              {cards.map((card) => (
-                <Card
-                  key={card.id}
-                  fragmentRef={card}
-                  onRemoveCard={refreshColumn}
-                />
+              {data.cards.map((card) => (
+                <Card key={card.id} card={card} />
               ))}
             </ol>
           )}
-          {cards.length === 0 && <CardHolder columnId={data.id} />}
+          {data.cards.length === 0 && <CardHolder columnId={data.id} />}
         </div>
 
-        <SimpleCardCreation columnId={data.id} onCardCreated={refreshColumn} />
+        <SimpleCardCreation column={data} />
       </div>
     </li>
   );

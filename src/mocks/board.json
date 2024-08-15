@@ -7,91 +7,285 @@
       "columns": [
         {
           "id": "7da600a5-a110-4bc8-b896-40c397cabfbe",
-          "position": 0,
           "name": "To do",
+          "position": 0,
           "cards": [
             {
               "id": "0390ed09-ce80-4f46-82de-2cdfcb67bffe",
-              "position": 60,
               "title": "This is my first card",
               "description": "Let's add a bit description",
+              "position": 60,
               "imageUrl": "https://res.cloudinary.com/dwbszr4tz/image/upload/v1722079383/vdwqtmost6hdesuavmyo.jpg",
               "column": {
                 "id": "7da600a5-a110-4bc8-b896-40c397cabfbe"
+              },
+              "comments": {
+                "edges": [
+                  {
+                    "node": {
+                      "id": "723bbe5b-e4f5-48c7-996a-f21f576a7435",
+                      "content": "正如你们许多人一样，我积极寻找有效的方法。有些方法几乎无需思考便能顺利运用，而有些则更具挑战性，导致我最终放弃使用它们。以下是我发现的一些有用的方法和技巧，我亲自验证过它们的效果。",
+                      "updatedAt": "1722255977989",
+                      "user": {
+                        "id": "5f2d7f12-e922-40a4-bbe7-bab7e967661c",
+                        "name": "Juntao Qiu",
+                        "avatarUrl": "https://lh3.googleusercontent.com/a/ACg8ocI9gZNbOAwtzFPguM6RpVZ87V2Y2xGJWLi3q5D2Y31wGySvjSyZ=s96-c"
+                      },
+                      "__typename": "Comment"
+                    },
+                    "cursor": "723bbe5b-e4f5-48c7-996a-f21f576a7435"
+                  },
+                  {
+                    "node": {
+                      "id": "8582d299-73f3-471a-9196-20bfe4e60cd2",
+                      "content": "This comment section looks pretty good, but does it actually work or not?",
+                      "updatedAt": "1722255908909",
+                      "user": {
+                        "id": "5f2d7f12-e922-40a4-bbe7-bab7e967661c",
+                        "name": "Juntao Qiu",
+                        "avatarUrl": "https://lh3.googleusercontent.com/a/ACg8ocI9gZNbOAwtzFPguM6RpVZ87V2Y2xGJWLi3q5D2Y31wGySvjSyZ=s96-c"
+                      },
+                      "__typename": "Comment"
+                    },
+                    "cursor": "8582d299-73f3-471a-9196-20bfe4e60cd2"
+                  }
+                ],
+                "pageInfo": {
+                  "hasNextPage": false,
+                  "endCursor": "8582d299-73f3-471a-9196-20bfe4e60cd2"
+                }
               }
             },
             {
               "id": "f4dd5522-28c6-4ea6-901e-204757a06935",
-              "position": 300,
               "title": "A dragon in the moonlight",
               "description": "A majestic dragon perched atop a rocky peak, bathed in the soft, silver glow of moonlight. The dragon's scales shimmer in the light, casting a mystical aura around it. The scene is set against a backdrop of a starry night sky with a full moon shining brightly. The landscape below is a blend of shadowy forests and distant mountains, enhancing the mystical and serene atmosphere of the scene.",
+              "position": 300,
               "imageUrl": "https://res.cloudinary.com/dwbszr4tz/image/upload/v1722661745/gugvxkmjqnaisf5pl0n7.webp",
               "column": {
                 "id": "7da600a5-a110-4bc8-b896-40c397cabfbe"
+              },
+              "comments": {
+                "edges": [
+                  {
+                    "node": {
+                      "id": "c9a84b5a-fafa-406d-8e3a-fa4060d7f14b",
+                      "content": "I like this picture",
+                      "updatedAt": "1722940859790",
+                      "user": {
+                        "id": "2a9693d7-e505-4ae6-8786-306bc69f893c",
+                        "name": "Mansi Sun",
+                        "avatarUrl": "https://lh3.googleusercontent.com/a/ACg8ocLwCdX8VTSqeIzwFzx8S1ap4CMD0uAgqQLMC8ixSasOPS0RkIFc=s96-c"
+                      },
+                      "__typename": "Comment"
+                    },
+                    "cursor": "c9a84b5a-fafa-406d-8e3a-fa4060d7f14b"
+                  },
+                  {
+                    "node": {
+                      "id": "f74e08ba-75fb-4ee3-b3e3-a4b9152b4b1f",
+                      "content": "This card is created by Luna",
+                      "updatedAt": "1722661886839",
+                      "user": {
+                        "id": "5f2d7f12-e922-40a4-bbe7-bab7e967661c",
+                        "name": "Juntao Qiu",
+                        "avatarUrl": "https://lh3.googleusercontent.com/a/ACg8ocI9gZNbOAwtzFPguM6RpVZ87V2Y2xGJWLi3q5D2Y31wGySvjSyZ=s96-c"
+                      },
+                      "__typename": "Comment"
+                    },
+                    "cursor": "f74e08ba-75fb-4ee3-b3e3-a4b9152b4b1f"
+                  }
+                ],
+                "pageInfo": {
+                  "hasNextPage": false,
+                  "endCursor": "f74e08ba-75fb-4ee3-b3e3-a4b9152b4b1f"
+                }
               }
             },
             {
               "id": "f5b3c1ce-9fc5-466b-a386-984156619a94",
-              "position": 600,
               "title": "Hello world",
               "description": "",
+              "position": 600,
               "imageUrl": null,
               "column": {
                 "id": "7da600a5-a110-4bc8-b896-40c397cabfbe"
+              },
+              "comments": {
+                "edges": [],
+                "pageInfo": {
+                  "hasNextPage": false,
+                  "endCursor": null
+                }
               }
             }
           ]
         },
         {
           "id": "2f654319-03a0-4574-9cd2-c91f64db2fe3",
-          "position": 2,
           "name": "Done",
+          "position": 2,
           "cards": [
             {
               "id": "8c280ca5-b7ef-42ff-97f2-0042072b2abb",
-              "position": 70,
               "title": "This card is created by 邱俊涛 from another account",
               "description": "",
+              "position": 70,
               "imageUrl": null,
               "column": {
                 "id": "2f654319-03a0-4574-9cd2-c91f64db2fe3"
+              },
+              "comments": {
+                "edges": [
+                  {
+                    "node": {
+                      "id": "2f7b7395-febc-4fb3-a630-61cded823622",
+                      "content": "这两位这不就可以对话了吗？",
+                      "updatedAt": "1722595677752",
+                      "user": {
+                        "id": "5f2d7f12-e922-40a4-bbe7-bab7e967661c",
+                        "name": "Juntao Qiu",
+                        "avatarUrl": "https://lh3.googleusercontent.com/a/ACg8ocI9gZNbOAwtzFPguM6RpVZ87V2Y2xGJWLi3q5D2Y31wGySvjSyZ=s96-c"
+                      },
+                      "__typename": "Comment"
+                    },
+                    "cursor": "2f7b7395-febc-4fb3-a630-61cded823622"
+                  },
+                  {
+                    "node": {
+                      "id": "218d05a1-e874-45c8-aa18-c68def5a5fa1",
+                      "content": "可以填写一些评论",
+                      "updatedAt": "1722595634197",
+                      "user": {
+                        "id": "f8f964e0-1176-4718-a8a6-41e97af7e91a",
+                        "name": "邱俊涛",
+                        "avatarUrl": "https://lh3.googleusercontent.com/a/ACg8ocIiSiHUuZCwl3vGCg7oEaGoRkeSMIWufCRoGiLkYDdxFPpGWO1C=s96-c"
+                      },
+                      "__typename": "Comment"
+                    },
+                    "cursor": "218d05a1-e874-45c8-aa18-c68def5a5fa1"
+                  }
+                ],
+                "pageInfo": {
+                  "hasNextPage": false,
+                  "endCursor": "218d05a1-e874-45c8-aa18-c68def5a5fa1"
+                }
               }
             },
             {
               "id": "f55a36d9-2976-4abb-ab45-f31ba8cb8220",
-              "position": 80,
               "title": "A card hosted in Google Cloud Run",
               "description": "What do you mean? I can see the result being send through, how come it becomes **empty**?",
+              "position": 80,
               "imageUrl": null,
               "column": {
                 "id": "2f654319-03a0-4574-9cd2-c91f64db2fe3"
+              },
+              "comments": {
+                "edges": [
+                  {
+                    "node": {
+                      "id": "a0a76bab-302b-4a6b-ba2d-cb3cd163e7c3",
+                      "content": "I kind of know that the new comment supports Markdown\n\n![Juntao Qiu](https://www.icodeit.com.au/_next/image?url=%2Fjuntao.qiu.avatar.png&w=256&q=75)\n\nLet's try it out.",
+                      "updatedAt": "1722338107682",
+                      "user": {
+                        "id": "5f2d7f12-e922-40a4-bbe7-bab7e967661c",
+                        "name": "Juntao Qiu",
+                        "avatarUrl": "https://lh3.googleusercontent.com/a/ACg8ocI9gZNbOAwtzFPguM6RpVZ87V2Y2xGJWLi3q5D2Y31wGySvjSyZ=s96-c"
+                      },
+                      "__typename": "Comment"
+                    },
+                    "cursor": "a0a76bab-302b-4a6b-ba2d-cb3cd163e7c3"
+                  },
+                  {
+                    "node": {
+                      "id": "6c9fd60f-7e98-4e02-9459-76f4916733fc",
+                      "content": "I kind of know that the new comment supports __Markdown__\n\nhttps://www.icodeit.com.au/_next/image?url=%2Fjuntao.qiu.avatar.png&w=256&q=75\n\nLet's try it **out**.",
+                      "updatedAt": "1722337916420",
+                      "user": {
+                        "id": "5f2d7f12-e922-40a4-bbe7-bab7e967661c",
+                        "name": "Juntao Qiu",
+                        "avatarUrl": "https://lh3.googleusercontent.com/a/ACg8ocI9gZNbOAwtzFPguM6RpVZ87V2Y2xGJWLi3q5D2Y31wGySvjSyZ=s96-c"
+                      },
+                      "__typename": "Comment"
+                    },
+                    "cursor": "6c9fd60f-7e98-4e02-9459-76f4916733fc"
+                  },
+                  {
+                    "node": {
+                      "id": "9392b6e8-b3c0-402a-aa22-6e9b06761fb6",
+                      "content": "I need a good comment example here",
+                      "updatedAt": "1722252740596",
+                      "user": {
+                        "id": "5f2d7f12-e922-40a4-bbe7-bab7e967661c",
+                        "name": "Juntao Qiu",
+                        "avatarUrl": "https://lh3.googleusercontent.com/a/ACg8ocI9gZNbOAwtzFPguM6RpVZ87V2Y2xGJWLi3q5D2Y31wGySvjSyZ=s96-c"
+                      },
+                      "__typename": "Comment"
+                    },
+                    "cursor": "9392b6e8-b3c0-402a-aa22-6e9b06761fb6"
+                  }
+                ],
+                "pageInfo": {
+                  "hasNextPage": true,
+                  "endCursor": "9392b6e8-b3c0-402a-aa22-6e9b06761fb6"
+                }
               }
             },
             {
               "id": "6089b48b-fb32-4433-b2c8-77f8bc98284d",
-              "position": 90,
               "title": "臭豆腐米线",
               "description": "昆明特产",
+              "position": 90,
               "imageUrl": "https://res.cloudinary.com/dwbszr4tz/image/upload/v1722144702/dcniw0owvfngdewer5ye.jpg",
               "column": {
                 "id": "2f654319-03a0-4574-9cd2-c91f64db2fe3"
+              },
+              "comments": {
+                "edges": [],
+                "pageInfo": {
+                  "hasNextPage": false,
+                  "endCursor": null
+                }
               }
             }
           ]
         },
         {
           "id": "03a49161-b4bf-4b17-be6f-1b56c339a4db",
-          "position": 1,
           "name": "In progress",
+          "position": 1,
           "cards": [
             {
               "id": "102f9d6a-0c81-4d92-90ce-c930b352f6ae",
-              "position": 100,
               "title": "This is a card created by Mansi",
               "description": "Can I update this ticket now?",
+              "position": 100,
               "imageUrl": null,
               "column": {
                 "id": "03a49161-b4bf-4b17-be6f-1b56c339a4db"
+              },
+              "comments": {
+                "edges": [
+                  {
+                    "node": {
+                      "id": "ff630b74-fdf5-41e6-a0fa-f76693c45c69",
+                      "content": "What do you mean by \"What do you mean?\"",
+                      "updatedAt": "1722596854222",
+                      "user": {
+                        "id": "2a9693d7-e505-4ae6-8786-306bc69f893c",
+                        "name": "Mansi Sun",
+                        "avatarUrl": "https://lh3.googleusercontent.com/a/ACg8ocLwCdX8VTSqeIzwFzx8S1ap4CMD0uAgqQLMC8ixSasOPS0RkIFc=s96-c"
+                      },
+                      "__typename": "Comment"
+                    },
+                    "cursor": "ff630b74-fdf5-41e6-a0fa-f76693c45c69"
+                  }
+                ],
+                "pageInfo": {
+                  "hasNextPage": false,
+                  "endCursor": "ff630b74-fdf5-41e6-a0fa-f76693c45c69"
+                }
               }
             }
           ]

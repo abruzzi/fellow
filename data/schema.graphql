@@ -7,7 +7,6 @@ type User {
   email: String!
   name: String
   avatarUrl: String
-  comments: [Comment!]!
   boards: [Board!]!
   collaborations: [Board!]!
   favorites: [Board!]!
@@ -23,13 +22,13 @@ type Board implements Node {
   columns: [Column!]!
 }
 
-type Card {
+type Card implements Node {
   id: ID!
   title: String!
   description: String!
   imageUrl: String
   tags: [Tag!]!
-  comments: [Comment!]!
+  comments(first: Int, after: String): CommentConnection!
   position: Int!
   column: Column!
   createdAt: String!
@@ -70,8 +69,17 @@ type CommentEdge {
 }
 
 type PageInfo {
+  startCursor: String
   endCursor: String
-  hasNextPage: Boolean!
+  lastCursor: String
+  hasNextPage: Boolean
+  hasPreviousPage: Boolean
+}
+
+
+type Viewer {
+  user: User
+  favoriteBoards: [Board]!
 }
 
 type Query {
@@ -84,8 +92,8 @@ type Query {
   card(id: ID!): Card!
   node(id: ID!): Node
   currentUser: User
+  viewer: Viewer
   tags: [Tag!]!
-  comments(cardId: ID!, first: Int, after: String): CommentConnection!
 }
 
 type Mutation {

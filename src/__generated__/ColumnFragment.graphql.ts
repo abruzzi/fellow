@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<f5fb084707c2f4ad76189b4b00664cd9>>
+ * @generated SignedSource<<0015c47a178f12338c54353771375eec>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,25 +8,23 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ReaderFragment, RefetchableFragment } from 'relay-runtime';
+import { Fragment, ReaderFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type ColumnFragment$data = {
   readonly cards: ReadonlyArray<{
     readonly id: string;
-    readonly position: number;
     readonly " $fragmentSpreads": FragmentRefs<"CardFragment">;
   }>;
   readonly id: string;
   readonly name: string;
   readonly position: number;
+  readonly " $fragmentSpreads": FragmentRefs<"SimpleCardCreationFragment">;
   readonly " $fragmentType": "ColumnFragment";
 };
 export type ColumnFragment$key = {
   readonly " $data"?: ColumnFragment$data;
   readonly " $fragmentSpreads": FragmentRefs<"ColumnFragment">;
 };
-
-import ColumnRefetchQuery_graphql from './ColumnRefetchQuery.graphql';
 
 const node: ReaderFragment = (function(){
 var v0 = {
@@ -35,30 +33,11 @@ var v0 = {
   "kind": "ScalarField",
   "name": "id",
   "storageKey": null
-},
-v1 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "position",
-  "storageKey": null
 };
 return {
   "argumentDefinitions": [],
   "kind": "Fragment",
-  "metadata": {
-    "refetch": {
-      "connection": null,
-      "fragmentPathInResult": [
-        "node"
-      ],
-      "operation": ColumnRefetchQuery_graphql,
-      "identifierInfo": {
-        "identifierField": "id",
-        "identifierQueryVariableName": "id"
-      }
-    }
-  },
+  "metadata": null,
   "name": "ColumnFragment",
   "selections": [
     (v0/*: any*/),
@@ -69,7 +48,13 @@ return {
       "name": "name",
       "storageKey": null
     },
-    (v1/*: any*/),
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "position",
+      "storageKey": null
+    },
     {
       "alias": null,
       "args": null,
@@ -79,7 +64,6 @@ return {
       "plural": true,
       "selections": [
         (v0/*: any*/),
-        (v1/*: any*/),
         {
           "args": null,
           "kind": "FragmentSpread",
@@ -87,6 +71,11 @@ return {
         }
       ],
       "storageKey": null
+    },
+    {
+      "args": null,
+      "kind": "FragmentSpread",
+      "name": "SimpleCardCreationFragment"
     }
   ],
   "type": "Column",
@@ -94,6 +83,6 @@ return {
 };
 })();
 
-(node as any).hash = "9854235c22454049da0ea6cb7abe8133";
+(node as any).hash = "2b98c25686522cb3cb6c2fe46b5412a2";
 
 export default node;

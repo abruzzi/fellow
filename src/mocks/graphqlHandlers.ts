@@ -1,8 +1,6 @@
 import { delay, graphql, HttpResponse } from "msw";
 
-import boards from "./boards.json";
 import board from "./board.json";
-import user from "./user.json";
 import comments from "./comments.json";
 
 import application from "./application.json";

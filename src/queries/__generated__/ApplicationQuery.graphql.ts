@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<d4115bb945bcc3db8c6fa5769caa7774>>
+ * @generated SignedSource<<447eb1f12ae668a95232b7b03b16dd8f>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -13,6 +13,7 @@ export type ApplicationQuery$variables = Record<PropertyKey, never>;
 export type ApplicationQuery$data = {
   readonly boards: ReadonlyArray<{
     readonly id: string;
+    readonly imageUrl: string | null | undefined;
     readonly name: string;
   }>;
   readonly collaborateBoards: ReadonlyArray<{
@@ -49,20 +50,30 @@ v1 = {
   "name": "name",
   "storageKey": null
 },
-v2 = [
-  (v0/*: any*/),
-  (v1/*: any*/)
-],
-v3 = {
+v2 = {
   "alias": null,
   "args": null,
   "concreteType": "Board",
   "kind": "LinkedField",
   "name": "boards",
   "plural": true,
-  "selections": (v2/*: any*/),
+  "selections": [
+    (v0/*: any*/),
+    (v1/*: any*/),
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "imageUrl",
+      "storageKey": null
+    }
+  ],
   "storageKey": null
 },
+v3 = [
+  (v0/*: any*/),
+  (v1/*: any*/)
+],
 v4 = {
   "alias": null,
   "args": null,
@@ -70,7 +81,7 @@ v4 = {
   "kind": "LinkedField",
   "name": "collaborateBoards",
   "plural": true,
-  "selections": (v2/*: any*/),
+  "selections": (v3/*: any*/),
   "storageKey": null
 },
 v5 = {
@@ -80,7 +91,7 @@ v5 = {
   "kind": "LinkedField",
   "name": "favoriteBoards",
   "plural": true,
-  "selections": (v2/*: any*/),
+  "selections": (v3/*: any*/),
   "storageKey": null
 },
 v6 = {
@@ -104,7 +115,7 @@ return {
     "metadata": null,
     "name": "ApplicationQuery",
     "selections": [
-      (v3/*: any*/),
+      (v2/*: any*/),
       (v4/*: any*/),
       (v5/*: any*/),
       {
@@ -131,7 +142,7 @@ return {
     "kind": "Operation",
     "name": "ApplicationQuery",
     "selections": [
-      (v3/*: any*/),
+      (v2/*: any*/),
       (v4/*: any*/),
       (v5/*: any*/),
       {
@@ -152,16 +163,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "4f5419618148d80d65e685d282b88392",
+    "cacheID": "e70711159fcf34249ee8a0601a18464d",
     "id": null,
     "metadata": {},
     "name": "ApplicationQuery",
     "operationKind": "query",
-    "text": "query ApplicationQuery {\n  boards {\n    id\n    name\n  }\n  collaborateBoards {\n    id\n    name\n  }\n  favoriteBoards {\n    id\n    name\n  }\n  currentUser {\n    name\n    email\n    avatarUrl\n    id\n  }\n}\n"
+    "text": "query ApplicationQuery {\n  boards {\n    id\n    name\n    imageUrl\n  }\n  collaborateBoards {\n    id\n    name\n  }\n  favoriteBoards {\n    id\n    name\n  }\n  currentUser {\n    name\n    email\n    avatarUrl\n    id\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "220cc81ea6b12b4b1fcb2282a2e7528b";
+(node as any).hash = "026791b4fa85f907ee7bdd4b27746a9d";
 
 export default node;

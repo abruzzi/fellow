@@ -10,7 +10,7 @@ import { HiOutlinePlus } from "react-icons/hi";
 import React, { ChangeEvent, KeyboardEvent, useState } from "react";
 import { graphql, useMutation } from "react-relay";
 
-export const CreateNewBoard = ({ refreshBoards }) => {
+export const CreateNewBoard = () => {
   const [name, setName] = useState("");
   const [createBoard, isCreating] = useMutation(graphql`
     mutation CreateNewBoardMutation($name: String!) {
@@ -28,7 +28,6 @@ export const CreateNewBoard = ({ refreshBoards }) => {
       },
       onCompleted: () => {
         setIsOpen(false);
-        refreshBoards();
       },
       onError: (error) => {
         console.log(error);

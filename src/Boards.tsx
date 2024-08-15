@@ -8,12 +8,12 @@ import { useOutletContext } from "react-router-dom";
 import { RootContextType } from "./types.ts";
 
 const Boards = () => {
-  const { queryRef, refreshQuery } = useOutletContext<RootContextType>();
+  const { queryRef } = useOutletContext<RootContextType>();
 
   return (
     <ErrorBoundary fallback={<div>Something went wrong on the board list</div>}>
       <Suspense fallback={<BoardListSkeleton />}>
-        <BoardListScreen queryRef={queryRef} refreshBoards={refreshQuery} />
+        <BoardListScreen queryRef={queryRef} />
       </Suspense>
     </ErrorBoundary>
   );

@@ -5,6 +5,7 @@ export const ApplicationQuery = graphql`
         boards {
             id
             name
+            imageUrl
         }
         collaborateBoards {
             id

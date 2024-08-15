@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<1e005c06718677549229cb3d1aa368f9>>
+ * @generated SignedSource<<50e1a37b9165089a7f3223a4dc980131>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,7 +8,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ReaderFragment, RefetchableFragment } from 'relay-runtime';
+import { Fragment, ReaderFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type BoardSettingsFragment$data = {
   readonly id: string;
@@ -20,24 +20,10 @@ export type BoardSettingsFragment$key = {
   readonly " $fragmentSpreads": FragmentRefs<"BoardSettingsFragment">;
 };
 
-import BoardSettingsRefetchQuery_graphql from './BoardSettingsRefetchQuery.graphql';
-
 const node: ReaderFragment = {
   "argumentDefinitions": [],
   "kind": "Fragment",
-  "metadata": {
-    "refetch": {
-      "connection": null,
-      "fragmentPathInResult": [
-        "node"
-      ],
-      "operation": BoardSettingsRefetchQuery_graphql,
-      "identifierInfo": {
-        "identifierField": "id",
-        "identifierQueryVariableName": "id"
-      }
-    }
-  },
+  "metadata": null,
   "name": "BoardSettingsFragment",
   "selections": [
     {
@@ -59,6 +45,6 @@ const node: ReaderFragment = {
   "abstractKey": null
 };
 
-(node as any).hash = "9716a628be3739adf02b41b63dfcbf2b";
+(node as any).hash = "eb302836b4f4954f2a0dd196a56d85ff";
 
 export default node;

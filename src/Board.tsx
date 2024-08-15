@@ -11,7 +11,6 @@ import { BoardQuery as BoardQueryType } from "./queries/__generated__/BoardQuery
 import { BoardQuery } from "./queries/BoardQuery.ts";
 import { BoardSettings } from "./BoardSettings.tsx";
 import { InviteModel } from "./InviteModel.tsx";
-import {SimpleCardCreation} from "./SimpleCardCreation.tsx";
 
 // eslint-disable-next-line react/prop-types
 export const Board = ({ queryRef }) => {
@@ -92,7 +91,7 @@ export const Board = ({ queryRef }) => {
         </div>
       </div>
 
-      <BoardSettings fragmentRef={data.board} />
+      <BoardSettings board={data.board} />
     </>
   );
 };

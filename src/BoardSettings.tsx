@@ -2,25 +2,22 @@ import React, { ChangeEvent, KeyboardEvent, useState } from "react";
 
 import { Button, Image, Input } from "@nextui-org/react";
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
-import { graphql, useMutation, useRefetchableFragment } from "react-relay";
+import { graphql, useFragment, useMutation } from "react-relay";
 import { BoardSettingsFragment$key } from "./__generated__/BoardSettingsFragment.graphql.ts";
-import { BoardSettingsRefetchQuery } from "./__generated__/BoardSettingsRefetchQuery.graphql.ts";
 
-// eslint-disable-next-line react/prop-types
-export const BoardSettings = ({ fragmentRef }) => {
-  const [data, refetch] = useRefetchableFragment<
-    BoardSettingsRefetchQuery,
-    BoardSettingsFragment$key
-  >(
-    graphql`
-      fragment BoardSettingsFragment on Board
-      @refetchable(queryName: "BoardSettingsRefetchQuery") {
-        id
-        imageUrl
-      }
-    `,
-    fragmentRef,
-  );
+const BoardSettingsFragment = graphql`
+  fragment BoardSettingsFragment on Board {
+    id
+    imageUrl
+  }
+`;
+
+type BoardSettingsProps = {
+  board: BoardSettingsFragment$key;
+};
+
+export const BoardSettings = ({ board }: BoardSettingsProps) => {
+  const data = useFragment(BoardSettingsFragment, board);
 
   const [backgroundImageUrl, setBackgroundImageUrl] = useState<string>("");
   const [minimise, setMinimise] = useState<boolean>(false);
@@ -31,8 +28,7 @@ export const BoardSettings = ({ fragmentRef }) => {
       $bgImageUrl: String!
     ) {
       updateBoardImageUrl(boardId: $boardId, imageUrl: $bgImageUrl) {
-        id
-        imageUrl
+        ...BoardSettingsFragment
       }
     }
   `);
@@ -63,15 +59,8 @@ export const BoardSettings = ({ fragmentRef }) => {
         boardId: data.id,
         bgImageUrl: backgroundImageUrl,
       },
-      onCompleted: () => {
-        refetch({ id: data.id });
-      },
     });
   };
-
-  if (!data) {
-    return <div>loading...</div>;
-  }
 
   return (
     <div

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<0049ece24727609ae88a7569c1c9d0ca>>
+ * @generated SignedSource<<2039dd8796065c9e8445c27bc8d70d97>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,14 +9,14 @@
 // @ts-nocheck
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
+import { FragmentRefs } from "relay-runtime";
 export type BoardSettingsBackgroundMutation$variables = {
   bgImageUrl: string;
   boardId: string;
 };
 export type BoardSettingsBackgroundMutation$data = {
   readonly updateBoardImageUrl: {
-    readonly id: string;
-    readonly imageUrl: string | null | undefined;
+    readonly " $fragmentSpreads": FragmentRefs<"BoardSettingsFragment">;
   };
 };
 export type BoardSettingsBackgroundMutation = {
@@ -37,40 +37,14 @@ v1 = {
 },
 v2 = [
   {
-    "alias": null,
-    "args": [
-      {
-        "kind": "Variable",
-        "name": "boardId",
-        "variableName": "boardId"
-      },
-      {
-        "kind": "Variable",
-        "name": "imageUrl",
-        "variableName": "bgImageUrl"
-      }
-    ],
-    "concreteType": "Board",
-    "kind": "LinkedField",
-    "name": "updateBoardImageUrl",
-    "plural": false,
-    "selections": [
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "id",
-        "storageKey": null
-      },
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "imageUrl",
-        "storageKey": null
-      }
-    ],
-    "storageKey": null
+    "kind": "Variable",
+    "name": "boardId",
+    "variableName": "boardId"
+  },
+  {
+    "kind": "Variable",
+    "name": "imageUrl",
+    "variableName": "bgImageUrl"
   }
 ];
 return {
@@ -82,7 +56,24 @@ return {
     "kind": "Fragment",
     "metadata": null,
     "name": "BoardSettingsBackgroundMutation",
-    "selections": (v2/*: any*/),
+    "selections": [
+      {
+        "alias": null,
+        "args": (v2/*: any*/),
+        "concreteType": "Board",
+        "kind": "LinkedField",
+        "name": "updateBoardImageUrl",
+        "plural": false,
+        "selections": [
+          {
+            "args": null,
+            "kind": "FragmentSpread",
+            "name": "BoardSettingsFragment"
+          }
+        ],
+        "storageKey": null
+      }
+    ],
     "type": "Mutation",
     "abstractKey": null
   },
@@ -94,19 +85,45 @@ return {
     ],
     "kind": "Operation",
     "name": "BoardSettingsBackgroundMutation",
-    "selections": (v2/*: any*/)
+    "selections": [
+      {
+        "alias": null,
+        "args": (v2/*: any*/),
+        "concreteType": "Board",
+        "kind": "LinkedField",
+        "name": "updateBoardImageUrl",
+        "plural": false,
+        "selections": [
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "id",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "imageUrl",
+            "storageKey": null
+          }
+        ],
+        "storageKey": null
+      }
+    ]
   },
   "params": {
-    "cacheID": "0490c4d99b6a2ae3b5d97d086d2934c3",
+    "cacheID": "174fb03ee4dd69b08bd803eeabcaa6da",
     "id": null,
     "metadata": {},
     "name": "BoardSettingsBackgroundMutation",
     "operationKind": "mutation",
-    "text": "mutation BoardSettingsBackgroundMutation(\n  $boardId: ID!\n  $bgImageUrl: String!\n) {\n  updateBoardImageUrl(boardId: $boardId, imageUrl: $bgImageUrl) {\n    id\n    imageUrl\n  }\n}\n"
+    "text": "mutation BoardSettingsBackgroundMutation(\n  $boardId: ID!\n  $bgImageUrl: String!\n) {\n  updateBoardImageUrl(boardId: $boardId, imageUrl: $bgImageUrl) {\n    ...BoardSettingsFragment\n    id\n  }\n}\n\nfragment BoardSettingsFragment on Board {\n  id\n  imageUrl\n}\n"
   }
 };
 })();
 
-(node as any).hash = "8bcd82f1eaf94cf6d8a72805fea64ffe";
+(node as any).hash = "4ac24914ecfa7bca43ad1cf06f6bdae5";
 
 export default node;

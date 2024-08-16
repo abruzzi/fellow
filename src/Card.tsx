@@ -155,10 +155,10 @@ const Card = ({ card }: { card: CardFragment$key }) => {
         isOpen={isOpen}
         onOpenChange={onOpenChange}
         placement="top-center"
-        size="3xl"
+        size="2xl"
         scrollBehavior="outside"
       >
-        <ModalContent className="px-6 pt-6 pb-10">
+        <ModalContent className="px-8 pt-6 pb-10">
           <>
             <CardEditor card={data} />
             <Comments card={data} />

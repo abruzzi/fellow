@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<447eb1f12ae668a95232b7b03b16dd8f>>
+ * @generated SignedSource<<f815309cee78d4645fcc88186c7955d0>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -18,6 +18,7 @@ export type ApplicationQuery$data = {
   }>;
   readonly collaborateBoards: ReadonlyArray<{
     readonly id: string;
+    readonly imageUrl: string | null | undefined;
     readonly name: string;
   } | null | undefined>;
   readonly currentUser: {
@@ -50,30 +51,27 @@ v1 = {
   "name": "name",
   "storageKey": null
 },
-v2 = {
+v2 = [
+  (v0/*: any*/),
+  (v1/*: any*/),
+  {
+    "alias": null,
+    "args": null,
+    "kind": "ScalarField",
+    "name": "imageUrl",
+    "storageKey": null
+  }
+],
+v3 = {
   "alias": null,
   "args": null,
   "concreteType": "Board",
   "kind": "LinkedField",
   "name": "boards",
   "plural": true,
-  "selections": [
-    (v0/*: any*/),
-    (v1/*: any*/),
-    {
-      "alias": null,
-      "args": null,
-      "kind": "ScalarField",
-      "name": "imageUrl",
-      "storageKey": null
-    }
-  ],
+  "selections": (v2/*: any*/),
   "storageKey": null
 },
-v3 = [
-  (v0/*: any*/),
-  (v1/*: any*/)
-],
 v4 = {
   "alias": null,
   "args": null,
@@ -81,7 +79,7 @@ v4 = {
   "kind": "LinkedField",
   "name": "collaborateBoards",
   "plural": true,
-  "selections": (v3/*: any*/),
+  "selections": (v2/*: any*/),
   "storageKey": null
 },
 v5 = {
@@ -91,7 +89,10 @@ v5 = {
   "kind": "LinkedField",
   "name": "favoriteBoards",
   "plural": true,
-  "selections": (v3/*: any*/),
+  "selections": [
+    (v0/*: any*/),
+    (v1/*: any*/)
+  ],
   "storageKey": null
 },
 v6 = {
@@ -115,7 +116,7 @@ return {
     "metadata": null,
     "name": "ApplicationQuery",
     "selections": [
-      (v2/*: any*/),
+      (v3/*: any*/),
       (v4/*: any*/),
       (v5/*: any*/),
       {
@@ -142,7 +143,7 @@ return {
     "kind": "Operation",
     "name": "ApplicationQuery",
     "selections": [
-      (v2/*: any*/),
+      (v3/*: any*/),
       (v4/*: any*/),
       (v5/*: any*/),
       {
@@ -163,16 +164,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "e70711159fcf34249ee8a0601a18464d",
+    "cacheID": "ed78393d542402eef8896d1e5c4e1aa7",
     "id": null,
     "metadata": {},
     "name": "ApplicationQuery",
     "operationKind": "query",
-    "text": "query ApplicationQuery {\n  boards {\n    id\n    name\n    imageUrl\n  }\n  collaborateBoards {\n    id\n    name\n  }\n  favoriteBoards {\n    id\n    name\n  }\n  currentUser {\n    name\n    email\n    avatarUrl\n    id\n  }\n}\n"
+    "text": "query ApplicationQuery {\n  boards {\n    id\n    name\n    imageUrl\n  }\n  collaborateBoards {\n    id\n    name\n    imageUrl\n  }\n  favoriteBoards {\n    id\n    name\n  }\n  currentUser {\n    name\n    email\n    avatarUrl\n    id\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "026791b4fa85f907ee7bdd4b27746a9d";
+(node as any).hash = "b4d950294732a18feb1cae2b1948ec0d";
 
 export default node;

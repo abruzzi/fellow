@@ -166,12 +166,6 @@ export const CardEditor = ({ card }: { card: CardEditorFragment$key }) => {
 
   return (
     <>
-      <div className={`flex flex-row items-center gap-2 py-2`}>
-        <HiOutlineTicket />
-        <h4 className="text-slate-600">Edit card</h4>
-      </div>
-
-      {error && <p className="text-red-500">{error}</p>}
       <div className="flex flex-col gap-4">
         <div className="flex flex-col">
           <h4 className="font-bold text-slate-600">Title</h4>
@@ -234,10 +228,19 @@ export const CardEditor = ({ card }: { card: CardEditorFragment$key }) => {
                   </Button>
                 </div>
               </div>
+            ) : description ? (
+              <div onClick={() => setEditingDescription(true)}>
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                  {description}
+                </ReactMarkdown>
+              </div>
             ) : (
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                {description}
-              </ReactMarkdown>
+              <div
+                className="bg-gray-50 rounded-md w-full text-slate-700 p-4"
+                onClick={() => setEditingDescription(true)}
+              >
+                Add some description to the card
+              </div>
             )}
           </div>
         </div>
@@ -322,6 +325,15 @@ export const CardEditor = ({ card }: { card: CardEditorFragment$key }) => {
                     </div>
                   )}
                   <Image src={imageUrl} alt="Uploaded file" />
+                </div>
+              )}
+
+              {!imageUrl && !previewUrl && (
+                <div
+                  className="flex justify-center items-center bg-gray-50 w-36 h-20 rounded-md text-slate-700 hover:cursor-pointer"
+                  onClick={() => setUploadPopupOpen(true)}
+                >
+                  <HiOutlinePlus size="2rem" />
                 </div>
               )}
             </div>

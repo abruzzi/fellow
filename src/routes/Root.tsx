@@ -40,14 +40,14 @@ const Root = () => {
         >
           <UserProvider queryRef={applicationQueryRef}>
             <Navigation />
-          </UserProvider>
 
-          <Outlet
-            context={{
-              queryRef: applicationQueryRef,
-              refreshQuery: refreshApplicationQuery,
-            }}
-          />
+            <Outlet
+              context={{
+                queryRef: applicationQueryRef,
+                refreshQuery: refreshApplicationQuery,
+              }}
+            />
+          </UserProvider>
         </FavoriteBoardProvider>
       </ErrorBoundary>
     </div>

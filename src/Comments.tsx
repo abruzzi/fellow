@@ -44,7 +44,7 @@ const Comments = ({ card }: { card: CommentsFragment$key }) => {
   };
 
   return (
-    <div className="flex flex-col gap-1">
+    <div className="flex flex-col gap-1 py-2">
       <h4 className="font-bold text-slate-600">Comments</h4>
 
       <CommentInput card={data} />
@@ -56,7 +56,7 @@ const Comments = ({ card }: { card: CommentsFragment$key }) => {
       </div>
 
       {data.comments.pageInfo.hasNextPage && (
-        <Button onClick={onLoadMore} disabled={isPending} />
+        <Button onClick={onLoadMore} color="secondary" disabled={isPending}>Load more</Button>
       )}
 
       {isPending && <Spinner />}

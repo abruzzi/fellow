@@ -10,6 +10,7 @@ export const ApplicationQuery = graphql`
         collaborateBoards {
             id
             name
+            imageUrl
         }
         favoriteBoards {
             id

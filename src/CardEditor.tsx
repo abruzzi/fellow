@@ -1,7 +1,5 @@
 import React, { ChangeEvent, KeyboardEvent, useState } from "react";
 import {
-  Modal,
-  ModalContent,
   ModalHeader,
   ModalBody,
   Button,
@@ -168,171 +166,168 @@ export const CardEditor = ({ card }: { card: CardEditorFragment$key }) => {
 
   return (
     <>
-      <ModalHeader className="flex flex-col gap-1">
-        <div className={`flex flex-row items-center gap-2`}>
-          <HiOutlineTicket />
-          <h4 className="text-slate-600">Edit card</h4>
-        </div>
-      </ModalHeader>
+      <div className={`flex flex-row items-center gap-2 py-2`}>
+        <HiOutlineTicket />
+        <h4 className="text-slate-600">Edit card</h4>
+      </div>
+
       {error && <p className="text-red-500">{error}</p>}
-      <ModalBody>
-        <div className="flex flex-col gap-4">
-          <div className="flex flex-col">
-            <h4 className="font-bold text-slate-600">Title</h4>
-            {editingTitle ? (
-              <Input
-                autoFocus
-                variant="flat"
-                endContent={<HiOutlineMenu />}
-                label="Title"
-                placeholder="Enter card title"
-                value={title}
-                onChange={onTitleChange}
-                onKeyDown={handleTileEditKeyDown}
-                radius="none"
-                onBlur={() => setEditingTitle(false)}
-              />
+      <div className="flex flex-col gap-4">
+        <div className="flex flex-col">
+          <h4 className="font-bold text-slate-600">Title</h4>
+          {editingTitle ? (
+            <Input
+              autoFocus
+              variant="flat"
+              endContent={<HiOutlineMenu />}
+              label="Title"
+              placeholder="Enter card title"
+              value={title}
+              onChange={onTitleChange}
+              onKeyDown={handleTileEditKeyDown}
+              radius="none"
+              onBlur={() => setEditingTitle(false)}
+            />
+          ) : (
+            <p onClick={() => setEditingTitle(true)}>{title}</p>
+          )}
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <div className="flex flex-row justify-between items-center">
+            <h4 className="font-bold text-slate-600">Description</h4>
+            <Button
+              isIconOnly
+              variant="light"
+              onPress={() => setEditingDescription(true)}
+            >
+              <FaRegEdit />
+            </Button>
+          </div>
+          <div>
+            {editingDescription ? (
+              <div className="flex flex-col gap-2">
+                <Textarea
+                  label="Description"
+                  endContent={<HiOutlineMenuAlt2 />}
+                  placeholder="Enter your description"
+                  value={description}
+                  onChange={onDescriptionChange}
+                  radius="sm"
+                />
+                <div className="flex flex-row justify-start gap-2">
+                  <Button
+                    onPress={handleUpdateDescription}
+                    disabled={isUpdatingDescription}
+                    size="sm"
+                    color="primary"
+                  >
+                    Save
+                  </Button>
+                  <Button
+                    onPress={() => setEditingDescription(false)}
+                    size="sm"
+                    color="default"
+                    variant="light"
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              </div>
             ) : (
-              <p onClick={() => setEditingTitle(true)}>{title}</p>
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                {description}
+              </ReactMarkdown>
             )}
           </div>
+        </div>
 
-          <div className="flex flex-col gap-1">
-            <div className="flex flex-row justify-between items-center">
-              <h4 className="font-bold text-slate-600">Description</h4>
-              <Button
-                isIconOnly
-                variant="light"
-                onPress={() => setEditingDescription(true)}
-              >
-                <FaRegEdit />
-              </Button>
-            </div>
-            <div>
-              {editingDescription ? (
-                <div className="flex flex-col gap-2">
-                  <Textarea
-                    label="Description"
-                    endContent={<HiOutlineMenuAlt2 />}
-                    placeholder="Enter your description"
-                    value={description}
-                    onChange={onDescriptionChange}
-                    radius="sm"
-                  />
-                  <div className="flex flex-row justify-start gap-2">
-                    <Button
-                      onPress={handleUpdateDescription}
-                      disabled={isUpdatingDescription}
-                      size="sm"
-                      color="primary"
+        <div className="flex flex-col gap-1">
+          <div className="flex flex-row justify-between items-center">
+            <h4 className="font-bold text-slate-600">Image</h4>
+            <Popover
+              placement="bottom"
+              showArrow
+              offset={10}
+              isOpen={uploadPopupOpen}
+              onOpenChange={(open) => setUploadPopupOpen(open)}
+            >
+              <PopoverTrigger>
+                <Button
+                  isIconOnly
+                  variant="light"
+                  onPress={() => setUploadPopupOpen(true)}
+                >
+                  <HiOutlinePlus />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-[240px]">
+                {(titleProps) => (
+                  <div className="px-1 py-2 w-full">
+                    <p
+                      className="text-small font-bold text-foreground"
+                      {...titleProps}
                     >
-                      Save
-                    </Button>
-                    <Button
-                      onPress={() => setEditingDescription(false)}
-                      size="sm"
-                      color="default"
-                      variant="light"
-                    >
-                      Cancel
-                    </Button>
+                      Upload
+                    </p>
+                    <div className="mt-2 flex flex-col gap-2 w-full">
+                      <Input
+                        className="flex-1"
+                        type="file"
+                        onChange={handleFileChange}
+                      />
+                    </div>
                   </div>
+                )}
+              </PopoverContent>
+            </Popover>
+          </div>
+
+          <div className="flex flex-row gap-1">
+            <div className="max-w-36">
+              {previewUrl && !imageUrl && (
+                <div className="relative">
+                  {uploading && (
+                    <div className="absolute right-2 top-2 delay-100 z-20">
+                      <Spinner color="default" />
+                    </div>
+                  )}
+                  <Image src={previewUrl} alt="Uploaded file" />
                 </div>
-              ) : (
-                <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                  {description}
-                </ReactMarkdown>
+              )}
+
+              {imageUrl && (
+                <div
+                  className="relative"
+                  onMouseEnter={() => setHovered(true)}
+                  onMouseLeave={() => setHovered(false)}
+                >
+                  {uploading && (
+                    <div className="absolute right-2 top-2 delay-100 z-20">
+                      <Spinner color="default" />
+                    </div>
+                  )}
+                  {hovered && (
+                    <div className="absolute right-2 top-2 delay-100 z-20">
+                      <Button
+                        size="sm"
+                        isIconOnly
+                        color="danger"
+                        variant="light"
+                        aria-label="Delete"
+                        onPress={() => setImageUrl(undefined)}
+                      >
+                        <HiOutlineTrash />
+                      </Button>
+                    </div>
+                  )}
+                  <Image src={imageUrl} alt="Uploaded file" />
+                </div>
               )}
             </div>
           </div>
-
-          <div className="flex flex-col gap-1">
-            <div className="flex flex-row justify-between items-center">
-              <h4 className="font-bold text-slate-600">Image</h4>
-              <Popover
-                placement="bottom"
-                showArrow
-                offset={10}
-                isOpen={uploadPopupOpen}
-                onOpenChange={(open) => setUploadPopupOpen(open)}
-              >
-                <PopoverTrigger>
-                  <Button
-                    isIconOnly
-                    variant="light"
-                    onPress={() => setUploadPopupOpen(true)}
-                  >
-                    <HiOutlinePlus />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-[240px]">
-                  {(titleProps) => (
-                    <div className="px-1 py-2 w-full">
-                      <p
-                        className="text-small font-bold text-foreground"
-                        {...titleProps}
-                      >
-                        Upload
-                      </p>
-                      <div className="mt-2 flex flex-col gap-2 w-full">
-                        <Input
-                          className="flex-1"
-                          type="file"
-                          onChange={handleFileChange}
-                        />
-                      </div>
-                    </div>
-                  )}
-                </PopoverContent>
-              </Popover>
-            </div>
-
-            <div className="flex flex-row gap-1">
-              <div className="max-w-36">
-                {previewUrl && !imageUrl && (
-                  <div className="relative">
-                    {uploading && (
-                      <div className="absolute right-2 top-2 delay-100 z-20">
-                        <Spinner color="default" />
-                      </div>
-                    )}
-                    <Image src={previewUrl} alt="Uploaded file" />
-                  </div>
-                )}
-
-                {imageUrl && (
-                  <div
-                    className="relative"
-                    onMouseEnter={() => setHovered(true)}
-                    onMouseLeave={() => setHovered(false)}
-                  >
-                    {uploading && (
-                      <div className="absolute right-2 top-2 delay-100 z-20">
-                        <Spinner color="default" />
-                      </div>
-                    )}
-                    {hovered && (
-                      <div className="absolute right-2 top-2 delay-100 z-20">
-                        <Button
-                          size="sm"
-                          isIconOnly
-                          color="danger"
-                          variant="light"
-                          aria-label="Delete"
-                          onPress={() => setImageUrl(undefined)}
-                        >
-                          <HiOutlineTrash />
-                        </Button>
-                      </div>
-                    )}
-                    <Image src={imageUrl} alt="Uploaded file" />
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
         </div>
-      </ModalBody>
+      </div>
     </>
   );
 };

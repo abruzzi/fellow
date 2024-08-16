@@ -13,7 +13,7 @@ const CommentInputFragment = graphql`
 
 export const CommentInput = ({ card }: { card: CommentInputFragment$key }) => {
   const data = useFragment(CommentInputFragment, card);
-  // const { currentUser } = useCurrentUser();
+  const { currentUser } = useCurrentUser();
 
   const [comment, setComment] = useState("");
   const [addComment, isAddingComment] = useMutation(graphql`
@@ -47,13 +47,13 @@ export const CommentInput = ({ card }: { card: CommentInputFragment$key }) => {
 
   return (
     <div className="flex flex-row items-start gap-2 mt-4 mb-8">
-      {/*<Avatar*/}
-      {/*  className="w-8 h-8 flex-grow-0 flex-shrink-0"*/}
-      {/*  color="default"*/}
-      {/*  src={currentUser.avatarUrl}*/}
-      {/*  name={currentUser.name}*/}
-      {/*  size="sm"*/}
-      {/*/>*/}
+      <Avatar
+        className="w-8 h-8 flex-grow-0 flex-shrink-0"
+        color="default"
+        src={currentUser.avatarUrl}
+        name={currentUser.name}
+        size="sm"
+      />
       <div className="flex flex-col flex-grow gap-2">
         <Textarea
           label="Comment"

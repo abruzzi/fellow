@@ -104,16 +104,19 @@ type Mutation {
 
   createColumn(boardId: ID!, name: String!, position: Int!): Column!
 
-  createSimpleCard(columnId: ID!, title: String!): Card!
-  createCardFromComment(cardId: ID!, title: String!, description: String!): Card!
-  deleteCard(cardId: ID!): Card!
+  # should return column after we create/delete a card from column
+  createSimpleCard(columnId: ID!, title: String!): Column!
+  createCardFromComment(cardId: ID!, title: String!, description: String!): Column!
+  deleteCard(cardId: ID!): Column!
+
+  # should return the whole board when there are cross board item changes
+  moveCard(cardId: ID!, targetColumnId: ID!, targetPosition: Int!): Board!
 
   # instead use these granular ones
   updateCardTitle(cardId: ID!, title: String!): Card!
   updateCardDescription(cardId: ID!, description: String!): Card!
   updateCardImageUrl(cardId: ID!, imageUrl: String!): Card!
 
-  moveCard(cardId: ID!, targetColumnId: ID!, targetPosition: Int!): Card!
 
   createTag(name: String!): Tag!
   addTagToCard(cardId: ID!, tagId: ID!): Card!

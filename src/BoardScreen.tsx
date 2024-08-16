@@ -1,15 +1,15 @@
-import { useQueryLoader } from "react-relay";
+import { graphql, useQueryLoader } from "react-relay";
 import React, { Suspense, useCallback, useEffect } from "react";
 
-import { Board } from "./Board.tsx";
+import { BoardContainer } from "./BoardContainer.tsx";
 import { BoardScreenSkeleton } from "./skeletons/BoardScreenSkeleton.tsx";
 import { BoardSkeleton } from "./skeletons/BoardSkeleton.tsx";
 import { ErrorBoundary } from "react-error-boundary";
-import { BoardQuery } from "./queries/BoardQuery.ts";
 import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 import { SidebarSkeleton } from "./skeletons/SidebarSkeleton.tsx";
 import { SimpleBoardList } from "./SimpleBoardList.tsx";
 import { RootContextType } from "./types.ts";
+import { BoardQuery } from "./queries/Board.ts";
 
 export const BoardScreen = () => {
   const { queryRef } = useOutletContext<RootContextType>();
@@ -48,7 +48,7 @@ export const BoardScreen = () => {
       <div className="flex-grow flex flex-row w-full">
         <ErrorBoundary fallback={<div>Something went wrong on the board</div>}>
           <Suspense fallback={<BoardSkeleton />}>
-            <Board queryRef={boardQueryRef} />
+            <BoardContainer queryRef={boardQueryRef} />
           </Suspense>
         </ErrorBoundary>
       </div>

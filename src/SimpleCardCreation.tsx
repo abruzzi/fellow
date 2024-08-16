@@ -23,11 +23,11 @@ const SimpleCardCreation = ({
   const [isEditing, setEditing] = useState<boolean>(false);
 
   const [createSimpleCard, isCreating] = useMutation(graphql`
-    mutation SimpleCardCreationMutation($columnId: ID!, $title: String!) {
-      createSimpleCard(columnId: $columnId, title: $title) {
-        ...CardFragment
+      mutation SimpleCardCreationMutation($columnId: ID!, $title: String!) {
+          createSimpleCard(columnId: $columnId, title: $title) {
+              ...ColumnFragment
+          }
       }
-    }
   `);
 
   const toggleEditing = () => {

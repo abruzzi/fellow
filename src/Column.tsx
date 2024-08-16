@@ -31,19 +31,19 @@ const Column = ({ column }: { column: ColumnFragment$key }) => {
   const data = useFragment(ColumnFragment, column);
 
   const [moveCard, isMoving] = useMutation(graphql`
-    mutation ColumnMoveCardMutation(
-      $cardId: ID!
-      $targetColumnId: ID!
-      $targetPosition: Int!
-    ) {
-      moveCard(
-        cardId: $cardId
-        targetColumnId: $targetColumnId
-        targetPosition: $targetPosition
+      mutation ColumnMoveCardMutation(
+          $cardId: ID!
+          $targetColumnId: ID!
+          $targetPosition: Int!
       ) {
-        ...CardFragment
+          moveCard(
+              cardId: $cardId
+              targetColumnId: $targetColumnId
+              targetPosition: $targetPosition
+          ) {
+              ...BoardFragment
+          }
       }
-    }
   `);
 
   const ref = useRef(null);

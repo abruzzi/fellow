@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<31fddf6be1c867930c9ba14b9984bd2f>>
+ * @generated SignedSource<<f5485eec2bca776bb543b415933de0f3>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -17,7 +17,7 @@ export type ColumnMoveCardMutation$variables = {
 };
 export type ColumnMoveCardMutation$data = {
   readonly moveCard: {
-    readonly " $fragmentSpreads": FragmentRefs<"CardFragment">;
+    readonly " $fragmentSpreads": FragmentRefs<"BoardFragment">;
   };
 };
 export type ColumnMoveCardMutation = {
@@ -67,7 +67,28 @@ v2 = {
   "name": "id",
   "storageKey": null
 },
-v3 = [
+v3 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "name",
+  "storageKey": null
+},
+v4 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "imageUrl",
+  "storageKey": null
+},
+v5 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "position",
+  "storageKey": null
+},
+v6 = [
   {
     "kind": "Literal",
     "name": "first",
@@ -84,7 +105,7 @@ return {
       {
         "alias": null,
         "args": (v1/*: any*/),
-        "concreteType": "Card",
+        "concreteType": "Board",
         "kind": "LinkedField",
         "name": "moveCard",
         "plural": false,
@@ -92,7 +113,7 @@ return {
           {
             "args": null,
             "kind": "FragmentSpread",
-            "name": "CardFragment"
+            "name": "BoardFragment"
           }
         ],
         "storageKey": null
@@ -110,112 +131,136 @@ return {
       {
         "alias": null,
         "args": (v1/*: any*/),
-        "concreteType": "Card",
+        "concreteType": "Board",
         "kind": "LinkedField",
         "name": "moveCard",
         "plural": false,
         "selections": [
           (v2/*: any*/),
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "title",
-            "storageKey": null
-          },
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "description",
-            "storageKey": null
-          },
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "position",
-            "storageKey": null
-          },
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "imageUrl",
-            "storageKey": null
-          },
+          (v3/*: any*/),
+          (v4/*: any*/),
           {
             "alias": null,
             "args": null,
             "concreteType": "Column",
             "kind": "LinkedField",
-            "name": "column",
-            "plural": false,
+            "name": "columns",
+            "plural": true,
             "selections": [
-              (v2/*: any*/)
-            ],
-            "storageKey": null
-          },
-          {
-            "alias": null,
-            "args": (v3/*: any*/),
-            "concreteType": "CommentConnection",
-            "kind": "LinkedField",
-            "name": "comments",
-            "plural": false,
-            "selections": [
+              (v2/*: any*/),
+              (v3/*: any*/),
+              (v5/*: any*/),
               {
                 "alias": null,
                 "args": null,
-                "concreteType": "CommentEdge",
+                "concreteType": "Card",
                 "kind": "LinkedField",
-                "name": "edges",
+                "name": "cards",
                 "plural": true,
                 "selections": [
+                  (v2/*: any*/),
                   {
                     "alias": null,
                     "args": null,
-                    "concreteType": "Comment",
+                    "kind": "ScalarField",
+                    "name": "title",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "description",
+                    "storageKey": null
+                  },
+                  (v5/*: any*/),
+                  (v4/*: any*/),
+                  {
+                    "alias": null,
+                    "args": null,
+                    "concreteType": "Column",
                     "kind": "LinkedField",
-                    "name": "node",
+                    "name": "column",
                     "plural": false,
                     "selections": [
-                      (v2/*: any*/),
+                      (v2/*: any*/)
+                    ],
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": (v6/*: any*/),
+                    "concreteType": "CommentConnection",
+                    "kind": "LinkedField",
+                    "name": "comments",
+                    "plural": false,
+                    "selections": [
                       {
                         "alias": null,
                         "args": null,
-                        "kind": "ScalarField",
-                        "name": "content",
-                        "storageKey": null
-                      },
-                      {
-                        "alias": null,
-                        "args": null,
-                        "kind": "ScalarField",
-                        "name": "updatedAt",
-                        "storageKey": null
-                      },
-                      {
-                        "alias": null,
-                        "args": null,
-                        "concreteType": "User",
+                        "concreteType": "CommentEdge",
                         "kind": "LinkedField",
-                        "name": "user",
-                        "plural": false,
+                        "name": "edges",
+                        "plural": true,
                         "selections": [
-                          (v2/*: any*/),
                           {
                             "alias": null,
                             "args": null,
-                            "kind": "ScalarField",
-                            "name": "name",
+                            "concreteType": "Comment",
+                            "kind": "LinkedField",
+                            "name": "node",
+                            "plural": false,
+                            "selections": [
+                              (v2/*: any*/),
+                              {
+                                "alias": null,
+                                "args": null,
+                                "kind": "ScalarField",
+                                "name": "content",
+                                "storageKey": null
+                              },
+                              {
+                                "alias": null,
+                                "args": null,
+                                "kind": "ScalarField",
+                                "name": "updatedAt",
+                                "storageKey": null
+                              },
+                              {
+                                "alias": null,
+                                "args": null,
+                                "concreteType": "User",
+                                "kind": "LinkedField",
+                                "name": "user",
+                                "plural": false,
+                                "selections": [
+                                  (v2/*: any*/),
+                                  (v3/*: any*/),
+                                  {
+                                    "alias": null,
+                                    "args": null,
+                                    "kind": "ScalarField",
+                                    "name": "avatarUrl",
+                                    "storageKey": null
+                                  }
+                                ],
+                                "storageKey": null
+                              },
+                              {
+                                "alias": null,
+                                "args": null,
+                                "kind": "ScalarField",
+                                "name": "__typename",
+                                "storageKey": null
+                              }
+                            ],
                             "storageKey": null
                           },
                           {
                             "alias": null,
                             "args": null,
                             "kind": "ScalarField",
-                            "name": "avatarUrl",
+                            "name": "cursor",
                             "storageKey": null
                           }
                         ],
@@ -224,59 +269,45 @@ return {
                       {
                         "alias": null,
                         "args": null,
-                        "kind": "ScalarField",
-                        "name": "__typename",
+                        "concreteType": "PageInfo",
+                        "kind": "LinkedField",
+                        "name": "pageInfo",
+                        "plural": false,
+                        "selections": [
+                          {
+                            "alias": null,
+                            "args": null,
+                            "kind": "ScalarField",
+                            "name": "hasNextPage",
+                            "storageKey": null
+                          },
+                          {
+                            "alias": null,
+                            "args": null,
+                            "kind": "ScalarField",
+                            "name": "endCursor",
+                            "storageKey": null
+                          }
+                        ],
                         "storageKey": null
                       }
                     ],
-                    "storageKey": null
+                    "storageKey": "comments(first:3)"
                   },
                   {
                     "alias": null,
-                    "args": null,
-                    "kind": "ScalarField",
-                    "name": "cursor",
-                    "storageKey": null
-                  }
-                ],
-                "storageKey": null
-              },
-              {
-                "alias": null,
-                "args": null,
-                "concreteType": "PageInfo",
-                "kind": "LinkedField",
-                "name": "pageInfo",
-                "plural": false,
-                "selections": [
-                  {
-                    "alias": null,
-                    "args": null,
-                    "kind": "ScalarField",
-                    "name": "hasNextPage",
-                    "storageKey": null
-                  },
-                  {
-                    "alias": null,
-                    "args": null,
-                    "kind": "ScalarField",
-                    "name": "endCursor",
-                    "storageKey": null
+                    "args": (v6/*: any*/),
+                    "filters": null,
+                    "handle": "connection",
+                    "key": "CommentsFragment_comments",
+                    "kind": "LinkedHandle",
+                    "name": "comments"
                   }
                 ],
                 "storageKey": null
               }
             ],
-            "storageKey": "comments(first:3)"
-          },
-          {
-            "alias": null,
-            "args": (v3/*: any*/),
-            "filters": null,
-            "handle": "connection",
-            "key": "CommentsFragment_comments",
-            "kind": "LinkedHandle",
-            "name": "comments"
+            "storageKey": null
           }
         ],
         "storageKey": null
@@ -284,16 +315,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "1bb978ca6c25b1ab7c453155838de86a",
+    "cacheID": "824689ea4b281a132af97c82e6b33d29",
     "id": null,
     "metadata": {},
     "name": "ColumnMoveCardMutation",
     "operationKind": "mutation",
-    "text": "mutation ColumnMoveCardMutation(\n  $cardId: ID!\n  $targetColumnId: ID!\n  $targetPosition: Int!\n) {\n  moveCard(cardId: $cardId, targetColumnId: $targetColumnId, targetPosition: $targetPosition) {\n    ...CardFragment\n    id\n  }\n}\n\nfragment CardEditorFragment on Card {\n  id\n  title\n  description\n  imageUrl\n}\n\nfragment CardFragment on Card {\n  id\n  title\n  description\n  position\n  imageUrl\n  column {\n    id\n  }\n  ...CommentsFragment\n  ...CardEditorFragment\n}\n\nfragment CommentFragment on Comment {\n  id\n  content\n  updatedAt\n  user {\n    id\n    name\n    avatarUrl\n  }\n}\n\nfragment CommentInputFragment on Card {\n  id\n}\n\nfragment CommentsFragment on Card {\n  comments(first: 3) {\n    edges {\n      node {\n        id\n        ...CommentFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n  ...CommentInputFragment\n  id\n}\n"
+    "text": "mutation ColumnMoveCardMutation(\n  $cardId: ID!\n  $targetColumnId: ID!\n  $targetPosition: Int!\n) {\n  moveCard(cardId: $cardId, targetColumnId: $targetColumnId, targetPosition: $targetPosition) {\n    ...BoardFragment\n    id\n  }\n}\n\nfragment BoardFragment on Board {\n  id\n  name\n  imageUrl\n  columns {\n    id\n    ...ColumnFragment\n  }\n  ...BoardSettingsFragment\n}\n\nfragment BoardSettingsFragment on Board {\n  id\n  imageUrl\n}\n\nfragment CardEditorFragment on Card {\n  id\n  title\n  description\n  imageUrl\n}\n\nfragment CardFragment on Card {\n  id\n  title\n  description\n  position\n  imageUrl\n  column {\n    id\n  }\n  ...CommentsFragment\n  ...CardEditorFragment\n}\n\nfragment ColumnFragment on Column {\n  id\n  name\n  position\n  cards {\n    id\n    ...CardFragment\n  }\n  ...SimpleCardCreationFragment\n}\n\nfragment CommentFragment on Comment {\n  id\n  content\n  updatedAt\n  user {\n    id\n    name\n    avatarUrl\n  }\n}\n\nfragment CommentInputFragment on Card {\n  id\n}\n\nfragment CommentsFragment on Card {\n  comments(first: 3) {\n    edges {\n      node {\n        id\n        ...CommentFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n  ...CommentInputFragment\n  id\n}\n\nfragment SimpleCardCreationFragment on Column {\n  id\n}\n"
   }
 };
 })();
 
-(node as any).hash = "9d069125d915c09f9c72e0e6976387e1";
+(node as any).hash = "480700471dcd613d96b4f9c19ca0e3c3";
 
 export default node;

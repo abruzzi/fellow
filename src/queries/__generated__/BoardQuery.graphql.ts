@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<64adf97bc1469cf3d00f91024d1444df>>
+ * @generated SignedSource<<b7fdd6f457300fb02d7f640cc627cb89>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -15,14 +15,7 @@ export type BoardQuery$variables = {
 };
 export type BoardQuery$data = {
   readonly board: {
-    readonly columns: ReadonlyArray<{
-      readonly id: string;
-      readonly " $fragmentSpreads": FragmentRefs<"ColumnFragment">;
-    }>;
-    readonly id: string;
-    readonly imageUrl: string | null | undefined;
-    readonly name: string;
-    readonly " $fragmentSpreads": FragmentRefs<"BoardSettingsFragment">;
+    readonly " $fragmentSpreads": FragmentRefs<"BoardFragment">;
   };
 };
 export type BoardQuery = {
@@ -95,30 +88,10 @@ return {
         "name": "board",
         "plural": false,
         "selections": [
-          (v2/*: any*/),
-          (v3/*: any*/),
-          (v4/*: any*/),
-          {
-            "alias": null,
-            "args": null,
-            "concreteType": "Column",
-            "kind": "LinkedField",
-            "name": "columns",
-            "plural": true,
-            "selections": [
-              (v2/*: any*/),
-              {
-                "args": null,
-                "kind": "FragmentSpread",
-                "name": "ColumnFragment"
-              }
-            ],
-            "storageKey": null
-          },
           {
             "args": null,
             "kind": "FragmentSpread",
-            "name": "BoardSettingsFragment"
+            "name": "BoardFragment"
           }
         ],
         "storageKey": null
@@ -320,16 +293,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "ba03769d27d8e388be8af5045101f7b8",
+    "cacheID": "30cc16002426a9220bf5833ed6c4c916",
     "id": null,
     "metadata": {},
     "name": "BoardQuery",
     "operationKind": "query",
-    "text": "query BoardQuery(\n  $boardId: ID!\n) {\n  board(id: $boardId) {\n    id\n    name\n    imageUrl\n    columns {\n      id\n      ...ColumnFragment\n    }\n    ...BoardSettingsFragment\n  }\n}\n\nfragment BoardSettingsFragment on Board {\n  id\n  imageUrl\n}\n\nfragment CardEditorFragment on Card {\n  id\n  title\n  description\n  imageUrl\n}\n\nfragment CardFragment on Card {\n  id\n  title\n  description\n  position\n  imageUrl\n  column {\n    id\n  }\n  ...CommentsFragment\n  ...CardEditorFragment\n}\n\nfragment ColumnFragment on Column {\n  id\n  name\n  position\n  cards {\n    id\n    ...CardFragment\n  }\n  ...SimpleCardCreationFragment\n}\n\nfragment CommentFragment on Comment {\n  id\n  content\n  updatedAt\n  user {\n    id\n    name\n    avatarUrl\n  }\n}\n\nfragment CommentInputFragment on Card {\n  id\n}\n\nfragment CommentsFragment on Card {\n  comments(first: 3) {\n    edges {\n      node {\n        id\n        ...CommentFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n  ...CommentInputFragment\n  id\n}\n\nfragment SimpleCardCreationFragment on Column {\n  id\n}\n"
+    "text": "query BoardQuery(\n  $boardId: ID!\n) {\n  board(id: $boardId) {\n    ...BoardFragment\n    id\n  }\n}\n\nfragment BoardFragment on Board {\n  id\n  name\n  imageUrl\n  columns {\n    id\n    ...ColumnFragment\n  }\n  ...BoardSettingsFragment\n}\n\nfragment BoardSettingsFragment on Board {\n  id\n  imageUrl\n}\n\nfragment CardEditorFragment on Card {\n  id\n  title\n  description\n  imageUrl\n}\n\nfragment CardFragment on Card {\n  id\n  title\n  description\n  position\n  imageUrl\n  column {\n    id\n  }\n  ...CommentsFragment\n  ...CardEditorFragment\n}\n\nfragment ColumnFragment on Column {\n  id\n  name\n  position\n  cards {\n    id\n    ...CardFragment\n  }\n  ...SimpleCardCreationFragment\n}\n\nfragment CommentFragment on Comment {\n  id\n  content\n  updatedAt\n  user {\n    id\n    name\n    avatarUrl\n  }\n}\n\nfragment CommentInputFragment on Card {\n  id\n}\n\nfragment CommentsFragment on Card {\n  comments(first: 3) {\n    edges {\n      node {\n        id\n        ...CommentFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n  ...CommentInputFragment\n  id\n}\n\nfragment SimpleCardCreationFragment on Column {\n  id\n}\n"
   }
 };
 })();
 
-(node as any).hash = "7171e618056252be6ede01e4fd3b7b65";
+(node as any).hash = "0c8d01dcc40a5be3e1223b03292be745";
 
 export default node;

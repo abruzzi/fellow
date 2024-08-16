@@ -56,12 +56,11 @@ const Card = ({ card }: { card: CardFragment$key }) => {
   const data = useFragment<CardFragment$key>(CardFragment, card);
 
   const [deleteCard, isDeleting] = useMutation(graphql`
-    mutation CardDeleteMutation($id: ID!) {
-      deleteCard(cardId: $id) {
-        id
-        position
+      mutation CardDeleteMutation($id: ID!) {
+          deleteCard(cardId: $id) {
+              ...ColumnFragment
+          }
       }
-    }
   `);
 
   const handleDelete = () => {

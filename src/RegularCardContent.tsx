@@ -12,7 +12,7 @@ const RegularCardContent = ({
   return (
     <>
       <CardHeader className="py-2 px-4 flex-col items-start">
-        <h4 className="text-large text-slate-800">{title}</h4>
+        <h4 className="text-medium text-slate-800">{title}</h4>
       </CardHeader>
       {description && (
         <CardBody className="pt-0">

@@ -1,12 +1,13 @@
-import React, { createContext, useState, useContext, useEffect } from "react";
-import { graphql, useMutation, usePreloadedQuery } from "react-relay";
+import React, { createContext, ReactNode, useContext } from "react";
+import { graphql, useFragment, useMutation } from "react-relay";
 import {
-  ApplicationQuery as ApplicationQueryType,
-  ApplicationQuery$data,
-} from "./queries/__generated__/ApplicationQuery.graphql.ts";
-import { ApplicationQuery } from "./queries/ApplicationQuery.ts";
+  FavoriteBoardContextFragment$data,
+  FavoriteBoardContextFragment$key,
+} from "./__generated__/FavoriteBoardContextFragment.graphql.ts";
 
-type FavoriteBoards = ApplicationQuery$data["favoriteBoards"];
+export type FavoriteBoards =
+  FavoriteBoardContextFragment$data["favoriteBoards"];
+
 type FavoriteBoardContextType = {
   favoriteBoards: FavoriteBoards;
   toggleFavorite: (boardId: string) => void;
@@ -14,20 +15,28 @@ type FavoriteBoardContextType = {
 
 const FavoriteBoardContext = createContext<FavoriteBoardContextType>(null);
 
-// eslint-disable-next-line react/prop-types
-export function FavoriteBoardProvider({ children, queryRef, refresh }) {
-  const data = usePreloadedQuery<ApplicationQueryType>(
-    ApplicationQuery,
-    queryRef,
-  );
+export const FavoriteBoardContextFragment = graphql`
+  fragment FavoriteBoardContextFragment on Viewer {
+    favoriteBoards {
+      id
+      ...BoardSettingsFragment
+    }
+  }
+`;
 
-  const [favoriteBoards, setFavoriteBoards] = useState<FavoriteBoards>(
-    data.favoriteBoards || [],
-  );
+type FavoriteBoardProviderProps = {
+  children: ReactNode;
+  favoriteBoards: FavoriteBoardContextFragment$key;
+};
 
-  useEffect(() => {
-    setFavoriteBoards(data.favoriteBoards);
-  }, [data]);
+export function FavoriteBoardProvider({
+  children,
+  favoriteBoards,
+}: FavoriteBoardProviderProps) {
+  const data = useFragment<FavoriteBoardContextFragment$key>(
+    FavoriteBoardContextFragment,
+    favoriteBoards,
+  );
 
   const [toggleFavoriteBoard] = useMutation(graphql`
     mutation FavoriteBoardContextToggleMutation($boardId: ID!) {
@@ -44,18 +53,21 @@ export function FavoriteBoardProvider({ children, queryRef, refresh }) {
         boardId: boardId,
       },
       onCompleted: () => {
-        refresh();
+        // refresh();
       },
     });
   };
 
   return (
-    <FavoriteBoardContext.Provider value={{ favoriteBoards, toggleFavorite }}>
+    <FavoriteBoardContext.Provider
+      value={{ favoriteBoards: data.favoriteBoards, toggleFavorite }}
+    >
       {children}
     </FavoriteBoardContext.Provider>
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useFavoriteBoards() {
   return useContext(FavoriteBoardContext);
 }

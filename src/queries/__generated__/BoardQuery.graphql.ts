@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<b7fdd6f457300fb02d7f640cc627cb89>>
+ * @generated SignedSource<<94fffe4d39d8cb8bfe9b71dcc7558002>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -14,9 +14,11 @@ export type BoardQuery$variables = {
   boardId: string;
 };
 export type BoardQuery$data = {
-  readonly board: {
-    readonly " $fragmentSpreads": FragmentRefs<"BoardFragment">;
-  };
+  readonly viewer: {
+    readonly board: {
+      readonly " $fragmentSpreads": FragmentRefs<"BoardFragment">;
+    };
+  } | null | undefined;
 };
 export type BoardQuery = {
   response: BoardQuery$data;
@@ -82,16 +84,27 @@ return {
     "selections": [
       {
         "alias": null,
-        "args": (v1/*: any*/),
-        "concreteType": "Board",
+        "args": null,
+        "concreteType": "Viewer",
         "kind": "LinkedField",
-        "name": "board",
+        "name": "viewer",
         "plural": false,
         "selections": [
           {
-            "args": null,
-            "kind": "FragmentSpread",
-            "name": "BoardFragment"
+            "alias": null,
+            "args": (v1/*: any*/),
+            "concreteType": "Board",
+            "kind": "LinkedField",
+            "name": "board",
+            "plural": false,
+            "selections": [
+              {
+                "args": null,
+                "kind": "FragmentSpread",
+                "name": "BoardFragment"
+              }
+            ],
+            "storageKey": null
           }
         ],
         "storageKey": null
@@ -108,117 +121,135 @@ return {
     "selections": [
       {
         "alias": null,
-        "args": (v1/*: any*/),
-        "concreteType": "Board",
+        "args": null,
+        "concreteType": "Viewer",
         "kind": "LinkedField",
-        "name": "board",
+        "name": "viewer",
         "plural": false,
         "selections": [
-          (v2/*: any*/),
-          (v3/*: any*/),
-          (v4/*: any*/),
           {
             "alias": null,
-            "args": null,
-            "concreteType": "Column",
+            "args": (v1/*: any*/),
+            "concreteType": "Board",
             "kind": "LinkedField",
-            "name": "columns",
-            "plural": true,
+            "name": "board",
+            "plural": false,
             "selections": [
               (v2/*: any*/),
               (v3/*: any*/),
-              (v5/*: any*/),
+              (v4/*: any*/),
               {
                 "alias": null,
                 "args": null,
-                "concreteType": "Card",
+                "concreteType": "Column",
                 "kind": "LinkedField",
-                "name": "cards",
+                "name": "columns",
                 "plural": true,
                 "selections": [
                   (v2/*: any*/),
-                  {
-                    "alias": null,
-                    "args": null,
-                    "kind": "ScalarField",
-                    "name": "title",
-                    "storageKey": null
-                  },
-                  {
-                    "alias": null,
-                    "args": null,
-                    "kind": "ScalarField",
-                    "name": "description",
-                    "storageKey": null
-                  },
+                  (v3/*: any*/),
                   (v5/*: any*/),
-                  (v4/*: any*/),
                   {
                     "alias": null,
                     "args": null,
-                    "concreteType": "Column",
+                    "concreteType": "Card",
                     "kind": "LinkedField",
-                    "name": "column",
-                    "plural": false,
+                    "name": "cards",
+                    "plural": true,
                     "selections": [
-                      (v2/*: any*/)
-                    ],
-                    "storageKey": null
-                  },
-                  {
-                    "alias": null,
-                    "args": (v6/*: any*/),
-                    "concreteType": "CommentConnection",
-                    "kind": "LinkedField",
-                    "name": "comments",
-                    "plural": false,
-                    "selections": [
+                      (v2/*: any*/),
                       {
                         "alias": null,
                         "args": null,
-                        "concreteType": "CommentEdge",
+                        "kind": "ScalarField",
+                        "name": "title",
+                        "storageKey": null
+                      },
+                      {
+                        "alias": null,
+                        "args": null,
+                        "kind": "ScalarField",
+                        "name": "description",
+                        "storageKey": null
+                      },
+                      (v5/*: any*/),
+                      (v4/*: any*/),
+                      {
+                        "alias": null,
+                        "args": null,
+                        "concreteType": "Column",
                         "kind": "LinkedField",
-                        "name": "edges",
-                        "plural": true,
+                        "name": "column",
+                        "plural": false,
+                        "selections": [
+                          (v2/*: any*/)
+                        ],
+                        "storageKey": null
+                      },
+                      {
+                        "alias": null,
+                        "args": (v6/*: any*/),
+                        "concreteType": "CommentConnection",
+                        "kind": "LinkedField",
+                        "name": "comments",
+                        "plural": false,
                         "selections": [
                           {
                             "alias": null,
                             "args": null,
-                            "concreteType": "Comment",
+                            "concreteType": "CommentEdge",
                             "kind": "LinkedField",
-                            "name": "node",
-                            "plural": false,
+                            "name": "edges",
+                            "plural": true,
                             "selections": [
-                              (v2/*: any*/),
                               {
                                 "alias": null,
                                 "args": null,
-                                "kind": "ScalarField",
-                                "name": "content",
-                                "storageKey": null
-                              },
-                              {
-                                "alias": null,
-                                "args": null,
-                                "kind": "ScalarField",
-                                "name": "updatedAt",
-                                "storageKey": null
-                              },
-                              {
-                                "alias": null,
-                                "args": null,
-                                "concreteType": "User",
+                                "concreteType": "Comment",
                                 "kind": "LinkedField",
-                                "name": "user",
+                                "name": "node",
                                 "plural": false,
                                 "selections": [
                                   (v2/*: any*/),
-                                  (v3/*: any*/),
                                   {
                                     "alias": null,
                                     "args": null,
                                     "kind": "ScalarField",
-                                    "name": "avatarUrl",
+                                    "name": "content",
+                                    "storageKey": null
+                                  },
+                                  {
+                                    "alias": null,
+                                    "args": null,
+                                    "kind": "ScalarField",
+                                    "name": "updatedAt",
+                                    "storageKey": null
+                                  },
+                                  {
+                                    "alias": null,
+                                    "args": null,
+                                    "concreteType": "User",
+                                    "kind": "LinkedField",
+                                    "name": "user",
+                                    "plural": false,
+                                    "selections": [
+                                      (v2/*: any*/),
+                                      (v3/*: any*/),
+                                      {
+                                        "alias": null,
+                                        "args": null,
+                                        "kind": "ScalarField",
+                                        "name": "avatarUrl",
+                                        "storageKey": null
+                                      }
+                                    ],
+                                    "storageKey": null
+                                  },
+                                  {
+                                    "alias": null,
+                                    "args": null,
+                                    "kind": "ScalarField",
+                                    "name": "__typename",
                                     "storageKey": null
                                   }
                                 ],
@@ -228,7 +259,7 @@ return {
                                 "alias": null,
                                 "args": null,
                                 "kind": "ScalarField",
-                                "name": "__typename",
+                                "name": "cursor",
                                 "storageKey": null
                               }
                             ],
@@ -237,49 +268,42 @@ return {
                           {
                             "alias": null,
                             "args": null,
-                            "kind": "ScalarField",
-                            "name": "cursor",
+                            "concreteType": "PageInfo",
+                            "kind": "LinkedField",
+                            "name": "pageInfo",
+                            "plural": false,
+                            "selections": [
+                              {
+                                "alias": null,
+                                "args": null,
+                                "kind": "ScalarField",
+                                "name": "hasNextPage",
+                                "storageKey": null
+                              },
+                              {
+                                "alias": null,
+                                "args": null,
+                                "kind": "ScalarField",
+                                "name": "endCursor",
+                                "storageKey": null
+                              }
+                            ],
                             "storageKey": null
                           }
                         ],
-                        "storageKey": null
+                        "storageKey": "comments(first:3)"
                       },
                       {
                         "alias": null,
-                        "args": null,
-                        "concreteType": "PageInfo",
-                        "kind": "LinkedField",
-                        "name": "pageInfo",
-                        "plural": false,
-                        "selections": [
-                          {
-                            "alias": null,
-                            "args": null,
-                            "kind": "ScalarField",
-                            "name": "hasNextPage",
-                            "storageKey": null
-                          },
-                          {
-                            "alias": null,
-                            "args": null,
-                            "kind": "ScalarField",
-                            "name": "endCursor",
-                            "storageKey": null
-                          }
-                        ],
-                        "storageKey": null
+                        "args": (v6/*: any*/),
+                        "filters": null,
+                        "handle": "connection",
+                        "key": "CommentsFragment_comments",
+                        "kind": "LinkedHandle",
+                        "name": "comments"
                       }
                     ],
-                    "storageKey": "comments(first:3)"
-                  },
-                  {
-                    "alias": null,
-                    "args": (v6/*: any*/),
-                    "filters": null,
-                    "handle": "connection",
-                    "key": "CommentsFragment_comments",
-                    "kind": "LinkedHandle",
-                    "name": "comments"
+                    "storageKey": null
                   }
                 ],
                 "storageKey": null
@@ -293,16 +317,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "30cc16002426a9220bf5833ed6c4c916",
+    "cacheID": "d9cead7920f4e97ad86f456cf69f6c3c",
     "id": null,
     "metadata": {},
     "name": "BoardQuery",
     "operationKind": "query",
-    "text": "query BoardQuery(\n  $boardId: ID!\n) {\n  board(id: $boardId) {\n    ...BoardFragment\n    id\n  }\n}\n\nfragment BoardFragment on Board {\n  id\n  name\n  imageUrl\n  columns {\n    id\n    ...ColumnFragment\n  }\n  ...BoardSettingsFragment\n}\n\nfragment BoardSettingsFragment on Board {\n  id\n  imageUrl\n}\n\nfragment CardEditorFragment on Card {\n  id\n  title\n  description\n  imageUrl\n}\n\nfragment CardFragment on Card {\n  id\n  title\n  description\n  position\n  imageUrl\n  column {\n    id\n  }\n  ...CommentsFragment\n  ...CardEditorFragment\n}\n\nfragment ColumnFragment on Column {\n  id\n  name\n  position\n  cards {\n    id\n    ...CardFragment\n  }\n  ...SimpleCardCreationFragment\n}\n\nfragment CommentFragment on Comment {\n  id\n  content\n  updatedAt\n  user {\n    id\n    name\n    avatarUrl\n  }\n}\n\nfragment CommentInputFragment on Card {\n  id\n}\n\nfragment CommentsFragment on Card {\n  comments(first: 3) {\n    edges {\n      node {\n        id\n        ...CommentFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n  ...CommentInputFragment\n  id\n}\n\nfragment SimpleCardCreationFragment on Column {\n  id\n}\n"
+    "text": "query BoardQuery(\n  $boardId: ID!\n) {\n  viewer {\n    board(id: $boardId) {\n      ...BoardFragment\n      id\n    }\n  }\n}\n\nfragment BoardFragment on Board {\n  id\n  name\n  imageUrl\n  columns {\n    id\n    ...ColumnFragment\n  }\n  ...BoardSettingsFragment\n}\n\nfragment BoardSettingsFragment on Board {\n  id\n  name\n  imageUrl\n}\n\nfragment CardEditorFragment on Card {\n  id\n  title\n  description\n  imageUrl\n}\n\nfragment CardFragment on Card {\n  id\n  title\n  description\n  position\n  imageUrl\n  column {\n    id\n  }\n  ...CommentsFragment\n  ...CardEditorFragment\n}\n\nfragment ColumnFragment on Column {\n  id\n  name\n  position\n  cards {\n    id\n    ...CardFragment\n  }\n  ...SimpleCardCreationFragment\n}\n\nfragment CommentFragment on Comment {\n  id\n  content\n  updatedAt\n  user {\n    id\n    name\n    avatarUrl\n  }\n}\n\nfragment CommentInputFragment on Card {\n  id\n}\n\nfragment CommentsFragment on Card {\n  comments(first: 3) {\n    edges {\n      node {\n        id\n        ...CommentFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n  ...CommentInputFragment\n  id\n}\n\nfragment SimpleCardCreationFragment on Column {\n  id\n}\n"
   }
 };
 })();
 
-(node as any).hash = "0c8d01dcc40a5be3e1223b03292be745";
+(node as any).hash = "53e061d700d249a66e9e665742dbb1ef";
 
 export default node;

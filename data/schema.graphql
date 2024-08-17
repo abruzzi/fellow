@@ -7,9 +7,6 @@ type User {
   email: String!
   name: String
   avatarUrl: String
-  boards: [Board!]!
-  collaborations: [Board!]!
-  favorites: [Board!]!
 }
 
 type Board implements Node {
@@ -27,18 +24,11 @@ type Card implements Node {
   title: String!
   description: String!
   imageUrl: String
-  tags: [Tag!]!
   comments(first: Int, after: String): CommentConnection!
   position: Int!
   column: Column!
   createdAt: String!
   updatedAt: String!
-}
-
-type Tag {
-  id: ID!
-  name: String!
-  cards: [Card!]!
 }
 
 type Comment {
@@ -76,24 +66,17 @@ type PageInfo {
   hasPreviousPage: Boolean
 }
 
-
 type Viewer {
   user: User
+  boards: [Board!]!
+  board(id: ID!): Board!
   favoriteBoards: [Board]!
+  collaborateBoards: [Board]!
 }
 
 type Query {
-  boards: [Board!]!
-  collaborateBoards: [Board]!
-  favoriteBoards: [Board]!
-  board(id: ID!): Board!
-  collaborators(boardId: ID!): [User!]!
-  column(id: ID!): Column!
-  card(id: ID!): Card!
-  node(id: ID!): Node
-  currentUser: User
   viewer: Viewer
-  tags: [Tag!]!
+  node(id: ID!): Node
 }
 
 type Mutation {
@@ -101,8 +84,6 @@ type Mutation {
   toggleFavoriteBoard(boardId: ID!): Board!
   updateBoardImageUrl(boardId: ID!, imageUrl: String!): Board!
   updateBoardName(boardId: ID!, name: String!): Board!
-
-  createColumn(boardId: ID!, name: String!, position: Int!): Column!
 
   # should return column after we create/delete a card from column
   createSimpleCard(columnId: ID!, title: String!): Column!
@@ -116,11 +97,6 @@ type Mutation {
   updateCardTitle(cardId: ID!, title: String!): Card!
   updateCardDescription(cardId: ID!, description: String!): Card!
   updateCardImageUrl(cardId: ID!, imageUrl: String!): Card!
-
-
-  createTag(name: String!): Tag!
-  addTagToCard(cardId: ID!, tagId: ID!): Card!
-  removeTagFromCard(cardId: ID!, tagId: ID!): Card!
 
   addCommentToCard(cardId: ID!, content: String!): Comment!
   removeComment(commentId: ID!): Comment!

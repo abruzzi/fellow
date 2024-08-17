@@ -1,38 +1,42 @@
-import React, { createContext, useState, useContext, useEffect } from "react";
-import { usePreloadedQuery } from "react-relay";
+import React, { createContext, useContext, ReactNode } from "react";
+import { graphql, useFragment } from "react-relay";
 import {
-  ApplicationQuery as ApplicationQueryType,
-  ApplicationQuery$data,
-} from "./queries/__generated__/ApplicationQuery.graphql.ts";
-import { ApplicationQuery } from "./queries/ApplicationQuery.ts";
+  UserContextFragment$data,
+  UserContextFragment$key,
+} from "./__generated__/UserContextFragment.graphql.ts";
 
-type CurrentUser = ApplicationQuery$data["currentUser"];
+type User = UserContextFragment$data;
 type CurrentUserContextType = {
-  currentUser: CurrentUser;
+  currentUser: User;
 };
 
 const CurrentUserContext = createContext<CurrentUserContextType>(null);
 
-// eslint-disable-next-line react/prop-types
-export function UserProvider({ children, queryRef }) {
-  const data = usePreloadedQuery<ApplicationQueryType>(
-    ApplicationQuery,
-    queryRef,
-  );
+const UserContextFragment = graphql`
+    fragment UserContextFragment on User {
+        id
+        name
+        email
+        avatarUrl
+    }
+`;
 
-  const [currentUser, setCurrentUser] = useState<CurrentUser>(data.currentUser);
+type UserProviderProps = {
+  children: ReactNode;
+  user: UserContextFragment$key;
+};
 
-  useEffect(() => {
-    setCurrentUser(data.currentUser);
-  }, [data]);
+export function UserProvider({ children, user }: UserProviderProps) {
+  const data = useFragment(UserContextFragment, user);
 
   return (
-    <CurrentUserContext.Provider value={{ currentUser }}>
+    <CurrentUserContext.Provider value={{ currentUser: data }}>
       {children}
     </CurrentUserContext.Provider>
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useCurrentUser() {
   return useContext(CurrentUserContext);
 }

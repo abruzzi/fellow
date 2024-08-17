@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<20cb6687c4a9e2186c741e40b0c7224d>>
+ * @generated SignedSource<<8a0cc73723a39707e71770918c787dc9>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,22 +10,23 @@
 
 import { Fragment, ReaderFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
-export type BoardSettingsFragment$data = {
+export type UserContextFragment$data = {
+  readonly avatarUrl: string | null | undefined;
+  readonly email: string;
   readonly id: string;
-  readonly imageUrl: string | null | undefined;
-  readonly name: string;
-  readonly " $fragmentType": "BoardSettingsFragment";
+  readonly name: string | null | undefined;
+  readonly " $fragmentType": "UserContextFragment";
 };
-export type BoardSettingsFragment$key = {
-  readonly " $data"?: BoardSettingsFragment$data;
-  readonly " $fragmentSpreads": FragmentRefs<"BoardSettingsFragment">;
+export type UserContextFragment$key = {
+  readonly " $data"?: UserContextFragment$data;
+  readonly " $fragmentSpreads": FragmentRefs<"UserContextFragment">;
 };
 
 const node: ReaderFragment = {
   "argumentDefinitions": [],
   "kind": "Fragment",
   "metadata": null,
-  "name": "BoardSettingsFragment",
+  "name": "UserContextFragment",
   "selections": [
     {
       "alias": null,
@@ -45,14 +46,21 @@ const node: ReaderFragment = {
       "alias": null,
       "args": null,
       "kind": "ScalarField",
-      "name": "imageUrl",
+      "name": "email",
+      "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "avatarUrl",
       "storageKey": null
     }
   ],
-  "type": "Board",
+  "type": "User",
   "abstractKey": null
 };
 
-(node as any).hash = "94d022657cf0d08307496fb908fc77b9";
+(node as any).hash = "641f5ddf205d3e55e0b951eba59441ab";
 
 export default node;

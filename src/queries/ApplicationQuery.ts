@@ -2,24 +2,15 @@ import { graphql } from 'react-relay';
 
 export const ApplicationQuery = graphql`
     query ApplicationQuery {
-        boards {
-            id
-            name
-            imageUrl
+        viewer {
+            ...BoardListScreenFragment
+            ...SimpleBoardListFragment
+            ...FavoriteBoardContextFragment
+            ...NavigationFragment
+            user {
+                ...UserContextFragment
+            }
         }
-        collaborateBoards {
-            id
-            name
-            imageUrl
-        }
-        favoriteBoards {
-            id
-            name
-        }
-        currentUser {
-            name
-            email
-            avatarUrl
-        }
+
     }
 `;

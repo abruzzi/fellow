@@ -1,22 +1,38 @@
 import React, { useState } from "react";
 
-import { usePreloadedQuery } from "react-relay";
-import { ApplicationQuery } from "./queries/ApplicationQuery.ts";
+import { graphql, useFragment } from "react-relay";
 import { Link } from "react-router-dom";
 import { HiOutlinePlus, HiOutlineStar } from "react-icons/hi";
 
-import type { ApplicationQuery as ApplicationQueryType } from "./queries/__generated__/ApplicationQuery.graphql.ts";
 import { MdFeaturedPlayList, MdFeaturedVideo } from "react-icons/md";
 import { Button } from "@nextui-org/react";
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 import { useFavoriteBoards } from "./FavoriteBoardContext.tsx";
-import { SidebarSkeleton } from "./skeletons/SidebarSkeleton.tsx";
+import { SimpleBoardListFragment$key } from "./__generated__/SimpleBoardListFragment.graphql.ts";
+import { BoardSettingsFragment$key } from "./__generated__/BoardSettingsFragment.graphql.ts";
+import { BoardSettingsFragment } from "./BoardSettings.tsx";
 
-// eslint-disable-next-line react/prop-types
-export const SimpleBoardList = ({ queryRef }) => {
-  const data = usePreloadedQuery<ApplicationQueryType>(
-    ApplicationQuery,
-    queryRef,
+export const SimpleBoardListFragment = graphql`
+  fragment SimpleBoardListFragment on Viewer {
+    collaborateBoards {
+      id
+      ...BoardSettingsFragment
+    }
+    boards {
+      id
+      ...BoardSettingsFragment
+    }
+  }
+`;
+
+type SimpleBoardListProps = {
+  boards: SimpleBoardListFragment$key;
+};
+
+export const SimpleBoardList = ({ boards }: SimpleBoardListProps) => {
+  const data = useFragment<SimpleBoardListFragment$key>(
+    SimpleBoardListFragment,
+    boards,
   );
 
   const { favoriteBoards } = useFavoriteBoards();
@@ -30,10 +46,6 @@ export const SimpleBoardList = ({ queryRef }) => {
   const isBoardFavorite = (boardId: string) => {
     return favoriteBoards.map((b) => b.id).includes(boardId);
   };
-
-  if (!queryRef) {
-    return <SidebarSkeleton />;
-  }
 
   return (
     <div
@@ -55,33 +67,11 @@ export const SimpleBoardList = ({ queryRef }) => {
         <div className="flex flex-row items-center justify-center w-12 mt-16 transition-all duration-500 ease-in-out">
           <ol className="flex flex-wrap justify-start flex-col">
             {(data.boards || []).map((board) => (
-              <li key={board.id}>
-                <Link to={`/boards/${board.id}`}>
-                  <Button
-                    isIconOnly
-                    title={board.name}
-                    variant="light"
-                    radius="sm"
-                  >
-                    <MdFeaturedPlayList className="text-slate-600" />
-                  </Button>
-                </Link>
-              </li>
+              <MiniBoardListItem board={board} key={board.id} />
             ))}
 
             {(data.collaborateBoards || []).map((board) => (
-              <li key={board.id}>
-                <Link to={`/boards/${board.id}`}>
-                  <Button
-                    isIconOnly
-                    title={board.name}
-                    variant="light"
-                    radius="sm"
-                  >
-                    <MdFeaturedVideo className="text-green-500" />
-                  </Button>
-                </Link>
-              </li>
+              <MiniCollaborateBoardListItem board={board} key={board.id} />
             ))}
           </ol>
         </div>
@@ -97,37 +87,99 @@ export const SimpleBoardList = ({ queryRef }) => {
           </div>
           <ol className="flex flex-wrap justify-start flex-col w-64">
             {(data.boards || []).map((board) => (
-              <li key={board.id}>
-                <Link to={`/boards/${board.id}`}>
-                  <div className="flex flex-row items-center gap-2 hover:bg-slate-100 px-4 py-1">
-                    <MdFeaturedPlayList className="text-slate-600" />
-                    <p>{board.name}</p>
-                    <span
-                      className={`${isBoardFavorite(board.id) ? "text-orange-400" : "text-slate-700"} ml-auto`}
-                    >
-                      <HiOutlineStar />
-                    </span>
-                  </div>
-                </Link>
-              </li>
+              <BoardListItem
+                board={board}
+                key={board.id}
+                isBoardFavorite={isBoardFavorite}
+              />
             ))}
 
             {(data.collaborateBoards || []).map((board) => (
-              <li key={board.id}>
-                <Link to={`/boards/${board.id}`}>
-                  <div className="flex flex-row items-center gap-2 hover:bg-slate-100 px-4 py-1">
-                    <MdFeaturedVideo className="text-emerald-500" />
-                    <p>{board.name}</p>
-                    <span className="ml-auto">
-                      <HiOutlineStar />
-                    </span>
-                  </div>
-                </Link>
-              </li>
+              <CollaborateBoardListItem board={board} key={board.id} />
             ))}
           </ol>
         </div>
       )}
     </div>
+  );
+};
+
+const MiniBoardListItem = ({ board }: { board: BoardSettingsFragment$key }) => {
+  const data = useFragment(BoardSettingsFragment, board);
+
+  return (
+    <li key={data.id}>
+      <Link to={`/boards/${data.id}`}>
+        <Button isIconOnly title={data.name} variant="light" radius="sm">
+          <MdFeaturedPlayList className="text-slate-600" />
+        </Button>
+      </Link>
+    </li>
+  );
+};
+
+const MiniCollaborateBoardListItem = ({
+  board,
+}: {
+  board: BoardSettingsFragment$key;
+}) => {
+  const data = useFragment(BoardSettingsFragment, board);
+
+  return (
+    <li key={data.id}>
+      <Link to={`/boards/${data.id}`}>
+        <Button isIconOnly title={data.name} variant="light" radius="sm">
+          <MdFeaturedVideo className="text-green-500" />
+        </Button>
+      </Link>
+    </li>
+  );
+};
+
+const BoardListItem = ({
+  board,
+  isBoardFavorite,
+}: {
+  board: BoardSettingsFragment$key;
+  isBoardFavorite: (id: string) => boolean;
+}) => {
+  const data = useFragment(BoardSettingsFragment, board);
+
+  return (
+    <li key={data.id}>
+      <Link to={`/boards/${data.id}`}>
+        <div className="flex flex-row items-center gap-2 hover:bg-slate-100 px-4 py-1">
+          <MdFeaturedPlayList className="text-slate-600" />
+          <p>{data.name}</p>
+          <span
+            className={`${isBoardFavorite(data.id) ? "text-orange-400" : "text-slate-700"} ml-auto`}
+          >
+            <HiOutlineStar />
+          </span>
+        </div>
+      </Link>
+    </li>
+  );
+};
+
+const CollaborateBoardListItem = ({
+  board,
+}: {
+  board: BoardSettingsFragment$key;
+}) => {
+  const data = useFragment(BoardSettingsFragment, board);
+
+  return (
+    <li key={data.id}>
+      <Link to={`/boards/${data.id}`}>
+        <div className="flex flex-row items-center gap-2 hover:bg-slate-100 px-4 py-1">
+          <MdFeaturedVideo className="text-emerald-500" />
+          <p>{data.name}</p>
+          <span className="ml-auto">
+            <HiOutlineStar />
+          </span>
+        </div>
+      </Link>
+    </li>
   );
 };

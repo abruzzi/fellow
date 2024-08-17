@@ -8,12 +8,12 @@ import {
 } from "@nextui-org/react";
 import React from "react";
 
-import { ApplicationQuery$data } from "./queries/__generated__/ApplicationQuery.graphql.ts";
+import {UserContextFragment$data} from "./__generated__/UserContextFragment.graphql.ts";
 
-type CurrentUser = ApplicationQuery$data["currentUser"];
+type User = UserContextFragment$data;
 
 // eslint-disable-next-line react/prop-types
-const UserMenu = ({ currentUser }: { currentUser: CurrentUser }) => {
+const UserMenu = ({ currentUser }: { currentUser: User }) => {
   if (!currentUser) {
     return <Skeleton className="flex rounded-full w-8 h-8" />;
   }

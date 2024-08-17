@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<f815309cee78d4645fcc88186c7955d0>>
+ * @generated SignedSource<<9153e881aed9bdbc449f284382b6df91>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,27 +9,15 @@
 // @ts-nocheck
 
 import { ConcreteRequest, Query } from 'relay-runtime';
+import { FragmentRefs } from "relay-runtime";
 export type ApplicationQuery$variables = Record<PropertyKey, never>;
 export type ApplicationQuery$data = {
-  readonly boards: ReadonlyArray<{
-    readonly id: string;
-    readonly imageUrl: string | null | undefined;
-    readonly name: string;
-  }>;
-  readonly collaborateBoards: ReadonlyArray<{
-    readonly id: string;
-    readonly imageUrl: string | null | undefined;
-    readonly name: string;
-  } | null | undefined>;
-  readonly currentUser: {
-    readonly avatarUrl: string | null | undefined;
-    readonly email: string;
-    readonly name: string | null | undefined;
+  readonly viewer: {
+    readonly user: {
+      readonly " $fragmentSpreads": FragmentRefs<"UserContextFragment">;
+    } | null | undefined;
+    readonly " $fragmentSpreads": FragmentRefs<"BoardListScreenFragment" | "FavoriteBoardContextFragment" | "NavigationFragment" | "SimpleBoardListFragment">;
   } | null | undefined;
-  readonly favoriteBoards: ReadonlyArray<{
-    readonly id: string;
-    readonly name: string;
-  } | null | undefined>;
 };
 export type ApplicationQuery = {
   response: ApplicationQuery$data;
@@ -61,54 +49,7 @@ v2 = [
     "name": "imageUrl",
     "storageKey": null
   }
-],
-v3 = {
-  "alias": null,
-  "args": null,
-  "concreteType": "Board",
-  "kind": "LinkedField",
-  "name": "boards",
-  "plural": true,
-  "selections": (v2/*: any*/),
-  "storageKey": null
-},
-v4 = {
-  "alias": null,
-  "args": null,
-  "concreteType": "Board",
-  "kind": "LinkedField",
-  "name": "collaborateBoards",
-  "plural": true,
-  "selections": (v2/*: any*/),
-  "storageKey": null
-},
-v5 = {
-  "alias": null,
-  "args": null,
-  "concreteType": "Board",
-  "kind": "LinkedField",
-  "name": "favoriteBoards",
-  "plural": true,
-  "selections": [
-    (v0/*: any*/),
-    (v1/*: any*/)
-  ],
-  "storageKey": null
-},
-v6 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "email",
-  "storageKey": null
-},
-v7 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "avatarUrl",
-  "storageKey": null
-};
+];
 return {
   "fragment": {
     "argumentDefinitions": [],
@@ -116,20 +57,50 @@ return {
     "metadata": null,
     "name": "ApplicationQuery",
     "selections": [
-      (v3/*: any*/),
-      (v4/*: any*/),
-      (v5/*: any*/),
       {
         "alias": null,
         "args": null,
-        "concreteType": "User",
+        "concreteType": "Viewer",
         "kind": "LinkedField",
-        "name": "currentUser",
+        "name": "viewer",
         "plural": false,
         "selections": [
-          (v1/*: any*/),
-          (v6/*: any*/),
-          (v7/*: any*/)
+          {
+            "args": null,
+            "kind": "FragmentSpread",
+            "name": "BoardListScreenFragment"
+          },
+          {
+            "args": null,
+            "kind": "FragmentSpread",
+            "name": "SimpleBoardListFragment"
+          },
+          {
+            "args": null,
+            "kind": "FragmentSpread",
+            "name": "FavoriteBoardContextFragment"
+          },
+          {
+            "args": null,
+            "kind": "FragmentSpread",
+            "name": "NavigationFragment"
+          },
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "User",
+            "kind": "LinkedField",
+            "name": "user",
+            "plural": false,
+            "selections": [
+              {
+                "args": null,
+                "kind": "FragmentSpread",
+                "name": "UserContextFragment"
+              }
+            ],
+            "storageKey": null
+          }
         ],
         "storageKey": null
       }
@@ -143,37 +114,87 @@ return {
     "kind": "Operation",
     "name": "ApplicationQuery",
     "selections": [
-      (v3/*: any*/),
-      (v4/*: any*/),
-      (v5/*: any*/),
       {
         "alias": null,
         "args": null,
-        "concreteType": "User",
+        "concreteType": "Viewer",
         "kind": "LinkedField",
-        "name": "currentUser",
+        "name": "viewer",
         "plural": false,
         "selections": [
-          (v1/*: any*/),
-          (v6/*: any*/),
-          (v7/*: any*/),
-          (v0/*: any*/)
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "Board",
+            "kind": "LinkedField",
+            "name": "boards",
+            "plural": true,
+            "selections": (v2/*: any*/),
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "Board",
+            "kind": "LinkedField",
+            "name": "collaborateBoards",
+            "plural": true,
+            "selections": (v2/*: any*/),
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "Board",
+            "kind": "LinkedField",
+            "name": "favoriteBoards",
+            "plural": true,
+            "selections": (v2/*: any*/),
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "User",
+            "kind": "LinkedField",
+            "name": "user",
+            "plural": false,
+            "selections": [
+              (v0/*: any*/),
+              (v1/*: any*/),
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "email",
+                "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "avatarUrl",
+                "storageKey": null
+              }
+            ],
+            "storageKey": null
+          }
         ],
         "storageKey": null
       }
     ]
   },
   "params": {
-    "cacheID": "ed78393d542402eef8896d1e5c4e1aa7",
+    "cacheID": "df915994895fad7ec92e9e2792390a1b",
     "id": null,
     "metadata": {},
     "name": "ApplicationQuery",
     "operationKind": "query",
-    "text": "query ApplicationQuery {\n  boards {\n    id\n    name\n    imageUrl\n  }\n  collaborateBoards {\n    id\n    name\n    imageUrl\n  }\n  favoriteBoards {\n    id\n    name\n  }\n  currentUser {\n    name\n    email\n    avatarUrl\n    id\n  }\n}\n"
+    "text": "query ApplicationQuery {\n  viewer {\n    ...BoardListScreenFragment\n    ...SimpleBoardListFragment\n    ...FavoriteBoardContextFragment\n    ...NavigationFragment\n    user {\n      ...UserContextFragment\n      id\n    }\n  }\n}\n\nfragment BoardListScreenFragment on Viewer {\n  boards {\n    id\n    ...BoardSettingsFragment\n  }\n}\n\nfragment BoardSettingsFragment on Board {\n  id\n  name\n  imageUrl\n}\n\nfragment FavoriteBoardContextFragment on Viewer {\n  favoriteBoards {\n    id\n    ...BoardSettingsFragment\n  }\n}\n\nfragment NavigationFragment on Viewer {\n  favoriteBoards {\n    id\n    name\n  }\n}\n\nfragment SimpleBoardListFragment on Viewer {\n  collaborateBoards {\n    id\n    ...BoardSettingsFragment\n  }\n  boards {\n    id\n    ...BoardSettingsFragment\n  }\n}\n\nfragment UserContextFragment on User {\n  id\n  name\n  email\n  avatarUrl\n}\n"
   }
 };
 })();
 
-(node as any).hash = "b4d950294732a18feb1cae2b1948ec0d";
+(node as any).hash = "01b7af6e10c032faefaaa576b2d74d6d";
 
 export default node;

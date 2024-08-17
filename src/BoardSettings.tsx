@@ -5,11 +5,12 @@ import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 import { graphql, useFragment, useMutation } from "react-relay";
 import { BoardSettingsFragment$key } from "./__generated__/BoardSettingsFragment.graphql.ts";
 
-const BoardSettingsFragment = graphql`
-  fragment BoardSettingsFragment on Board {
-    id
-    imageUrl
-  }
+export const BoardSettingsFragment = graphql`
+    fragment BoardSettingsFragment on Board {
+        id
+        name
+        imageUrl
+    }
 `;
 
 type BoardSettingsProps = {

@@ -1,16 +1,11 @@
 import React, { useCallback, useEffect } from "react";
 
-import { Outlet } from "react-router-dom";
-import { Navigation } from "../Navigation.tsx";
-import { ErrorBoundary } from "react-error-boundary";
-import { FavoriteBoardProvider } from "../FavoriteBoardContext.tsx";
-import { UserProvider } from "../UserContext.tsx";
 import { useQueryLoader } from "react-relay";
 import { ApplicationQuery as ApplicationQueryType } from "../queries/__generated__/ApplicationQuery.graphql.ts";
 import { ApplicationQuery } from "../queries/ApplicationQuery.ts";
 import { Loading } from "../Loading.tsx";
+import { Foundation } from "../Foundation.tsx";
 
-// eslint-disable-next-line react/prop-types
 const Root = () => {
   const [applicationQueryRef, loadApplicationQuery] =
     useQueryLoader<ApplicationQueryType>(ApplicationQuery);
@@ -31,25 +26,7 @@ const Root = () => {
 
   return (
     <div className="h-screen flex flex-col max-h-screen">
-      <ErrorBoundary
-        fallback={<div>Something went wrong on the root level</div>}
-      >
-        <FavoriteBoardProvider
-          queryRef={applicationQueryRef}
-          refresh={refreshApplicationQuery}
-        >
-          <UserProvider queryRef={applicationQueryRef}>
-            <Navigation />
-
-            <Outlet
-              context={{
-                queryRef: applicationQueryRef,
-                refreshQuery: refreshApplicationQuery,
-              }}
-            />
-          </UserProvider>
-        </FavoriteBoardProvider>
-      </ErrorBoundary>
+      <Foundation queryRef={applicationQueryRef} />
     </div>
   );
 };

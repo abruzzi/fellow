@@ -1,29 +1,32 @@
 {
   "data": {
-    "boards": [
-      {
-        "id": "ac9c5aea-d365-4bc9-9f1d-b5c2ba0d765a",
-        "name": "Fellow",
-        "imageUrl": "https://res.cloudinary.com/dwbszr4tz/image/upload/v1722144702/dcniw0owvfngdewer5ye.jpg"
-      },
-      {
-        "id": "7a9a4ed2-ef04-47b7-9877-fe3eb0da5a2e",
-        "name": "Macaw",
-        "imageUrl": "https://res.cloudinary.com/dwbszr4tz/image/upload/v1723722324/vcy9plefcv33ps2hmmeh.jpg"
+    "viewer": {
+      "boards": [
+        {
+          "id": "ac9c5aea-d365-4bc9-9f1d-b5c2ba0d765a",
+          "name": "Fellow",
+          "imageUrl": "https://res.cloudinary.com/dwbszr4tz/image/upload/v1722144702/dcniw0owvfngdewer5ye.jpg"
+        },
+        {
+          "id": "7a9a4ed2-ef04-47b7-9877-fe3eb0da5a2e",
+          "name": "Macaw",
+          "imageUrl": "https://res.cloudinary.com/dwbszr4tz/image/upload/v1723724433/iwu4pjk5omuftdpsmell.jpg"
+        }
+      ],
+      "collaborateBoards": [],
+      "favoriteBoards": [
+        {
+          "id": "ac9c5aea-d365-4bc9-9f1d-b5c2ba0d765a",
+          "name": "Fellow",
+          "imageUrl": "https://res.cloudinary.com/dwbszr4tz/image/upload/v1722144702/dcniw0owvfngdewer5ye.jpg"
+        }
+      ],
+      "user": {
+        "id": "5f2d7f12-e922-40a4-bbe7-bab7e967661c",
+        "name": "Juntao Qiu",
+        "email": "juntao.qiu@gmail.com",
+        "avatarUrl": "https://lh3.googleusercontent.com/a/ACg8ocI9gZNbOAwtzFPguM6RpVZ87V2Y2xGJWLi3q5D2Y31wGySvjSyZ=s96-c"
       }
-    ],
-    "collaborateBoards": [],
-    "favoriteBoards": [
-      {
-        "id": "ac9c5aea-d365-4bc9-9f1d-b5c2ba0d765a",
-        "name": "Fellow"
-      }
-    ],
-    "currentUser": {
-      "name": "Juntao Qiu",
-      "email": "juntao.qiu@gmail.com",
-      "avatarUrl": "https://lh3.googleusercontent.com/a/ACg8ocI9gZNbOAwtzFPguM6RpVZ87V2Y2xGJWLi3q5D2Y31wGySvjSyZ=s96-c",
-      "id": "5f2d7f12-e922-40a4-bbe7-bab7e967661c"
     }
   }
 }

@@ -1,4 +1,4 @@
-import { graphql, useQueryLoader } from "react-relay";
+import { useQueryLoader } from "react-relay";
 import React, { Suspense, useCallback, useEffect } from "react";
 
 import { BoardContainer } from "./BoardContainer.tsx";
@@ -6,13 +6,12 @@ import { BoardScreenSkeleton } from "./skeletons/BoardScreenSkeleton.tsx";
 import { BoardSkeleton } from "./skeletons/BoardSkeleton.tsx";
 import { ErrorBoundary } from "react-error-boundary";
 import { useNavigate, useOutletContext, useParams } from "react-router-dom";
-import { SidebarSkeleton } from "./skeletons/SidebarSkeleton.tsx";
 import { SimpleBoardList } from "./SimpleBoardList.tsx";
 import { RootContextType } from "./types.ts";
 import { BoardQuery } from "./queries/Board.ts";
 
 export const BoardScreen = () => {
-  const { queryRef } = useOutletContext<RootContextType>();
+  const { applicationData } = useOutletContext<RootContextType>();
   const { boardId } = useParams();
 
   const [boardQueryRef, loadBoardQuery] = useQueryLoader(BoardQuery);
@@ -40,11 +39,7 @@ export const BoardScreen = () => {
 
   return (
     <div className="h-full flex">
-      <ErrorBoundary fallback={<div>Something went wrong on the sidebar</div>}>
-        <Suspense fallback={<SidebarSkeleton />}>
-          <SimpleBoardList queryRef={queryRef} />
-        </Suspense>
-      </ErrorBoundary>
+      <SimpleBoardList boards={applicationData.viewer} />
       <div className="flex-grow flex flex-row w-full">
         <ErrorBoundary fallback={<div>Something went wrong on the board</div>}>
           <Suspense fallback={<BoardSkeleton />}>

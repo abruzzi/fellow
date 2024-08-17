@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<2039dd8796065c9e8445c27bc8d70d97>>
+ * @generated SignedSource<<12c104a2ec6ae44a148b6c27d2b61220>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -105,6 +105,13 @@ return {
             "alias": null,
             "args": null,
             "kind": "ScalarField",
+            "name": "name",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
             "name": "imageUrl",
             "storageKey": null
           }
@@ -114,12 +121,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "174fb03ee4dd69b08bd803eeabcaa6da",
+    "cacheID": "c59fe0995b175312c5a31a33fbfad556",
     "id": null,
     "metadata": {},
     "name": "BoardSettingsBackgroundMutation",
     "operationKind": "mutation",
-    "text": "mutation BoardSettingsBackgroundMutation(\n  $boardId: ID!\n  $bgImageUrl: String!\n) {\n  updateBoardImageUrl(boardId: $boardId, imageUrl: $bgImageUrl) {\n    ...BoardSettingsFragment\n    id\n  }\n}\n\nfragment BoardSettingsFragment on Board {\n  id\n  imageUrl\n}\n"
+    "text": "mutation BoardSettingsBackgroundMutation(\n  $boardId: ID!\n  $bgImageUrl: String!\n) {\n  updateBoardImageUrl(boardId: $boardId, imageUrl: $bgImageUrl) {\n    ...BoardSettingsFragment\n    id\n  }\n}\n\nfragment BoardSettingsFragment on Board {\n  id\n  name\n  imageUrl\n}\n"
   }
 };
 })();

@@ -15,8 +15,10 @@ export const BoardFragment = graphql`
 
 export const BoardQuery = graphql`
     query BoardQuery($boardId: ID!) {
-        board(id: $boardId) {
-            ...BoardFragment
+        viewer {
+            board(id: $boardId) {
+                ...BoardFragment
+            }
         }
     }
 `;

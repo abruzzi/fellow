@@ -66,6 +66,11 @@ type PageInfo {
   hasPreviousPage: Boolean
 }
 
+type AddCommentToCardPayload {
+  commentEdge: CommentEdge!
+  card: Card!
+}
+
 type Viewer {
   user: User
   boards: [Board!]!
@@ -98,6 +103,6 @@ type Mutation {
   updateCardDescription(cardId: ID!, description: String!): Card!
   updateCardImageUrl(cardId: ID!, imageUrl: String!): Card!
 
-  addCommentToCard(cardId: ID!, content: String!): Comment!
+  addCommentToCard(cardId: ID!, content: String!): AddCommentToCardPayload!
   removeComment(commentId: ID!): Comment!
 }

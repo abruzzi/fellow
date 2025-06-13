@@ -15,6 +15,7 @@ const CommentsFragment = graphql`
   ) {
     comments(first: $count, after: $cursor)
       @connection(key: "CommentsFragment_comments") {
+        __id
       edges {
         node {
           id
@@ -43,11 +44,13 @@ const Comments = ({ card }: { card: CommentsFragment$key }) => {
     });
   };
 
+  const connection = data.comments.__id;
+
   return (
     <div className="flex flex-col gap-1 py-2">
       <h4 className="font-bold text-slate-600">Comments</h4>
 
-      <CommentInput card={data} />
+      <CommentInput card={data} connection={connection} />
 
       <div className="flex flex-col gap-6">
         {data.comments.edges.map((edge) => (

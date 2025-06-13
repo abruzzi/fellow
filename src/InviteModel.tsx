@@ -19,7 +19,8 @@ export const InviteModel = ({ boardId, isOpen, onClose, onOpenChange }) => {
   const [role, setRole] = useState<string>("member");
   const [email, setEmail] = useState<string>("");
   const [isSendingInvite, setSendingInvite] = useState<boolean>(false);
-  const { token } = useAuth();
+  // const { token } = useAuth();
+  const { token } = "abc";
 
   const isInvalid = useMemo(() => {
     if (email === "") return false;

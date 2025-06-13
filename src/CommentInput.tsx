@@ -11,16 +11,21 @@ const CommentInputFragment = graphql`
   }
 `;
 
-export const CommentInput = ({ card }: { card: CommentInputFragment$key }) => {
+export const CommentInput = ({ card, connection }: { card: CommentInputFragment$key, connection: string }) => {
   const data = useFragment(CommentInputFragment, card);
   const { currentUser } = useCurrentUser();
 
   const [comment, setComment] = useState("");
   const [addComment, isAddingComment] = useMutation(graphql`
-    mutation CommentInputMutation($cardId: ID!, $content: String!) {
+    mutation CommentInputMutation($cardId: ID!, $content: String!, $connections: [ID!]!) {
       addCommentToCard(cardId: $cardId, content: $content) {
-        id
-        content
+          commentEdge @appendEdge(connections: $connections) {
+              node {
+                  id
+                  ...CommentFragment
+              }
+              cursor
+          }
       }
     }
   `);
@@ -34,6 +39,7 @@ export const CommentInput = ({ card }: { card: CommentInputFragment$key }) => {
       variables: {
         cardId: data.id,
         content: comment,
+        connections: [connection],
       },
       onCompleted: () => {
         setComment("");

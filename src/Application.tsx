@@ -9,6 +9,8 @@ import { Login } from "./routes/Login.tsx";
 import { Logout } from "./routes/Logout.tsx";
 import { OAuthCallback } from "./OAuthCallback.tsx";
 import { BoardScreen } from "./BoardScreen.tsx";
+import BoardNew from "./BoardNew.tsx";
+// import BoardColorful from "./BoardColorful.tsx";
 
 export const Application = () => {
   return (
@@ -18,17 +20,13 @@ export const Application = () => {
         <Route
           path="boards"
           element={
-            <ProtectedRoute>
-              <Boards />
-            </ProtectedRoute>
+            <Boards />
           }
         />
         <Route
           path="boards/:boardId"
           element={
-            <ProtectedRoute>
-              <BoardScreen />
-            </ProtectedRoute>
+            <BoardScreen />
           }
         />
       </Route>
@@ -36,6 +34,7 @@ export const Application = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/logout" element={<Logout />} />
       <Route path="/oauth/callback" element={<OAuthCallback />} />
+      <Route path="/board-new" element={<BoardNew />} />
     </Routes>
   );
 };

@@ -43,17 +43,8 @@ const SimpleCardCreation = ({
         columnId: data.id,
         title: title,
       },
-      onCompleted: () => {
-        // onCardCreated();
-      },
       onError: (error) => {
         console.error("Mutation error:", error);
-      },
-      optimisticResponse: {
-        createSimpleCard: {
-          id: "new-id",
-          title,
-        },
       },
     });
   };

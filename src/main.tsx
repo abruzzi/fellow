@@ -11,36 +11,34 @@ import { NextUIProvider } from "@nextui-org/react";
 import { AuthProvider } from "./AuthenticationContext.tsx";
 import { Application } from "./Application.tsx";
 
-async function enableMocking() {
-  if (process.env.NODE_ENV !== "development") {
-    return;
-  }
+// async function enableMocking() {
+//   if (process.env.NODE_ENV !== "development") {
+//     return;
+//   }
+//
+//   const { worker } = await import("./mocks/browser");
+//
+//   return worker.start();
+// }
+//
+// enableMocking().then(() => {});
 
-  const { worker } = await import("./mocks/browser");
-
-  return worker.start();
-}
-
-enableMocking().then(() =>
-  ReactDOM.createRoot(document.getElementById("root")!).render(
-    <React.StrictMode>
-      <ErrorBoundary
-        fallback={
-          <div>
-            If you could see this, that means something seriously wrong.
-          </div>
-        }
-      >
-        <AuthProvider>
-          <NextUIProvider>
-            <RelayEnvironmentProvider environment={environment}>
-              <Router>
-                <Application />
-              </Router>
-            </RelayEnvironmentProvider>
-          </NextUIProvider>
-        </AuthProvider>
-      </ErrorBoundary>
-    </React.StrictMode>,
-  ),
+ReactDOM.createRoot(document.getElementById("root")!).render(
+  <React.StrictMode>
+    <ErrorBoundary
+      fallback={
+        <div>If you could see this, that means something seriously wrong.</div>
+      }
+    >
+      <NextUIProvider>
+        <RelayEnvironmentProvider environment={environment}>
+          <Router>
+            <Application />
+          </Router>
+        </RelayEnvironmentProvider>
+      </NextUIProvider>
+      {/*<AuthProvider>*/}
+      {/*</AuthProvider>*/}
+    </ErrorBoundary>
+  </React.StrictMode>,
 );

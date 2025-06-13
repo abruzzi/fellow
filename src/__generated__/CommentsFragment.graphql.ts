@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<4b503fd01a5349c1e328097241261289>>
+ * @generated SignedSource<<1e52559fa6913c91d1879f23e7a841fb>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -12,6 +12,7 @@ import { ReaderFragment, RefetchableFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type CommentsFragment$data = {
   readonly comments: {
+    readonly __id: string;
     readonly edges: ReadonlyArray<{
       readonly node: {
         readonly id: string;
@@ -163,6 +164,18 @@ return {
             }
           ],
           "storageKey": null
+        },
+        {
+          "kind": "ClientExtension",
+          "selections": [
+            {
+              "alias": null,
+              "args": null,
+              "kind": "ScalarField",
+              "name": "__id",
+              "storageKey": null
+            }
+          ]
         }
       ],
       "storageKey": null
@@ -179,6 +192,6 @@ return {
 };
 })();
 
-(node as any).hash = "278ff6bd6b874750f856df81fa5ad247";
+(node as any).hash = "137e8f6e23f1182c3d0c6696e073cbf9";
 
 export default node;

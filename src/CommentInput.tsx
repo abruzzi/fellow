@@ -19,7 +19,7 @@ export const CommentInput = ({ card, connection }: { card: CommentInputFragment$
   const [addComment, isAddingComment] = useMutation(graphql`
     mutation CommentInputMutation($cardId: ID!, $content: String!, $connections: [ID!]!) {
       addCommentToCard(cardId: $cardId, content: $content) {
-          commentEdge @appendEdge(connections: $connections) {
+          commentEdge @prependEdge(connections: $connections) {
               node {
                   id
                   ...CommentFragment

@@ -2,15 +2,12 @@ import React from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 
 import { Root } from "./routes/Root.tsx";
-import { ProtectedRoute } from "./routes/ProtectedRoute.tsx";
 import { Boards } from "./Boards.tsx";
 import { AcceptInvitation } from "./routes/AcceptInvitation.tsx";
 import { Login } from "./routes/Login.tsx";
 import { Logout } from "./routes/Logout.tsx";
 import { OAuthCallback } from "./OAuthCallback.tsx";
 import { BoardScreen } from "./BoardScreen.tsx";
-import BoardNew from "./BoardNew.tsx";
-// import BoardColorful from "./BoardColorful.tsx";
 
 export const Application = () => {
   return (
@@ -34,7 +31,6 @@ export const Application = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/logout" element={<Logout />} />
       <Route path="/oauth/callback" element={<OAuthCallback />} />
-      <Route path="/board-new" element={<BoardNew />} />
     </Routes>
   );
 };

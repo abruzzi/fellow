@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<d5e98697c4b5cbc824c372b538ebd2f7>>
+ * @generated SignedSource<<ffac5200a1eb50e1bb882fe3f4160e3e>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -214,7 +214,7 @@ return {
             "alias": null,
             "args": null,
             "filters": null,
-            "handle": "appendEdge",
+            "handle": "prependEdge",
             "key": "",
             "kind": "LinkedHandle",
             "name": "commentEdge",
@@ -242,6 +242,6 @@ return {
 };
 })();
 
-(node as any).hash = "63be75c6c91d8afb280cbc9d058b7d60";
+(node as any).hash = "5cd80282c6390628038ea3ae0b2142ec";
 
 export default node;

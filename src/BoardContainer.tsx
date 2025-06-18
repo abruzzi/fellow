@@ -10,8 +10,6 @@ import { Board } from "./Board.tsx";
 export const BoardContainer = ({ queryRef }) => {
   const data = usePreloadedQuery<BoardQueryType>(BoardQuery, queryRef);
 
-  console.log(data);
-
   if (!data.viewer.board) {
     return <BoardSkeleton />;
   }

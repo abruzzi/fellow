@@ -1,69 +1,69 @@
 interface Node {
-  id: ID!
+    id: ID!
 }
 
 type User {
-  id: ID!
-  email: String!
-  name: String
-  avatarUrl: String
+    id: ID!
+    email: String!
+    name: String
+    avatarUrl: String
 }
 
 type Board implements Node {
-  id: ID!
-  name: String!
-  user: User!
-  imageUrl: String
-  collaborators: [User!]!
-  favoritedBy: [User!]!
-  columns: [Column!]!
+    id: ID!
+    name: String!
+    user: User!
+    imageUrl: String
+    collaborators: [User!]!
+    favoritedBy: [User!]!
+    columns: [Column!]!
 }
 
 type Card implements Node {
-  id: ID!
-  title: String!
-  description: String!
-  imageUrl: String
-  comments(first: Int, after: String): CommentConnection!
-  position: Int!
-  column: Column!
-  createdAt: String!
-  updatedAt: String!
+    id: ID!
+    title: String!
+    description: String!
+    imageUrl: String
+    comments(first: Int, after: String): CommentConnection!
+    position: Int!
+    column: Column!
+    createdAt: String!
+    updatedAt: String!
 }
 
 type Comment {
-  id: ID!
-  content: String!
-  card: Card!
-  user: User!
-  createdAt: String!
-  updatedAt: String!
+    id: ID!
+    content: String!
+    card: Card!
+    user: User!
+    createdAt: String!
+    updatedAt: String!
 }
 
 type Column implements Node {
-  id: ID!
-  name: String!
-  position: Int!
-  board: Board!
-  cards: [Card!]!
+    id: ID!
+    name: String!
+    position: Int!
+    board: Board!
+    cards: [Card!]!
 }
 
 type CommentConnection {
-  edges: [CommentEdge!]!
-  pageInfo: PageInfo!
+    edges: [CommentEdge!]!
+    pageInfo: PageInfo!
 }
 
 type CommentEdge {
-  cursor: String!
-  node: Comment!
+    cursor: String!
+    node: Comment!
 }
 
 type PageInfo {
-  startCursor: String
-  endCursor: String
-  lastCursor: String
-  hasNextPage: Boolean
-  hasPreviousPage: Boolean
+    startCursor: String
+    endCursor: String
+    lastCursor: String
+    hasNextPage: Boolean
+    hasPreviousPage: Boolean
 }
 
 type AddCommentToCardPayload {
@@ -72,37 +72,38 @@ type AddCommentToCardPayload {
 }
 
 type Viewer {
-  user: User
-  boards: [Board!]!
-  board(id: ID!): Board!
-  favoriteBoards: [Board]!
-  collaborateBoards: [Board]!
+    user: User
+    boards: [Board!]!
+    board(id: ID!): Board!
+    card(id: ID!): Card!
+    favoriteBoards: [Board]!
+    collaborateBoards: [Board]!
 }
 
 type Query {
-  viewer: Viewer
-  node(id: ID!): Node
+    viewer: Viewer
+    node(id: ID!): Node
 }
 
 type Mutation {
-  createBoard(name: String!): Board!
-  toggleFavoriteBoard(boardId: ID!): Board!
-  updateBoardImageUrl(boardId: ID!, imageUrl: String!): Board!
-  updateBoardName(boardId: ID!, name: String!): Board!
+    createBoard(name: String!): Board!
+    toggleFavoriteBoard(boardId: ID!): Board!
+    updateBoardImageUrl(boardId: ID!, imageUrl: String!): Board!
+    updateBoardName(boardId: ID!, name: String!): Board!
 
-  # should return column after we create/delete a card from column
-  createSimpleCard(columnId: ID!, title: String!): Column!
-  createCardFromComment(cardId: ID!, title: String!, description: String!): Column!
-  deleteCard(cardId: ID!): Column!
+    # should return column after we create/delete a card from column
+    createSimpleCard(columnId: ID!, title: String!): Column!
+    createCardFromComment(cardId: ID!, title: String!, description: String!): Column!
+    deleteCard(cardId: ID!): Column!
 
-  # should return the whole board when there are cross board item changes
-  moveCard(cardId: ID!, targetColumnId: ID!, targetPosition: Int!): Board!
+    # should return the whole board when there are cross board item changes
+    moveCard(cardId: ID!, targetColumnId: ID!, targetPosition: Int!): Board!
 
-  # instead use these granular ones
-  updateCardTitle(cardId: ID!, title: String!): Card!
-  updateCardDescription(cardId: ID!, description: String!): Card!
-  updateCardImageUrl(cardId: ID!, imageUrl: String!): Card!
+    # instead use these granular ones
+    updateCardTitle(cardId: ID!, title: String!): Card!
+    updateCardDescription(cardId: ID!, description: String!): Card!
+    updateCardImageUrl(cardId: ID!, imageUrl: String!): Card!
 
-  addCommentToCard(cardId: ID!, content: String!): AddCommentToCardPayload!
-  removeComment(commentId: ID!): Comment!
+    addCommentToCard(cardId: ID!, content: String!): AddCommentToCardPayload!
+    removeComment(commentId: ID!): Comment!
 }

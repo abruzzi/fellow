@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<61a49515fc03a72b1c66d6cc17c6aef2>>
+ * @generated SignedSource<<d72dcb605bd6bc512b5c7580b05927a6>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -87,14 +87,7 @@ v5 = {
   "kind": "ScalarField",
   "name": "position",
   "storageKey": null
-},
-v6 = [
-  {
-    "kind": "Literal",
-    "name": "first",
-    "value": 3
-  }
-];
+};
 return {
   "fragment": {
     "argumentDefinitions": (v0/*: any*/),
@@ -186,134 +179,6 @@ return {
                       (v2/*: any*/)
                     ],
                     "storageKey": null
-                  },
-                  {
-                    "alias": null,
-                    "args": (v6/*: any*/),
-                    "concreteType": "CommentConnection",
-                    "kind": "LinkedField",
-                    "name": "comments",
-                    "plural": false,
-                    "selections": [
-                      {
-                        "alias": null,
-                        "args": null,
-                        "concreteType": "CommentEdge",
-                        "kind": "LinkedField",
-                        "name": "edges",
-                        "plural": true,
-                        "selections": [
-                          {
-                            "alias": null,
-                            "args": null,
-                            "concreteType": "Comment",
-                            "kind": "LinkedField",
-                            "name": "node",
-                            "plural": false,
-                            "selections": [
-                              (v2/*: any*/),
-                              {
-                                "alias": null,
-                                "args": null,
-                                "kind": "ScalarField",
-                                "name": "content",
-                                "storageKey": null
-                              },
-                              {
-                                "alias": null,
-                                "args": null,
-                                "kind": "ScalarField",
-                                "name": "updatedAt",
-                                "storageKey": null
-                              },
-                              {
-                                "alias": null,
-                                "args": null,
-                                "concreteType": "User",
-                                "kind": "LinkedField",
-                                "name": "user",
-                                "plural": false,
-                                "selections": [
-                                  (v2/*: any*/),
-                                  (v3/*: any*/),
-                                  {
-                                    "alias": null,
-                                    "args": null,
-                                    "kind": "ScalarField",
-                                    "name": "avatarUrl",
-                                    "storageKey": null
-                                  }
-                                ],
-                                "storageKey": null
-                              },
-                              {
-                                "alias": null,
-                                "args": null,
-                                "kind": "ScalarField",
-                                "name": "__typename",
-                                "storageKey": null
-                              }
-                            ],
-                            "storageKey": null
-                          },
-                          {
-                            "alias": null,
-                            "args": null,
-                            "kind": "ScalarField",
-                            "name": "cursor",
-                            "storageKey": null
-                          }
-                        ],
-                        "storageKey": null
-                      },
-                      {
-                        "alias": null,
-                        "args": null,
-                        "concreteType": "PageInfo",
-                        "kind": "LinkedField",
-                        "name": "pageInfo",
-                        "plural": false,
-                        "selections": [
-                          {
-                            "alias": null,
-                            "args": null,
-                            "kind": "ScalarField",
-                            "name": "hasNextPage",
-                            "storageKey": null
-                          },
-                          {
-                            "alias": null,
-                            "args": null,
-                            "kind": "ScalarField",
-                            "name": "endCursor",
-                            "storageKey": null
-                          }
-                        ],
-                        "storageKey": null
-                      },
-                      {
-                        "kind": "ClientExtension",
-                        "selections": [
-                          {
-                            "alias": null,
-                            "args": null,
-                            "kind": "ScalarField",
-                            "name": "__id",
-                            "storageKey": null
-                          }
-                        ]
-                      }
-                    ],
-                    "storageKey": "comments(first:3)"
-                  },
-                  {
-                    "alias": null,
-                    "args": (v6/*: any*/),
-                    "filters": null,
-                    "handle": "connection",
-                    "key": "CommentsFragment_comments",
-                    "kind": "LinkedHandle",
-                    "name": "comments"
                   }
                 ],
                 "storageKey": null
@@ -327,12 +192,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "a1fac7774270e647d2955af432177a4a",
+    "cacheID": "e083cc3b9c5ebf36a66b019876b31c58",
     "id": null,
     "metadata": {},
     "name": "ColumnMoveCardMutation",
     "operationKind": "mutation",
-    "text": "mutation ColumnMoveCardMutation(\n  $cardId: ID!\n  $targetColumnId: ID!\n  $targetPosition: Int!\n) {\n  moveCard(cardId: $cardId, targetColumnId: $targetColumnId, targetPosition: $targetPosition) {\n    ...BoardFragment\n    id\n  }\n}\n\nfragment BoardFragment on Board {\n  id\n  name\n  imageUrl\n  columns {\n    id\n    ...ColumnFragment\n  }\n  ...BoardSettingsFragment\n}\n\nfragment BoardSettingsFragment on Board {\n  id\n  name\n  imageUrl\n}\n\nfragment CardEditorFragment on Card {\n  id\n  title\n  description\n  imageUrl\n}\n\nfragment CardFragment on Card {\n  id\n  title\n  description\n  position\n  imageUrl\n  column {\n    id\n  }\n  ...CommentsFragment\n  ...CardEditorFragment\n}\n\nfragment ColumnFragment on Column {\n  id\n  name\n  position\n  cards {\n    id\n    ...CardFragment\n  }\n  ...SimpleCardCreationFragment\n}\n\nfragment CommentFragment on Comment {\n  id\n  content\n  updatedAt\n  user {\n    id\n    name\n    avatarUrl\n  }\n}\n\nfragment CommentInputFragment on Card {\n  id\n}\n\nfragment CommentsFragment on Card {\n  comments(first: 3) {\n    edges {\n      node {\n        id\n        ...CommentFragment\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n  }\n  ...CommentInputFragment\n  id\n}\n\nfragment SimpleCardCreationFragment on Column {\n  id\n}\n"
+    "text": "mutation ColumnMoveCardMutation(\n  $cardId: ID!\n  $targetColumnId: ID!\n  $targetPosition: Int!\n) {\n  moveCard(cardId: $cardId, targetColumnId: $targetColumnId, targetPosition: $targetPosition) {\n    ...BoardFragment\n    id\n  }\n}\n\nfragment BoardFragment on Board {\n  id\n  name\n  imageUrl\n  columns {\n    id\n    ...ColumnFragment\n  }\n  ...BoardSettingsFragment\n}\n\nfragment BoardSettingsFragment on Board {\n  id\n  name\n  imageUrl\n}\n\nfragment CardEditorFragment on Card {\n  id\n  title\n  description\n  imageUrl\n}\n\nfragment CardFragment on Card {\n  id\n  title\n  description\n  position\n  imageUrl\n  column {\n    id\n  }\n  ...CardEditorFragment\n}\n\nfragment ColumnFragment on Column {\n  id\n  name\n  position\n  cards {\n    id\n    ...CardFragment\n  }\n  ...SimpleCardCreationFragment\n}\n\nfragment SimpleCardCreationFragment on Column {\n  id\n}\n"
   }
 };
 })();

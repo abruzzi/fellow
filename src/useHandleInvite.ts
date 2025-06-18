@@ -20,7 +20,6 @@ const useHandleInvite = () => {
         });
 
         const data = await response.json();
-        console.log(data);
 
         navigate(`/boards/${data.boardId}`);
       } catch (error) {

@@ -8,7 +8,6 @@ import { ErrorBoundary } from "react-error-boundary";
 import { BrowserRouter as Router } from "react-router-dom";
 
 import { NextUIProvider } from "@nextui-org/react";
-import { AuthProvider } from "./AuthenticationContext.tsx";
 import { Application } from "./Application.tsx";
 
 // async function enableMocking() {

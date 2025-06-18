@@ -1,5 +1,12 @@
-import { graphql, useFragment, useMutation } from "react-relay";
-import { useEffect, useRef, useState } from "react";
+import {
+  EntryPointContainer,
+  graphql,
+  loadEntryPoint,
+  PreloadedEntryPoint,
+  useFragment,
+  useMutation,
+} from "react-relay";
+import { Suspense, useEffect, useRef, useState } from "react";
 import {
   draggable,
   dropTargetForElements,
@@ -30,6 +37,8 @@ import { CardFragment$key } from "./__generated__/CardFragment.graphql.ts";
 import { RegularCardContent } from "./RegularCardContent.tsx";
 import { ImageCardContent } from "./ImageCardContent.tsx";
 import { Comments } from "./Comments.tsx";
+import { cardDetailsEntryPoint } from "./CardDetailsModal/entrypoint.ts";
+import environment from "./relay/environment.ts";
 
 const CardFragment = graphql`
   fragment CardFragment on Card {
@@ -41,7 +50,6 @@ const CardFragment = graphql`
     column {
       id
     }
-    ...CommentsFragment
     ...CardEditorFragment
   }
 `;
@@ -53,14 +61,18 @@ const Card = ({ card }: { card: CardFragment$key }) => {
   const [closestEdge, setClosestEdge] = useState<Edge>(null);
   const [hovered, setHovered] = useState<boolean>(false);
 
+  const [entryPointRef, setEntryPointRef] =
+    useState<PreloadedEntryPoint<any> | null>(null);
+  const [hasPreloaded, setHasPreloaded] = useState(false);
+
   const data = useFragment<CardFragment$key>(CardFragment, card);
 
   const [deleteCard, isDeleting] = useMutation(graphql`
-      mutation CardDeleteMutation($id: ID!) {
-          deleteCard(cardId: $id) {
-              ...ColumnFragment
-          }
+    mutation CardDeleteMutation($id: ID!) {
+      deleteCard(cardId: $id) {
+        ...ColumnFragment
       }
+    }
   `);
 
   const handleDelete = () => {
@@ -126,8 +138,34 @@ const Card = ({ card }: { card: CardFragment$key }) => {
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
+  const handleOpenModal = () => {
+    if (!entryPointRef) {
+      const ref = loadEntryPoint(
+        { getEnvironment: () => environment },
+        cardDetailsEntryPoint,
+        { cardId: data.id }
+      );
+      setEntryPointRef(ref);
+      setHasPreloaded(true);
+    }
+
+    onOpen();
+  };
+
+  const preloadCardModal = () => {
+    if (!hasPreloaded) {
+      const ref = loadEntryPoint(
+        { getEnvironment: () => environment },
+        cardDetailsEntryPoint,
+        { cardId: data.id }
+      );
+      setEntryPointRef(ref);
+      setHasPreloaded(true);
+    }
+  };
+
   return (
-    <li className="relative" onClick={onOpen}>
+    <li className="relative" onClick={handleOpenModal} onMouseEnter={preloadCardModal}>
       <NextCard
         shadow="sm"
         className={`${isDragging ? "opacity-50" : ""} rounded-md hover:cursor-pointer`}
@@ -159,10 +197,14 @@ const Card = ({ card }: { card: CardFragment$key }) => {
         scrollBehavior="outside"
       >
         <ModalContent className="px-8 pt-6 pb-10">
-          <>
-            <CardEditor card={data} />
-            <Comments card={data} />
-          </>
+          <Suspense fallback={<div>Loading card details...</div>}>
+            {entryPointRef && (
+              <EntryPointContainer
+                entryPointReference={entryPointRef}
+                props={{ cardId: data.id }}
+              />
+            )}
+          </Suspense>
         </ModalContent>
       </Modal>
     </li>

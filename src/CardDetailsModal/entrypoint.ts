@@ -3,11 +3,11 @@ import parameters, {
 } from "./__generated__/CardDetailsModalQuery.graphql.ts";
 import { EntryPoint } from "react-relay";
 
-type EntryPointProps = {
+export type CardDetailsEntryPointProps = {
   cardId: string;
 };
 
-let cachedModule: any | null = null;
+let cachedModule: unknown | null = null;
 
 const CardDetailsModalResource = {
   getModuleId: () => 'CardDetailsModal',
@@ -29,7 +29,7 @@ export const cardDetailsEntryPoint: EntryPoint<{
     cardDetailsQueryRef: CardDetailsModalQuery;
   };
 }> = {
-  getPreloadProps({ cardId }: EntryPointProps) {
+  getPreloadProps({ cardId }: CardDetailsEntryPointProps) {
     return {
       queries: {
         cardDetailsQueryRef: {

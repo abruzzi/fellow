@@ -4,7 +4,6 @@ import {
   loadEntryPoint,
   PreloadedEntryPoint,
   useFragment,
-  useMutation,
 } from "react-relay";
 import { Suspense, useEffect, useRef, useState } from "react";
 import {
@@ -18,26 +17,21 @@ import {
   Edge,
   extractClosestEdge,
 } from "@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge";
-import { HiOutlineTrash } from "react-icons/hi";
-import { HiOutlineMenuAlt2 } from "react-icons/hi";
 
 import React from "react";
 import {
   Card as NextCard,
-  CardHeader,
-  Button,
   useDisclosure,
-  CardBody,
-  Image,
   Modal,
   ModalContent,
 } from "@nextui-org/react";
-import { CardEditor } from "./CardEditor.tsx";
 import { CardFragment$key } from "./__generated__/CardFragment.graphql.ts";
 import { RegularCardContent } from "./RegularCardContent.tsx";
 import { ImageCardContent } from "./ImageCardContent.tsx";
-import { Comments } from "./Comments.tsx";
-import { cardDetailsEntryPoint } from "./CardDetailsModal/entrypoint.ts";
+import {
+  cardDetailsEntryPoint,
+  CardDetailsEntryPointProps,
+} from "./CardDetailsModal/entrypoint.ts";
 import environment from "./relay/environment.ts";
 
 const CardFragment = graphql`
@@ -62,30 +56,10 @@ const Card = ({ card }: { card: CardFragment$key }) => {
   const [hovered, setHovered] = useState<boolean>(false);
 
   const [entryPointRef, setEntryPointRef] =
-    useState<PreloadedEntryPoint<any> | null>(null);
+    useState<PreloadedEntryPoint<CardDetailsEntryPointProps> | null>(null);
   const [hasPreloaded, setHasPreloaded] = useState(false);
 
   const data = useFragment<CardFragment$key>(CardFragment, card);
-
-  const [deleteCard, isDeleting] = useMutation(graphql`
-    mutation CardDeleteMutation($id: ID!) {
-      deleteCard(cardId: $id) {
-        ...ColumnFragment
-      }
-    }
-  `);
-
-  const handleDelete = () => {
-    deleteCard({
-      variables: { id: data.id },
-      onCompleted: () => {
-        // onRemoveCard();
-      },
-      onError: () => {
-        // error
-      },
-    });
-  };
 
   useEffect(() => {
     const element = ref.current;
@@ -143,7 +117,7 @@ const Card = ({ card }: { card: CardFragment$key }) => {
       const ref = loadEntryPoint(
         { getEnvironment: () => environment },
         cardDetailsEntryPoint,
-        { cardId: data.id }
+        { cardId: data.id },
       );
       setEntryPointRef(ref);
       setHasPreloaded(true);
@@ -157,7 +131,7 @@ const Card = ({ card }: { card: CardFragment$key }) => {
       const ref = loadEntryPoint(
         { getEnvironment: () => environment },
         cardDetailsEntryPoint,
-        { cardId: data.id }
+        { cardId: data.id },
       );
       setEntryPointRef(ref);
       setHasPreloaded(true);
@@ -165,10 +139,14 @@ const Card = ({ card }: { card: CardFragment$key }) => {
   };
 
   return (
-    <li className="relative" onClick={handleOpenModal} onMouseEnter={preloadCardModal}>
+    <li
+      className="relative"
+      onClick={handleOpenModal}
+      onMouseEnter={preloadCardModal}
+    >
       <NextCard
         shadow="sm"
-        className={`${isDragging ? "opacity-50" : ""} rounded-md hover:cursor-pointer`}
+        className={`${isDragging ? "opacity-50" : ""} ${hovered ? "opacity-75" : ""} rounded-md hover:cursor-pointer`}
         ref={ref}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}

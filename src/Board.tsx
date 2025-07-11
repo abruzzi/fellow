@@ -1,4 +1,4 @@
-import { useFragment } from "react-relay";
+import { useFragment, useSubscription } from "react-relay";
 import { Column } from "./Column.tsx";
 import { HiOutlineStar } from "react-icons/hi";
 import React, { useEffect, useState } from "react";
@@ -10,6 +10,8 @@ import { BoardSettings } from "./BoardSettings.tsx";
 import { InviteModel } from "./InviteModel.tsx";
 import { BoardFragment } from "./queries/Board.ts";
 import { BoardFragment$key } from "./queries/__generated__/BoardFragment.graphql.ts";
+import { CardUpdatedSubscription } from "./subscriptions/CardUpdatedSubscription.tsx";
+import { CardUpdatedSubscription as CardUpdatedSubscriptionType } from "./__generated__/CardUpdatedSubscription.graphql";
 
 export const Board = ({ board }: { board: BoardFragment$key }) => {
   const data = useFragment<BoardFragment$key>(BoardFragment, board);
@@ -19,6 +21,14 @@ export const Board = ({ board }: { board: BoardFragment$key }) => {
   const [isFavorite, setFavorite] = useState<boolean>(false);
 
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
+
+  useSubscription<CardUpdatedSubscriptionType>({
+    subscription: CardUpdatedSubscription,
+    variables: { boardId: data.id },
+    onNext: (response) => {
+      console.log(response?.cardUpdated.id);
+    },
+  });
 
   useEffect(() => {
     if (data && favoriteBoards) {

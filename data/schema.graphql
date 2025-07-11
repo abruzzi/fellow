@@ -107,3 +107,7 @@ type Mutation {
     addCommentToCard(cardId: ID!, content: String!): AddCommentToCardPayload!
     removeComment(commentId: ID!): Comment!
 }
+
+type Subscription {
+  cardUpdated(boardId: ID!): Board!
+}

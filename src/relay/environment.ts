@@ -1,4 +1,5 @@
-import { Environment, Network, RecordSource, Store } from "relay-runtime";
+import {Environment, Network, RecordSource, Store, SubscribeFunction} from "relay-runtime";
+import {createSubscriptionHandler} from "./createSubscriptionHandler.ts";
 
 function fetchQuery(operation: unknown, variables: unknown) {
   return fetch(`${import.meta.env.VITE_BOARDS_BASE_URL}/graphql`, {
@@ -36,8 +37,13 @@ function fetchQuery(operation: unknown, variables: unknown) {
     });
 }
 
+
+const subscription: SubscribeFunction = createSubscriptionHandler(
+  `${import.meta.env.VITE_BOARDS_BASE_URL_WS}`
+);
+
 const environment = new Environment({
-  network: Network.create(fetchQuery),
+  network: Network.create(fetchQuery, subscription),
   store: new Store(new RecordSource()),
 });
 
